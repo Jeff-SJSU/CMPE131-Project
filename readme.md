@@ -1,5 +1,5 @@
 # Project Name
-- Name (@username)
+- Minh Bui (@cwcoga123)
 - Name (@username)
 - Name (@username)
 - Name (@username)
