@@ -1,5 +1,5 @@
 # Project Name
-- Minh Bui (@cwcoga123)
+- Minh Bui ( @cwcoga123)
 - Jeffrey Ellison (@Jeff-SJSU) or (@AlpyneDreams)
 - Name (@username)
 - Anh Nguyen (@AnhNguyen618)
