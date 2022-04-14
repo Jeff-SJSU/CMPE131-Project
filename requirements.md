@@ -2,10 +2,10 @@
 
 ## Functional Requirements
 
-1. requirement
-2. requirement
-3. requirement
-4. requirement
+1. Login
+2. Logout
+3. Create Account
+4. Delete Account
 5. requirement
 6. requirement
 7. requirement
