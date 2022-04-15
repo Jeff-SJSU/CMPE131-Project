@@ -1,19 +1,18 @@
-## <remove all of the example text and notes in < > such as this one>
-
 ## Functional Requirements
 
 1. Login
 2. Logout
 3. Create Account
 4. Delete Account
-5. requirement
-6. requirement
-7. requirement
-8. requirement
-9. requirement
-10. requirement
-11. requirement
-12. requirement
+5. \*Item Pictures
+6. User Ratings + Profiles
+7. Add to Cart
+8. Checkout
+9. \*Advanced Search w/ Filters
+10. Seller Account
+11. Save for Laters / Lists
+12. Sale Period
+13. Related Items
 
 ## Non-functional Requirements
 
