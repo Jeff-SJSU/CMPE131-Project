@@ -53,7 +53,8 @@
   1. User sets name, description
   2. User uploads image
   3. User sets price
-  4. Item is added to store
+  4. Seller can set categories for item
+  5. Item is added to store
   
 - **Primary Postconditions:** 
   1. User's profile now contains a seller rating that's an average of all their product ratings
@@ -93,3 +94,37 @@
   2. Price of item is temporarily updated
 
 - **Primary Postconditions:** Discount expires after certain period of time.
+
+5. Save for Later + Lists
+  
+- **Trigger:** User adds item to list (wishlist, save for later)
+
+- **Primary Sequence:**
+  
+  1. Item is added to user's list on their profile
+  2. User can browse/buy items from their list or buy an entire list
+ 
+- **Postconditions**:
+  1. List shows items that are discounted
+  2. List shows if item on list has been removed from the store
+  
+- **Alternate Sequence:** 
+  1. User can create or delete lists
+  2. User can save entire cart as a list
+
+6. Advanced Search w/ Filters
+
+- **Trigger:**
+  1. User picks category in search bar
+  2. User enters terms in the search bar.
+  
+- **Primary Sequence:**
+  
+  1. Search results are returned for items that match
+  2. Matches can be in name or description
+  3. Items must have category if one has been selected
+
+- **Alternate Sequence:**
+  
+  1. User can filter by price range
+  2. User can narrow down search results by more tags?
