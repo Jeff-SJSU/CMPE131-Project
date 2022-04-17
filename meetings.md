@@ -12,11 +12,11 @@
 ## Meetings
 
 
-### 2022-04-15 at 13:30
-<meeting template would go here>
-<only fill in template once you had the meeting>
-<see example on the last date>
-<use date format YYYY-MM-DD at HH:MM>
+### 2022-04-14 at 5:00pm 
+There were Jeff, Hoang, and Anh attended the meeting in class. We decided our team lead is Jeff.
+The team discussed the website's functions. All the members added ideas for the website and completed the requirement.md
+So far, we have reached the requirement. We have 13 functions and 5 non-functions, and we will adjust them if there are any changes in the future.
+At the next meeting, we will discuss each member's part of the project.
 
 ### 2022-04-22 at 10:30
 <meeting template would go here>
