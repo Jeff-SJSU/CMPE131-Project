@@ -1,26 +1,28 @@
 ## Functional Requirements
 
-1. Login
-2. Logout
-3. Create Account
-4. Delete Account
-5. \*Item Pictures
-6. User Ratings + Profiles
-7. Add to Cart
-8. Checkout
-9. \*Advanced Search w/ Filters
-10. Seller Account
-11. Save for Laters / Lists
-12. Discount Period
-13. Related Items
+1. Login  - Minh
+2. Logout - Anh
+3. Create Account - Minh
+4. Delete Account - Anh
+5. \*Item Pictures - Jeff
+6. User Ratings + Profiles - Jeff
+7. Add to Cart - Minh
+8. Checkout - Jeff
+9. \*Advanced Search w/ Filters - Jeff
+10. Seller Account - Minh
+11. Save for Laters / Lists - Jeff
+12. Discount Period - Anh
+13. Related Items - Minh
+
+(Richard will be assigned to collaborate on or take over certain requirements at our next meeting.)
 
 ## Non-functional Requirements
 
-1. \*Dynamic Interface
-2. Dark Mode
-3. Sale/Discount Display
-4. \*Multilingual
-5. Image Zoom?
+1. \*Dynamic Interface - Jeff
+2. Dark Mode - Anh
+3. Sale/Discount Display - Anh
+4. \*Multilingual - Minh + Anh + Jeff
+5. Image Zoom? - Minh
 
 ## Use Cases
 
