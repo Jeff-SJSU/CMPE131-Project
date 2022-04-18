@@ -24,7 +24,7 @@
 
 ## Use Cases
 
-1. User Ratings + Profiles
+### 1. User Ratings + Profiles
 - **Pre-condition:** User has purchased an item.
 
 - **Trigger:** User leaves a rating out of 5 stars.
@@ -43,7 +43,7 @@
 - **Alternate Sequence <optional>:** 
   1. User can upload profile image and change their name
   
-2. Seller Account
+### 2. Seller Account
 - **Pre-condition:** User enables checkbox on their profile to label themsevlves as a seller.
 
 - **Trigger:** User opens form to upload a new item
@@ -64,7 +64,7 @@
   2. Seller is notified whne a purchase is made
   3. System tracks how much money seller has made
 
-3. Add to Cart + Checkout
+### 3. Add to Cart + Checkout
 
 - **Trigger:** User adds item to cart
 
@@ -83,7 +83,7 @@
   1. User can remove items from cart or edit quantity
   2. User can cancel an order up to an hour after purchase
 
-4. Discount Period
+### 4. Discount Period
 - **Pre-condition:** Seller has an item in their store.
 
 - **Trigger:** Seller sets a discount and (optionally) specifies an expiration time.
@@ -95,7 +95,7 @@
 
 - **Primary Postconditions:** Discount expires after certain period of time.
 
-5. Save for Later + Lists
+### 5. Save for Later + Lists
   
 - **Trigger:** User adds item to list (wishlist, save for later)
 
@@ -112,7 +112,7 @@
   1. User can create or delete lists
   2. User can save entire cart as a list
 
-6. Advanced Search w/ Filters
+### 6. Advanced Search w/ Filters
 
 - **Trigger:**
   1. User picks category in search bar
