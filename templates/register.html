@@ -18,22 +18,21 @@
     <body>
         <div class="container">   
             <div>Create new user account | <a href="/">Back to home</a></div>
-            <form action="/create_account" method="POST">
+            <form action="/register" method="POST">
                 <div class="form-container">
+                    {{ form.hidden_tag() }}
                     <div class="form-group">
-                        <label class="form-element-label">Full name</label>
-                        <input class="form-element-field" type="text" placeholder="Full name" name="name" required/>
+                        {{ form.username.label }}
+                        {{ form.username(size=32) }}
                     </div>
-                            
                     <div class="form-group">
-                        <label class="form-element-label">Email</label>
-                        <input class="form-element-field" type="email" placeholder="Email address" name="email" required/>
+                        {{ form.email.label }}
+                        {{ form.email(size=32) }}
                     </div>
-
                     <div class="form-group">
-                        <label class="form-element-label">Password</label>
-                        <input class="form-element-field" type="password" placeholder="Password" name="password" required/>
-                    </div>                            
+                        {{ form.password.label }}
+                        {{ form.password(size=32) }}
+                    </div>
                 </div>
                 <button class="form-element-button btn btn-primary" type="submit">Register</button>
             </form>
