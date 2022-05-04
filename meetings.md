@@ -6,14 +6,14 @@
 ## Meetings
 
 ### 2022-04-14 at 5:00pm 
-There were Jeff, Hoang, and Anh attended the meeting in class. We decided our team lead is Jeff.
+There were Jeff, Minh, and Anh attended the meeting in class. We decided our team lead is Jeff.
 The team discussed the website's functions. All the members added ideas for the website and completed the requirement.md
 So far, we have reached the requirement. We have 13 functions and 5 non-functions, and we will adjust them if there are any changes in the future.
 At the next meeting, we will discuss each member's part of the project.
 
-### (TBD)
-<meeting template would go here>
-<only fill in template once you had the meeting>
+### 2022-05-03 at 4:30pm
+Jeff, Minh, Anh, Richard attended
+We were fixxing bugs in order to fix the creating new user failure. We also filled up the gnatt chart with what we've done. Updated readme.md and meeting.md
 
 ### (TBD)
 - Who attended the meeting
