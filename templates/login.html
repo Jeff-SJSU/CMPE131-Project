@@ -1,33 +1,19 @@
-<html>
-    <head>
-        <title>Homework</title>
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-
-        <!-- jQuery library -->
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-
-        <!-- Popper JS -->
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-
-        <!-- Latest compiled JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
-        <link rel="stylesheet" href="{{ url_for('static',filename='styles/styles.css') }}">
-    </head>
+{% extends "layout.html" %}
+{% block content %}
     <body>
         <div class="container">   
             <div>Login | <a href="/">Back to home</a></div>
-            <form action="{{ url_for('login')}}" method="POST">
+            <form action="/login" method="POST">
                 <div class="form-container">
                     <div class="form-group">
-                        <label class="form-element-label">Username</label>
-                        <input class="form-element-field" type="text" placeholder="Username or Email" name="email" required/>
+                        {{ form.username.label }}: <br>
+                        {{ form.username }} 
                     </div>
         
                     <div class="form-group">
-                        <label class="form-element-label">Password</label>
-                        <input class="form-element-field" type="password" placeholder="Password" name="password" required/>
+                        {{ form.password.label }}: <br>
+                        {{ form.password }}
+                         <br>
                     </div>                     
                 </div>
                 <div class="form-element-button">
@@ -35,5 +21,5 @@
                 </div>
             </form>
     </body>
-</html>
+{% endblock %}
     
