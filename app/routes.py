@@ -49,13 +49,25 @@ def logout():
     logout_user()
     return redirect('/')
 
-@app.route('/delete_account', methods=['GET', 'POST'])
+@app.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(name=username).first_or_404()
+    return render_template('user.html', user=user)
+
+@app.route('/account')
+def account():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    return render_template('account.html', user=current_user, edit=True)
+
+@app.route('/account/delete', methods=['GET', 'POST'])
 def delete():
+    if current_user.is_anonymous:
+        return redirect('/login')
     if request.method == 'GET':
-        return render_template('delete_account.html')
+        return render_template('account_delete.html')
     else:
         if current_user.is_authenticated:
             db.session.delete(current_user)
             db.session.commit()
         return redirect('/')
-    

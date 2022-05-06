@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Hello, {{ current_user.name }}</h1>
+
+{# TODO: Profile picture, user ratings, etc. #}
+
+<a class="btn btn-primary mt-4" href="/user/{{current_user.name}}">View Profile</a>
+<a class="btn btn-danger btn-small mt-4" href="/account/delete">Delete Account</a>
+
+{% endblock %}
