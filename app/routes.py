@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect
+from flask import request, render_template, redirect, flash
 from flask_login import current_user, login_user, logout_user
 from app import app, db
 from app.forms import LoginForm, RegisterForm
@@ -35,7 +35,7 @@ def login():
 
         user = User.query.filter_by(name=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            #flash('Invalid username or password')
+            flash('Invalid username or password.')
             return redirect('/login')
         
         if login_user(user, remember=form.remember_me.data):
@@ -49,4 +49,13 @@ def logout():
     logout_user()
     return redirect('/')
 
+@app.route('/delete_account', methods=['GET', 'POST'])
+def delete():
+    if request.method == 'GET':
+        return render_template('delete_account.html')
+    else:
+        if current_user.is_authenticated:
+            db.session.delete(current_user)
+            db.session.commit()
+        return redirect('/')
     

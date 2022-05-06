@@ -22,13 +22,20 @@
                     {% else %}
                     <li class="nav-item"></li><a class="btn btn-secondary ms-auto" role="button" href="/cart">See Cart</a>
                     <li class="nav-item"><a class="nav-link" href="/delete_account"><span class="bi bi-trash"></span> Delete Account</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><span class="bi bi-person"></span> Hello, {{current_user}}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><span class="bi bi-person"></span> Hello, {{current_user.name}}</a></li>
                     <li class="nav-item"><a class="nav-link" href="/logout"><span class="bi bi-box-arrow-in-left"></span> Logout</a></li>
                     {% endif %}
                 </ul>
             </div>
         </nav>
         <div class="container">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger my-2"><i class="bi bi-exclamation-triangle-fill"></i> {{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
             {% block content %}{% endblock %}
         </div>
         {% if message != None %}
