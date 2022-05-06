@@ -116,5 +116,10 @@ def seller():
         return redirect('/')
     '''
 
+# display products. Havent worked yet
+@app.route('/market')
+def market():
+   item = Item.query.all()
+   return render_template('market.html', item = item)
 
     
