@@ -1,8 +1,10 @@
+from pydoc import describe
 from flask import request, render_template, redirect, flash
 from flask_login import current_user, login_user, logout_user
+from sqlalchemy import null
 from app import app, db
-from app.forms import LoginForm, RegisterForm
-from app.models import User
+from app.forms import LoginForm, RegisterForm, AddItemForm
+from app.models import User, Item
 
 @app.route('/')
 def home():
@@ -76,3 +78,43 @@ def delete():
             db.session.delete(current_user)
             db.session.commit()
         return redirect('/')
+
+# for seller use to add item
+# still missing something like redirect to seller's product display or something after 
+@app.route('/product', methods=['GET', 'POST'])
+def selling():
+    form = AddItemForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        price = form.price.data
+        description = form.description.data
+ ## Update more product's information such as image,barcode,etc later 
+
+        item = Item(name = name, price = price, description = description)
+        db.session.add(item)
+        db.session.commit()
+        return redirect('/account')
+
+    return render_template('product.html', form=form)
+
+@app.route('/account/seller', methods=['GET', 'POST'])
+def seller():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    if request.method == 'GET':
+        return render_template('seller_confirm.html', user=current_user)
+
+    #### My idea is to add one column role for user
+    #### Only user has role "Seller" can go to the add_item form
+    #### I havent figure out since I tried to add role column and update column's data but nothing change
+'''
+    else:
+        if current_user.is_authenticated:
+            user = User.query.get(id)
+            user.role = "Seller"
+            db.session.commit()
+        return redirect('/')
+    '''
+
+
+    
