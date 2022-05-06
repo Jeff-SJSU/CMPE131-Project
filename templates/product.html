@@ -15,6 +15,15 @@
             {{ form.price(size=32, class_="form-control", placeholder="Product Price") }}
             </div>
             <div class="form-group">
+                {{ form.img.label() }}
+                {{ form.img(class="form-control-file") }}
+                {% if form.img.errors %}
+                    {% for error in form.img.errors %}
+                        <span class="class-danger">{{ error }}</span></br>
+                    {% endfor %}
+                {% endif%}
+            </div>
+            <div class="form-group">
             {{ form.description.label(class_="form-label") }} 
             {{ form.description(size=32, class_="form-control", placeholder="Product Description") }}
             </div>
