@@ -49,4 +49,13 @@ def logout():
     logout_user()
     return redirect('/')
 
+@app.route('/delete_account', methods=['GET', 'POST'])
+def delete():
+    if request.method == 'GET':
+        return render_template('delete_account.html')
+    else:
+        if current_user.is_authenticated:
+            db.session.delete(current_user)
+            db.session.commit()
+        return redirect('/')
     
