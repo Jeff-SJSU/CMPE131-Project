@@ -2,6 +2,7 @@
     <head>
         <title>Homework</title>
         <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="/styles.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
@@ -9,23 +10,37 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Excercise</a>
+                <a class="navbar-brand" href="#">Team One</a>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a href="/" class="nav-link active">Home</a></li>
+                    <li class="nav-item"><a href="/" class="nav-link active">Products</a></li>
                 </ul>
                 <ul class="navbar-nav">
-                    {% if not email %}
+                    {% if current_user.is_anonymous %}
                     <li class="nav-item"><a class="nav-link" href="/register"><span class="bi bi-person-plus"></span> Register</a></li>
                     <li class="nav-item"><a class="nav-link" href="/login"><span class="bi bi-box-arrow-in-right"></span> Login</a></li>
                     {% else %}
-                    <li class="nav-item"><a class="nav-link" href="/delete_account"><span class="bi bi-trash"></span> Delete Account</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><span class="bi bi-person"></span> Hello, {{email}}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/logout"><span class="bi bi-box-arrow-in-left"></span> Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/wishlist"><span class="bi bi-heart"></span> Favorite</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart"><span class="bi bi-cart"></span> Cart</a></li>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/account"><span class="bi bi-person"></span> Hello, {{current_user.name}}</a>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/account"><span class="bi bi-person"></span> Manage Account</a></li>
+                            <li><a class="dropdown-item" href="/logout"><span class="bi bi-box-arrow-in-left"></span> Logout</a></li>
+                        </ul>
+                    </div>
                     {% endif %}
                 </ul>
             </div>
         </nav>
-        <div class="container">
+        <div class="container pt-2">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger my-2"><i class="bi bi-exclamation-triangle-fill"></i> {{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
             {% block content %}{% endblock %}
         </div>
         {% if message != None %}

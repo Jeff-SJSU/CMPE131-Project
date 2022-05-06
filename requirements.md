@@ -1,15 +1,16 @@
 ## Functional Requirements
 
-1. Login  - Minh
-2. Logout - Anh
-3. Create Account - Minh
-4. Delete Account - Anh
-5. \*Item Pictures - Jeff
-6. User Ratings + Profiles - Jeff
+1. [x] Login  - Minh
+2. [x] Logout - Anh
+3. [x] Create Account - Minh
+4. [x] Delete Account - Anh
+5. \*Add Item Pictures - Jeff
+6. Add User Ratings/Reviews - Jeff
+   1. View User's Reviews
 7. Add to Cart - Minh
 8. Checkout - Jeff
-9. \*Advanced Search w/ Filters - Jeff
-10. Seller Account - Minh
+9.  \*Advanced Search w/ Filters - Jeff
+10. Add Items to Store (Seller Account) - Minh
 11. Save for Laters / Lists - Jeff
 12. Discount Period - Anh
 13. Related Items - Minh
@@ -45,24 +46,28 @@
 - **Alternate Sequence <optional>:** 
   1. User can upload profile image and change their name
   
-### 2. Seller Account
-- **Pre-condition:** User enables checkbox on their profile to label themsevlves as a seller.
+### 2. Seller Account, Item Pictures
+- **Pre-condition:** User has checked the box on their profile to label themsevlves as a seller.
 
-- **Trigger:** User opens form to upload a new item
+- **Trigger:** User clicks button to add item to store (probably in a similar place to where the YouTube Upload Button is)
 
-- **Primary Sequence:**
-  
-  1. User sets name, description
-  2. User uploads image
-  3. User sets price
+- **Primary Sequence:** (Add Item Form)
+ 
+  1. Seller sets name, description
+  2. Seller uploads image
+  3. Seller sets price
   4. Seller can set categories for item
-  5. Item is added to store
+  5. Seller clicks submit
+  6. Item is added to store
   
-- **Primary Postconditions:** 
-  1. User's profile now contains a seller rating that's an average of all their product ratings
+- **Primary Postconditions:**
+  1. Item now appears in store and search results
+
+- **Secondary Postconditions:**
+  1. Seller's profile page will show seller rating that is an average of all their product ratings
 
 - **Alternate Sequence:** 
-  1. Seller can edit or remove existing listings
+  1. Seller can edit or remove their existing listings
   2. Seller is notified whne a purchase is made
   3. System tracks how much money seller has made
 
@@ -73,13 +78,14 @@
 - **Primary Sequence:**
   
   1. Item is added to cart
-  2. User can click checkout to enter the purchase flow
-  3. Website takes fake credit card info
-  4. Purchase is made
+  3. User can click checkout (on the cart page) to enter the purchase flow
+  4. Website takes fake credit card info
+  5. Purchase is made
 
 - **Primary Postconditions:** 
   1. Item is in user's cart.
-  2. Seller is notified and "paid" after a purchase is made.
+  2. Cart icon has a little red number showing how many icons in cart
+  3. Seller is notified and "paid" after a purchase is made.
 
 - **Alternate Sequence:**
   1. User can remove items from cart or edit quantity
