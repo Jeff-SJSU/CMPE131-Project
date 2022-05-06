@@ -9,14 +9,14 @@
         <div class="form-container mb-2 ">
             {{ form.hidden_tag() }}
             {{ form.username.label(class_="form-label") }} 
-            {{ form.username(size=32, class_="form-control") }}
+            {{ form.username(size=32, class_="form-control", placeholder="User Name") }}
             <div class="form-group">
             {{ form.email.label(class_="form-label") }}
-            {{ form.email(size=32, class_="form-control") }}
+            {{ form.email(size=32, class_="form-control", placeholder="Email Address") }}
             </div>
             <div class="form-group">
             {{ form.password.label(class_="form-label") }} 
-            {{ form.password(size=32, class_="form-control") }}
+            {{ form.password(size=32, class_="form-control", placeholder="Password") }}
             </div>
         </div>
         <button class="form-element-button btn btn-primary" type="submit">Register</button>
