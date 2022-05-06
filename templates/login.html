@@ -2,22 +2,27 @@
 {% block content %}
     <body>
         <div class="container">   
-            <div>Login | <a href="/">Back to home</a></div>
+            <div class="my-4">Login | <a href="/">Back to home</a></div>
             <form action="/login" method="POST">
-                <div class="form-container">
+                {{ form.hidden_tag() }}
+                <div class="form-container col-4">
                     <div class="form-group">
-                        {{ form.username.label }}: <br>
-                        {{ form.username }} 
+                        {{ form.username.label(class_="form-label") }}: <br>
+                        {{ form.username(size=32, class_="form-control") }} 
                     </div>
         
                     <div class="form-group">
-                        {{ form.password.label }}: <br>
-                        {{ form.password }}
+                        {{ form.password.label(class_="form-label") }}: <br>
+                        {{ form.password(size=32, class_="form-control") }}
                          <br>
-                    </div>                     
+                    </div>              
+                    <div class="form-check my-2">
+                        {{ form.remember_me(class_="form-check-input") }}
+                        {{ form.remember_me.label(class_="form-check-label") }}
+                    </div>       
                 </div>
                 <div class="form-element-button">
-                    <input class="btn btn-primary" type="submit">
+                    <button class="btn btn-primary" type="submit">Login</button>
                 </div>
             </form>
     </body>
