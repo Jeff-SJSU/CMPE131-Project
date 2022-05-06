@@ -8,25 +8,6 @@ from app.routes import *
 
 db.create_all()
 
-'''
-@app.route('/logout')
-def logout():
-    session['email'] = None
-    return redirect(url_for('home'))
-
-@app.route('/delete_account', methods=['GET', 'POST'])
-def delete_account():
-    #   Check if user is logged in
-    message = None
-    if request.method == 'POST':
-        if session['email'] != None:
-            db_delete_user(session['email'])
-            message = f"User {session['email']} deleted"
-            session['email'] = None
-            return render_template('home.html', email=None, message=message)
-
-    return render_template('delete_account.html', email=session['email'])
-'''
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'

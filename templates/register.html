@@ -1,24 +1,28 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="my-4">Create new user account | <a href="/">Back to home</a></div>
+<div class="p-5">
+        <h2 class="text-dark mb-4">Create an Account!</h2>
+ </div>
 <div class="row">
     <div class="col-4">
     <form action="/register" method="POST">
-        <div class="form-container mb-2">
+        <div class="form-container mb-2 ">
             {{ form.hidden_tag() }}
-            {{ form.username.label(class_="form-label") }}
+            {{ form.username.label(class_="form-label") }} 
             {{ form.username(size=32, class_="form-control") }}
             <div class="form-group">
-                {{ form.email.label(class_="form-label") }}
-                {{ form.email(size=32, class_="form-control") }}
+            {{ form.email.label(class_="form-label") }}
+            {{ form.email(size=32, class_="form-control") }}
             </div>
             <div class="form-group">
-                {{ form.password.label(class_="form-label") }}
-                {{ form.password(size=32, class_="form-control") }}
+            {{ form.password.label(class_="form-label") }} 
+            {{ form.password(size=32, class_="form-control") }}
             </div>
         </div>
         <button class="form-element-button btn btn-primary" type="submit">Register</button>
+        <br>
+        <a class="small" href="/login">Already have an account? Login!</a>
     </form>
-    </div>
+</div>
 </div>
 {% endblock %}
