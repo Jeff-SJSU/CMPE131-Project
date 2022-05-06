@@ -1,5 +1,5 @@
 from flask import request, render_template, redirect
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 from app import app, db
 from app.forms import LoginForm, RegisterForm
 from app.models import User
@@ -43,3 +43,10 @@ def login():
         else:
             pass
     return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect('/')
+
+    
