@@ -13,3 +13,8 @@ class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Create Account')
+
+class AddItemForm(FlaskForm):
+    name = StringField('Product name', validators=[DataRequired()])
+    price = StringField('Product price', validators=[DataRequired()])
+    description = StringField('Product description ', validators=[DataRequired()])

@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+<form action="/account/seller" method="POST">
+    <h3>Are you sure you want to become a seller?</h3>
+    <a href="/product" class="btn btn-danger" type="submit">YES !!!</a>
+    <a href="/account" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
