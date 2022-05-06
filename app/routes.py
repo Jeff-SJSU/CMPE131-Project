@@ -8,6 +8,11 @@ from app.models import User
 def home():
     return render_template('home.html')
 
+# 404 error page
+def not_found(e):
+    return render_template('404.html'), 404
+
+app.register_error_handler(404, not_found)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
