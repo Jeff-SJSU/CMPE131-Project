@@ -7,6 +7,8 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(128), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    img = db.Column(db.String(30), nullable=False, default='default.jpg')
+    
 
     @staticmethod
     @login.user_loader

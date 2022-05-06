@@ -4,7 +4,38 @@
 <h1>Hello, {{ current_user.name }}</h1>
 
 {# TODO: Profile picture, user ratings, etc. #}
-
+<div class="content-section">
+	<div class="media">
+		<img class="rounded-circle account-img" src="{{ img }}" width="200" height="200">
+	</div>
+	<div class="row">
+    <div class="col-4">
+    <form action="/account" method="POST" enctype="multipart/form-data">
+        </br>
+        <div class="form-group">
+            {{ form.img.label() }}
+            {{ form.img(class="form-control-file") }}
+            {% if form.img.errors %}
+                {% for error in form.img.errors %}
+                    <span class="class-danger">{{ error }}</span></br>
+                {% endfor %}
+            {% endif%}
+        </div>
+        </br>
+        <div class="form-container mb-2 ">
+            {{ form.hidden_tag() }}
+            {{ form.username.label(class_="form-label") }} 
+            {{ form.username(size=32, class_="form-control", placeholder="User Name") }}
+            <div class="form-group">
+            {{ form.email.label(class_="form-label") }}
+            {{ form.email(size=32, class_="form-control", placeholder="Email Address") }}
+            </div>
+        </div>
+        
+        <button class="form-element-button btn btn-primary" type="submit">Update</button>
+    </form>
+</div>
+</div>
 <a class="btn btn-primary mt-4" href="/user/{{current_user.name}}">View Profile</a>
 <a class="btn btn-danger btn-small mt-4" href="/account/delete">Delete Account</a>
 
