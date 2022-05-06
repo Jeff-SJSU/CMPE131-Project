@@ -1,10 +1,17 @@
+<<<<<<< HEAD
 from pydoc import describe
-from flask import request, render_template, redirect, flash
+from flask import request, render_template, redirect, flash,  url_for
 from flask_login import current_user, login_user, logout_user
 from sqlalchemy import null
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AddItemForm
+from app.forms import LoginForm, RegisterForm, AddItemForm, AccountForm
 from app.models import User, Item
+=======
+import os
+import secrets
+from PIL import Image
+from werkzeug.utils import secure_filename
+>>>>>>> d198ae0ad814765989eaf25c6b10552af7b39d0e
 
 @app.route('/')
 def home():
@@ -35,7 +42,7 @@ def register():
     return render_template('register.html', form=form)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', strict_slashes=False, methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -61,11 +68,39 @@ def user(username):
     user = User.query.filter_by(name=username).first_or_404()
     return render_template('user.html', user=user)
 
-@app.route('/account')
+def update_img(form_img):
+    random_hex = secrets.token_hex(8)
+    img_name, img_ext = os.path.splitext(form_img.filename)
+    image_filename = random_hex + img_ext
+    basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    img_path = os.path.join(basedir, 'static/images', image_filename)
+    
+    resize = (200, 200)
+    i = Image.open(form_img)
+    i.thumbnail(resize)
+    i.save(img_path)
+
+    return image_filename
+
+@app.route('/account', methods=['GET', 'POST'])
 def account():
     if current_user.is_anonymous:
         return redirect('/login')
-    return render_template('account.html', user=current_user, edit=True)
+    form = AccountForm()
+    if form.validate_on_submit():
+        if form.img.data:
+            img_file = update_img(form.img.data)
+            current_user.img = img_file
+        current_user.name = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account information has been updated.', 'success')
+        return redirect('/account')
+    elif request.method == 'GET':
+        form.username.data = current_user.name
+        form.email.data = current_user.email
+    img = url_for('static', filename='images/' + current_user.img)
+    return render_template('account.html', user=current_user, edit=True, img=img, form=form)
 
 @app.route('/account/delete', methods=['GET', 'POST'])
 def delete():
