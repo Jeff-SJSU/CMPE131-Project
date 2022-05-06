@@ -1,9 +1,9 @@
 ## Functional Requirements
 
-1. Login  - Minh
-2. Logout - Anh
-3. Create Account - Minh
-4. Delete Account - Anh
+1. [x] Login  - Minh
+2. [x] Logout - Anh
+3. [x] Create Account - Minh
+4. [x] Delete Account - Anh
 5. \*Add Item Pictures - Jeff
 6. Add User Ratings/Reviews - Jeff
    1. View User's Reviews
