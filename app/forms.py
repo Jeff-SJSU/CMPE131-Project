@@ -16,15 +16,14 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Create Account')
 
-<<<<<<< HEAD
 class AddItemForm(FlaskForm):
     name = StringField('Product name', validators=[DataRequired()])
     price = StringField('Product price', validators=[DataRequired()])
     description = StringField('Product description ', validators=[DataRequired()])
-=======
+
 class AccountForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
     submit = SubmitField('Update')
     img = FileField('Profile Picture', validators=[FileAllowed(['jpg','png'])])
->>>>>>> d198ae0ad814765989eaf25c6b10552af7b39d0e
+

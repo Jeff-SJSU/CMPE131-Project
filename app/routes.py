@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from pydoc import describe
 from flask import request, render_template, redirect, flash,  url_for
 from flask_login import current_user, login_user, logout_user
@@ -6,12 +5,11 @@ from sqlalchemy import null
 from app import app, db
 from app.forms import LoginForm, RegisterForm, AddItemForm, AccountForm
 from app.models import User, Item
-=======
 import os
 import secrets
 from PIL import Image
 from werkzeug.utils import secure_filename
->>>>>>> d198ae0ad814765989eaf25c6b10552af7b39d0e
+
 
 @app.route('/')
 def home():
