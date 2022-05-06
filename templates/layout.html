@@ -20,9 +20,14 @@
                     <li class="nav-item"><a class="nav-link" href="/register"><span class="bi bi-person-plus"></span> Register</a></li>
                     <li class="nav-item"><a class="nav-link" href="/login"><span class="bi bi-box-arrow-in-right"></span> Login</a></li>
                     {% else %}
-                    <li class="nav-item"></li><a class="btn btn-secondary ms-auto" role="button" href="/cart">See Cart</a>
-                    <li class="nav-item"><a class="nav-link" href="/account"><span class="bi bi-person"></span> Hello, {{current_user.name}}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/logout"><span class="bi bi-box-arrow-in-left"></span> Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart"><span class="bi bi-cart"></span> Cart</a></li>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/account"><span class="bi bi-person"></span> Hello, {{current_user.name}}</a>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/account"><span class="bi bi-person"></span> Manage Account</a></li>
+                            <li><a class="dropdown-item" href="/logout"><span class="bi bi-box-arrow-in-left"></span> Logout</a></li>
+                        </ul>
+                    </div>
                     {% endif %}
                 </ul>
             </div>
