@@ -168,3 +168,19 @@ def remove_from_cart(id):
     current_user.cart.remove(item)
     db.session.commit()
     return redirect('/cart')
+
+@app.route('/cart/remove/all')
+def clear_cart():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    current_user.cart = []
+    db.session.commit()
+    return redirect('/')
+
+@app.route('/cart/checkout', methods=['POST'])
+def checkout():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    current_user.cart = []
+    db.session.commit()
+    return redirect('/')
