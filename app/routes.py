@@ -127,9 +127,10 @@ def selling():
         name = form.name.data
         price = form.price.data
         description = form.description.data
+        img = form.img.data
  ## Update more product's information such as image,barcode,etc later 
 
-        item = Item(name = name, price = price, description = description)
+        item = Item(name = name, price = price, description = description, img=img)
         db.session.add(item)
         db.session.commit()
         return redirect('/account')

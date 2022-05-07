@@ -19,6 +19,7 @@ class RegisterForm(FlaskForm):
 class AddItemForm(FlaskForm):
     name = StringField('Product name', validators=[DataRequired()])
     price = StringField('Product price', validators=[DataRequired()])
+    img = FileField('Product Picture', validators=[FileAllowed(['jpg','png'])])
     description = StringField('Product description ', validators=[DataRequired()])
 
 class AccountForm(FlaskForm):
@@ -26,4 +27,4 @@ class AccountForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired()])
     submit = SubmitField('Update')
     img = FileField('Profile Picture', validators=[FileAllowed(['jpg','png'])])
-
+    role = BooleanField('Become a seller')
