@@ -10,9 +10,12 @@
 
 {% macro product_card(item) -%}
     <div class="card card-body shadow d-block">
-        <img src="/static/images/products/{{ item.img }}" class="img-fluid d-block rounded mb-2" alt="{{ item.name }}">
-        {{ price(item.price) }}
-        <h5 class="mt-2 mb-0">{{ item.name }}</h5>
-        <a class="stretched-link" href="/product/{{ item.id }}"><span class="visually-hidden">View Product Page</span></a>
+        <div class="position-relative">
+            <img src="/static/images/products/{{ item.img }}" class="img-fluid d-block rounded mb-2" alt="{{ item.name }}">
+            {{ price(item.price) }}
+            <h5 class="mt-2 mb-0">{{ item.name }}</h5>
+            <a class="stretched-link" href="/product/{{ item.id }}"><span class="visually-hidden">View Product Page</span></a>
+        </div>
+        {% if caller is defined -%} {{ caller() }} {%- endif %}
     </div>
 {%- endmacro %}

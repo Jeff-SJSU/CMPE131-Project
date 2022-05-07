@@ -9,7 +9,7 @@
 6. \*Add Item Pictures - Jeff
 7. Add User Ratings/Reviews - Jeff
    1. View User's Reviews
-8. Add to Cart - Minh
+8. [x] Add to Cart - Minh
 9.  Checkout - Jeff
 10. \*Advanced Search w/ Filters - Jeff
 11. [x] Add Items to Store (Seller Account)

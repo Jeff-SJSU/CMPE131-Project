@@ -147,5 +147,24 @@ def selling():
 
     return render_template('add_product.html', form=form)
 
+@app.route('/cart')
+def cart():
+    return render_template('cart.html')
 
-    
+@app.route('/cart/add/<int:id>')
+def add_to_cart(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    item = Item.query.get_or_404(id)
+    current_user.cart.append(item)
+    db.session.commit()
+    return redirect('/cart')
+
+@app.route('/cart/remove/<int:id>')
+def remove_from_cart(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    item = Item.query.get_or_404(id)
+    current_user.cart.remove(item)
+    db.session.commit()
+    return redirect('/cart')

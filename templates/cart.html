@@ -1,4 +1,15 @@
 {% extends "layout.html" %}
+{% import "includes/components.html" as components %}
 {% block content %}
-<h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+<h1 class="fw-bold mb-3 text-black">Shopping Cart</h1>
+
+<div class="row g-3">
+    {% for item in current_user.cart %}
+        <div class="col-2">
+        {% call components.product_card(item) %}
+        <a class="btn btn-outline-danger btn-sm mt-2" href="/cart/remove/{{item.id}}"><i class="bi bi-cart-x-fill"></i> Remove</a>
+        {% endcall %}
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}
