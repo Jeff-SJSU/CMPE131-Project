@@ -17,9 +17,10 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Create Account')
 
 class AddItemForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    price = DecimalField('Price', validators=[DataRequired()])
-    description = StringField('Description ', validators=[DataRequired()])
+    name = StringField('Product name', validators=[DataRequired()])
+    price = StringField('Product price', validators=[DataRequired()])
+    img = FileField('Product Picture', validators=[FileAllowed(['jpg','png'])])
+    description = StringField('Product description ', validators=[DataRequired()])
 
 class AccountForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
