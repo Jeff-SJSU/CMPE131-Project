@@ -122,6 +122,10 @@ def delete():
 # still missing something like redirect to seller's product display or something after 
 @app.route('/product', methods=['GET', 'POST'])
 def selling():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    elif not current_user.seller:
+        return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
         name = form.name.data
@@ -135,7 +139,7 @@ def selling():
         db.session.commit()
         return redirect('/account')
 
-    return render_template('product.html', form=form)
+    return render_template('add_product.html', form=form)
 
 
     

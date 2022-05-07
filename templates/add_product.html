@@ -9,21 +9,22 @@
         <div class="form-container mb-2 ">
             {{ form.hidden_tag() }}
             {{ form.name.label(class_="form-label") }} 
-            {{ form.name(size=32, class_="form-control", placeholder="Product Name") }}
-            <div class="form-group">
+            {{ form.name(size=32, class_="form-control mb-3", placeholder="Product Name") }}
             {{ form.price.label(class_="form-label") }}
-            {{ form.price(size=32, class_="form-control", placeholder="Product Price") }}
+            <div class="input-group mb-3">
+                <span class="input-group-text">$</span>
+                {{ form.price(size=32, class_="form-control", placeholder="Product Price") }}
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 {{ form.img.label() }}
-                {{ form.img(class="form-control-file") }}
+                {{ form.img(class="form-control") }}
                 {% if form.img.errors %}
                     {% for error in form.img.errors %}
                         <span class="class-danger">{{ error }}</span><br>
                     {% endfor %}
                 {% endif%}
             </div>
-            <div class="form-group">
+            <div class="mb-2">
             {{ form.description.label(class_="form-label") }} 
             {{ form.description(size=32, class_="form-control", placeholder="Product Description") }}
             </div>
