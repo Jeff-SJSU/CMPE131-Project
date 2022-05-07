@@ -10,18 +10,34 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Team One</a>
+                <a class="navbar-brand" href="/">Team One</a>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a href="/" class="nav-link active">Home</a></li>
-                    <li class="nav-item"><a href="/product" class="nav-link active"> Sell your products</a></li>
                 </ul>
+                <div class="d-flex">
+                    <form class="input-group me-3 mb-0" action="/search">
+                        <input class="form-control" type="text" placeholder="Search..." name="search">
+                        <button class="btn btn-secondary" type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+                </div>
                 <ul class="navbar-nav">
                     {% if current_user.is_anonymous %}
                     <li class="nav-item"><a class="nav-link" href="/register"><span class="bi bi-person-plus"></span> Register</a></li>
                     <li class="nav-item"><a class="nav-link" href="/login"><span class="bi bi-box-arrow-in-right"></span> Login</a></li>
                     {% else %}
-                    <li class="nav-item"><a class="nav-link" href="/wishlist"><span class="bi bi-heart"></span> Favorite</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/cart"><span class="bi bi-cart"></span> Cart</a></li>
+                    {% if current_user.seller %}
+                    <a class="btn btn-outline-primary me-2" href="/product"><i class="bi bi-box-seam"></i> Sell Item</a>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="/wishlist"><span class="bi bi-heart"></span> Favorites</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart">
+                        <span class="bi bi-cart"></span> Cart
+                        {% if current_user.cart|length %}
+                        <span class="badge rounded-pill bg-danger">
+                            {{ current_user.cart|length }}
+                        </span>
+                        {% endif %}
+                    </a>
+                    </li>
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/account"><span class="bi bi-person"></span> Hello, {{current_user.name}}</a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
@@ -34,10 +50,18 @@
             </div>
         </nav>
         <div class="container pt-2">
-            {% with messages = get_flashed_messages() %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-danger my-2"><i class="bi bi-exclamation-triangle-fill"></i> {{ message }}</div>
+            {% for category, message in messages %}
+                {% if category == 'message' %}
+                <div class="alert alert-primary my-2"><i class="bi bi-info-circle"></i> {{ message }}</div>
+                {% elif category == 'error' %}
+                <div class="alert alert-danger my-2"><i class="bi bi-exclamation-triangle-fill"></i> {{ message }}</div>
+                {% elif category == 'warning' %}
+                <div class="alert alert-warning my-2"><i class="bi bi-exclamation-triangle-fill"></i> {{ message }}</div>
+                {% else %} {# success, info, etc... (Bootstrap colors) #}
+                <div class="alert alert-{{category}} my-2"><i class="bi bi-info-circle"></i> {{ message }}</div>
+                {% endif %}
             {% endfor %}
             {% endif %}
             {% endwith %}

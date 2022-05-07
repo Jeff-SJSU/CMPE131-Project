@@ -1,23 +1,18 @@
-from pydoc import describe
-from flask import request, render_template, redirect, flash,  url_for
-from flask_login import current_user, login_user, logout_user
-from sqlalchemy import null
-from app import app, db
-from app.forms import LoginForm, RegisterForm, AddItemForm, AccountForm
-from app.models import User, Item
 import os
 import secrets
-import sqlite3
 from PIL import Image
+from flask import request, render_template, redirect, flash, url_for
+from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
+from app import app, db
+from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm
+from app.models import User, Item
 
 
 @app.route('/')
 def home():
-    connect = sqlite3.connect('databases.db')
-    cursor = connect.cursor()
-    data = cursor.execute("SELECT * FROM Item ORDER BY id")
-    return render_template('home.html', data=data, loop_count = 0)
+    items = Item.query.all()
+    return render_template('home.html', items=items)
 
 # 404 error page
 def not_found(e):
@@ -51,7 +46,7 @@ def login():
 
         user = User.query.filter_by(name=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password.')
+            flash('Invalid username or password.', 'error')
             return redirect('/login')
         
         if login_user(user, remember=form.remember_me.data):
@@ -70,13 +65,12 @@ def user(username):
     user = User.query.filter_by(name=username).first_or_404()
     return render_template('user.html', user=user)
 
-#upload an image function
 def update_img(form_img):
     random_hex = secrets.token_hex(8)
     img_name, img_ext = os.path.splitext(form_img.filename)
     image_filename = random_hex + img_ext
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    img_path = os.path.join(basedir, 'static/images', image_filename)
+    img_path = os.path.join(basedir, 'static/images/avatars', image_filename)
     
     resize = (200, 200)
     i = Image.open(form_img)
@@ -85,7 +79,6 @@ def update_img(form_img):
 
     return image_filename
 
-#currently has the option to change profile pic and basic information of the account
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     if current_user.is_anonymous:
@@ -97,14 +90,23 @@ def account():
             current_user.img = img_file
         current_user.name = form.username.data
         current_user.email = form.email.data
+        current_user.seller = form.role.data
         db.session.commit()
         flash('Your account information has been updated.', 'success')
         return redirect('/account')
     elif request.method == 'GET':
         form.username.data = current_user.name
         form.email.data = current_user.email
-    img = url_for('static', filename='images/' + current_user.img)
-    return render_template('account.html', user=current_user, edit=True, img=img, form=form)
+        form.role.data = current_user.seller
+    return render_template('account.html', user=current_user, edit=True, form=form)
+
+@app.route('/account/avatar/remove')
+def remove_avatar():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    current_user.img = 'default.jpg'
+    db.session.commit()
+    return redirect('/account')
 
 @app.route('/account/delete', methods=['GET', 'POST'])
 def delete():
@@ -118,10 +120,19 @@ def delete():
             db.session.commit()
         return redirect('/')
 
+@app.route('/product/<int:id>')
+def product(id):
+    item = Item.query.get_or_404(id)
+    return render_template('product.html', item=item)
+
 # for seller use to add item
 # still missing something like redirect to seller's product display or something after 
 @app.route('/product', methods=['GET', 'POST'])
 def selling():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    elif not current_user.seller:
+        return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
         name = form.name.data
@@ -133,25 +144,44 @@ def selling():
         item = Item(name = name, price = price, description = description, img=img)
         db.session.add(item)
         db.session.commit()
-        return redirect('/account')
+        return redirect(f'/product/{item.id}')
 
-    return render_template('product.html', form=form)
+    return render_template('add_product.html', form=form)
 
-@app.route('/account/seller', methods=['GET', 'POST'])
-def seller():
+@app.route('/cart')
+def cart():
+    return render_template('cart.html')
+
+@app.route('/cart/add/<int:id>')
+def add_to_cart(id):
     if current_user.is_anonymous:
         return redirect('/login')
-    if request.method == 'GET':
-        return render_template('seller_confirm.html', user=current_user)
+    item = Item.query.get_or_404(id)
+    current_user.cart.append(item)
+    db.session.commit()
+    return redirect('/cart')
 
-    #### My idea is to add one column role for user
-    #### Only user has role "Seller" can go to the add_item form
-    #### I havent figure out since I tried to add role column and update column's data but nothing change
-'''
-    else:
-        if current_user.is_authenticated:
-            user = User.query.get(id)
-            user.role = "Seller"
-            db.session.commit()
-        return redirect('/')
-    '''
+@app.route('/cart/remove/<int:id>')
+def remove_from_cart(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    item = Item.query.get_or_404(id)
+    current_user.cart.remove(item)
+    db.session.commit()
+    return redirect('/cart')
+
+@app.route('/cart/remove/all')
+def clear_cart():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    current_user.cart = []
+    db.session.commit()
+    return redirect('/')
+
+@app.route('/cart/checkout', methods=['POST'])
+def checkout():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    current_user.cart = []
+    db.session.commit()
+    return redirect('/')

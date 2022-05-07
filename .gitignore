@@ -4,3 +4,7 @@ database.db
 # Byte-compiled / optimized / DLL files
 __pycache__/
 .vscode/settings.json
+.vs
+
+# Avatars
+static/images/avatars/*.*

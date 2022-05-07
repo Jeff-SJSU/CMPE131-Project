@@ -2,13 +2,16 @@ from app import db, login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+carts = db.Table('carts',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
+)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(128), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    img = db.Column(db.String(30), nullable=False, default='default.jpg')
-    
 
     @staticmethod
     @login.user_loader
@@ -27,11 +30,11 @@ class User(UserMixin, db.Model):
 
 class Item(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(30), nullable= False, unique=True)
-    price = db.Column(db.Integer(), nullable= False)
+    name = db.Column(db.String(32), nullable=False, unique=True)
+    price = db.Column(db.Float(), nullable=False)
     description = db.Column(db.String(128),  nullable= False, unique=True)
     img = db.Column(db.String(30), nullable=False, default='default.jpg')
-
+    
     def __repr__(self):
-        return f'Item {self.name}'
+        return f'<Item {self.name}>'
 

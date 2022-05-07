@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
+{% import "includes/components.html" as components %}
 {% block content %}
 
 {# Use 'user', not 'current_user' for this page. #}
 
+{{ components.avatar(user.img) }}
 <h1>{{ user.name }}</h1>
 
 

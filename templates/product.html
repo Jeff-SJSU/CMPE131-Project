@@ -1,35 +1,28 @@
 {% extends "layout.html" %}
+{% import "includes/components.html" as components %}
 {% block content %}
-<div class="p-5">
-        <h2 class="text-dark mb-4">Start your business!</h2>
- </div>
-<div class="row">
+
+<div class="row mt-3">
     <div class="col-4">
-    <form action="/product" method="POST">
-        <div class="form-container mb-2 ">
-            {{ form.hidden_tag() }}
-            {{ form.name.label(class_="form-label") }} 
-            {{ form.name(size=32, class_="form-control", placeholder="Product Name") }}
-            <div class="form-group">
-            {{ form.price.label(class_="form-label") }}
-            {{ form.price(size=32, class_="form-control", placeholder="Product Price") }}
-            </div>
-            <div class="form-group">
-                {{ form.img.label() }}
-                {{ form.img(class="form-control-file") }}
-                {% if form.img.errors %}
-                    {% for error in form.img.errors %}
-                        <span class="class-danger">{{ error }}</span></br>
-                    {% endfor %}
-                {% endif%}
-            </div>
-            <div class="form-group">
-            {{ form.description.label(class_="form-label") }} 
-            {{ form.description(size=32, class_="form-control", placeholder="Product Description") }}
+        <img src="/static/images/products/{{ item.img }}" class="img-fluid d-block rounded mb-2" alt="{{ item.name }}">
+    </div>
+    <div class="col-8">
+        <h2 class="mt-2 mb-0">{{ item.name }}</h2>
+        <div class="mb-3">
+            <div class="mb-2">{{ components.price(item.price) }}</div>
+            <a class="btn bg-gradient shadow btn-primary me-1" role="button" href="/cart/add/{{ item.id }}"><i class="bi bi-plus-lg"></i> Add to Cart</a>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-secondary" role="button">Add to List</a>
+                <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" role="button">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                </ul>
             </div>
         </div>
-        <button class="form-element-button btn btn-primary" type="submit">SELL</button>
-    </form>
+        <p>{{ item.description }}</p>
+    </div>
 </div>
-</div>
+
 {% endblock %}
