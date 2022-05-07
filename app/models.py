@@ -30,6 +30,7 @@ class Item(db.Model):
     name = db.Column(db.String(30), nullable= False, unique=True)
     price = db.Column(db.Integer(), nullable= False)
     description = db.Column(db.String(128),  nullable= False, unique=True)
+    img = db.Column(db.String(30), nullable=False, default='default.jpg')
 
     def __repr__(self):
         return f'Item {self.name}'
