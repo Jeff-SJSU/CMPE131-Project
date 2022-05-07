@@ -38,6 +38,10 @@
 </div>
 <a class="btn btn-primary mt-4" href="/user/{{current_user.name}}">View Profile</a>
 <a class="btn btn-danger btn-small mt-4" href="/account/delete">Delete Account</a>
+<div class="form-check mt-4">
+    {{ form.role(class_="form-check-input") }}
+    {{ form.role.label(class_="form-check-label") }}
+</div>      
 <a class="btn btn-success btn-small mt-4" href="/account/seller">Become a Seller</a>
 
 {% endblock %}
