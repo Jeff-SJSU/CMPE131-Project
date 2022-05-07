@@ -29,7 +29,15 @@
                     <a class="btn btn-outline-primary me-2" href="/product"><i class="bi bi-box-seam"></i> Sell Item</a>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="/wishlist"><span class="bi bi-heart"></span> Favorites</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/cart"><span class="bi bi-cart"></span> Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart">
+                        <span class="bi bi-cart"></span> Cart
+                        {% if current_user.cart|length %}
+                        <span class="badge rounded-pill bg-danger">
+                            {{ current_user.cart|length }}
+                        </span>
+                        {% endif %}
+                    </a>
+                    </li>
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/account"><span class="bi bi-person"></span> Hello, {{current_user.name}}</a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
