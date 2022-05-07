@@ -4,7 +4,7 @@
 
 {% macro price(price) -%}
     <span class="h5 fw-normal fw-normal align-top">$</span>
-    <span class="h2 lh-1">{{ "%.0f"|format(price) }}</span>
+    <span class="h2 lh-1">{{ price|int }}</span>
     <span class="h5 fw-normal text-muted align-top">{{ ("%.2f"|format(price))[-2:] }}</span>
 {%- endmacro %}
 
