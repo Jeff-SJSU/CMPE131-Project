@@ -88,12 +88,14 @@ def account():
             current_user.img = img_file
         current_user.name = form.username.data
         current_user.email = form.email.data
+        current_user.seller = form.role.data
         db.session.commit()
         flash('Your account information has been updated.', 'success')
         return redirect('/account')
     elif request.method == 'GET':
         form.username.data = current_user.name
         form.email.data = current_user.email
+        form.role.data = current_user.seller
     return render_template('account.html', user=current_user, edit=True, form=form)
 
 @app.route('/account/avatar/remove')
@@ -134,25 +136,6 @@ def selling():
         return redirect('/account')
 
     return render_template('product.html', form=form)
-
-@app.route('/account/seller', methods=['GET', 'POST'])
-def seller():
-    if current_user.is_anonymous:
-        return redirect('/login')
-    if request.method == 'GET':
-        return render_template('seller_confirm.html', user=current_user)
-
-    #### My idea is to add one column role for user
-    #### Only user has role "Seller" can go to the add_item form
-    #### I havent figure out since I tried to add role column and update column's data but nothing change
-'''
-    else:
-        if current_user.is_authenticated:
-            user = User.query.get(id)
-            user.role = "Seller"
-            db.session.commit()
-        return redirect('/')
-    '''
 
 
     
