@@ -13,8 +13,7 @@ own account in order to access the various functions of the site.
 
 # Instructions
 After downloading the package from github, use pip to install flask and flask_sqlalchemy with the follow commands in terminal:
- - pip install flask
- - pip install flask_sqlalchemy
+ - `pip install flask flask-sqlalchemy flask-login flask-wtf flask-session pillow`
 - Run the main.py file in the package
 - Copy and paste the web address from the terminal to a web browser
 
