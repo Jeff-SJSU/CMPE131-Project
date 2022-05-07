@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DecimalField
+from wtforms.fields.simple import FileField
 from wtforms.validators import DataRequired
+from flask_wtf.file import FileField, FileAllowed
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -18,3 +20,9 @@ class AddItemForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     price = DecimalField('Price', validators=[DataRequired()])
     description = StringField('Description ', validators=[DataRequired()])
+
+class AccountForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    submit = SubmitField('Update')
+    img = FileField('Profile Picture', validators=[FileAllowed(['jpg','png'])])
