@@ -1,4 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
 <h1> Our seller's products </h1>
+    <div class="row">
+        {% for row in data %}
+        <div class="col-md-3">
+            <div class="media">
+		        <img class="square account-img" src="/static/images/{{ row[4]}}" width="200" height="200">
+	        </div>
+            {{ row }}
+            {% if row[0]%4 %}
+                <div class="row"></div>
+            {% endif %}
+        </div> 
+        {% endfor %}
+    </div>
 {% endblock %}

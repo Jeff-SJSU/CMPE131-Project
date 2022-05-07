@@ -7,13 +7,17 @@ from app.forms import LoginForm, RegisterForm, AddItemForm, AccountForm
 from app.models import User, Item
 import os
 import secrets
+import sqlite3
 from PIL import Image
 from werkzeug.utils import secure_filename
 
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    connect = sqlite3.connect('databases.db')
+    cursor = connect.cursor()
+    data = cursor.execute("SELECT * FROM Item ORDER BY id")
+    return render_template('home.html', data=data, loop_count = 0)
 
 # 404 error page
 def not_found(e):
@@ -66,6 +70,7 @@ def user(username):
     user = User.query.filter_by(name=username).first_or_404()
     return render_template('user.html', user=user)
 
+#upload an image function
 def update_img(form_img):
     random_hex = secrets.token_hex(8)
     img_name, img_ext = os.path.splitext(form_img.filename)
@@ -80,6 +85,7 @@ def update_img(form_img):
 
     return image_filename
 
+#currently has the option to change profile pic and basic information of the account
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     if current_user.is_anonymous:
