@@ -10,7 +10,8 @@ from app.models import User, Item
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    items = Item.query.all()
+    return render_template('home.html', items=items)
 
 # 404 error page
 def not_found(e):
