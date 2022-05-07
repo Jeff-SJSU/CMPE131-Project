@@ -1,0 +1,3 @@
+{% macro avatar(src='default.jpg', size=100) -%}
+    <img class="rounded-circle border account-img" src="/static/images/avatars/{{ src }}" width="{{ size }}" height="{{ size }}">
+{%- endmacro %}

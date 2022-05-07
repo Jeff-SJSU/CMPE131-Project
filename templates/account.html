@@ -1,47 +1,65 @@
 {% extends "layout.html" %}
+{% import "includes/components.html" as components %}
 {% block content %}
 
 <h1>Hello, {{ current_user.name }}</h1>
 
 {# TODO: Profile picture, user ratings, etc. #}
 <div class="content-section">
-	<div class="media">
-		<img class="rounded-circle account-img" src="{{ img }}" width="200" height="200">
-	</div>
-	<div class="row">
-    <div class="col-4">
-    <form action="/account" method="POST" enctype="multipart/form-data">
-        </br>
-        <div class="form-group">
+    <form action="/account" method="POST" enctype="multipart/form-data" class="row col-xl-8 gy-3 row align-items-stretch">
+        <br>
+        <div class="form-container card card-body col col-4 me-3">
+            <h3>Profile Picture</h3>
+            {{ components.avatar(src=current_user.img) }}
             {{ form.img.label() }}
-            {{ form.img(class="form-control-file") }}
+            {{ form.img(class="form-control mb-2") }}
+            <div>
+                <button class="btn btn-outline-primary mb-2">Update</button><br>
+                <a class="btn btn-outline-secondary btn-sm" href="/account/avatar/remove">Remove Profile Picture</a>
+            </div>
             {% if form.img.errors %}
                 {% for error in form.img.errors %}
-                    <span class="class-danger">{{ error }}</span></br>
+                    <span class="text-danger">{{ error }}</span><br>
                 {% endfor %}
             {% endif%}
         </div>
-        </br>
-        <div class="form-container mb-2 ">
+        <br>
+        <div class="form-container card card-body col col-4 me-3">
+            <h3>Account Information</h3>
             {{ form.hidden_tag() }}
-            {{ form.username.label(class_="form-label") }} 
+            {{ form.username.label(class_="form-label") }}
             {{ form.username(size=32, class_="form-control", placeholder="User Name") }}
-            <div class="form-group">
-            {{ form.email.label(class_="form-label") }}
-            {{ form.email(size=32, class_="form-control", placeholder="Email Address") }}
+            <div class="form-group mt-3">
+                {{ form.email.label(class_="form-label") }}
+                {{ form.email(size=32, class_="form-control", placeholder="Email Address") }}
+            </div>
+            <div>
+                <button class="form-element-button btn btn-primary mt-3" type="submit">Update</button>
+                <a class="btn btn-secondary mt-3" href="/user/{{current_user.name}}">View Profile</a><br>
             </div>
         </div>
-        
-        <button class="form-element-button btn btn-primary" type="submit">Update</button>
+
+        <div class="form-container card card-body col col-4 me-3">
+            <h3>Seller Account</h3>
+            <p>Check the box below to sign up to sell products!</p>
+            <div class="form-check mt-4">
+                {{ form.role(class_="form-check-input") }}
+                {{ form.role.label(class_="form-check-label") }}
+            </div>
+            <div>
+                <button class="form-element-button btn btn-success mt-3" type="submit">Become a Seller</button>
+            </div>
+        </div>
+
+        <div class="card card-body col col-4 me-3">
+            <h3>Delete Account</h3>
+            <div class="mt-3 mb-5">
+                <p>Click this button to delete your account.</p>
+                <a class="btn btn-danger btn-sm mt-2" href="/account/delete">Delete Account</a>
+            </div>
+        </div>
+
     </form>
 </div>
-</div>
-<a class="btn btn-primary mt-4" href="/user/{{current_user.name}}">View Profile</a>
-<a class="btn btn-danger btn-small mt-4" href="/account/delete">Delete Account</a>
-<div class="form-check mt-4">
-    {{ form.role(class_="form-check-input") }}
-    {{ form.role.label(class_="form-check-label") }}
-</div>      
-<a class="btn btn-success btn-small mt-4" href="/account/seller">Become a Seller</a>
 
 {% endblock %}

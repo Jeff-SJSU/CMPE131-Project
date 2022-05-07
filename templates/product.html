@@ -19,7 +19,7 @@
                 {{ form.img(class="form-control-file") }}
                 {% if form.img.errors %}
                     {% for error in form.img.errors %}
-                        <span class="class-danger">{{ error }}</span></br>
+                        <span class="class-danger">{{ error }}</span><br>
                     {% endfor %}
                 {% endif%}
             </div>

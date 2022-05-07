@@ -94,8 +94,15 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.name
         form.email.data = current_user.email
-    img = url_for('static', filename='images/avatars/' + current_user.img)
-    return render_template('account.html', user=current_user, edit=True, img=img, form=form)
+    return render_template('account.html', user=current_user, edit=True, form=form)
+
+@app.route('/account/avatar/remove')
+def remove_avatar():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    current_user.img = 'default.jpg'
+    db.session.commit()
+    return redirect('/account')
 
 @app.route('/account/delete', methods=['GET', 'POST'])
 def delete():
