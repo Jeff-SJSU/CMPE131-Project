@@ -37,8 +37,8 @@ Logout - Pair programming
 Create User - Pair programming
 Delete User - Pair programming
 User Profile - Richard
-Seller Account - Ahn/Minh
-Upload Items - Ahn
+Seller Account - Anh/Minh
+Upload Items - A
 Item Display - Jeff
 Search Bar - Minh
 Checkout - Jeff
