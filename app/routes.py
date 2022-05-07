@@ -143,7 +143,7 @@ def selling():
         item = Item(name = name, price = price, description = description, img=img)
         db.session.add(item)
         db.session.commit()
-        return redirect('/account')
+        return redirect(f'/product/{item.id}')
 
     return render_template('add_product.html', form=form)
 
