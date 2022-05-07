@@ -30,3 +30,15 @@ cart. If they are not logged in before adding an item, the system will prompt th
 
 Most of the current functions are tested for debugging and as a proof of concept which require more fine tuning and minor adjustments and 
 only the basic functions work completely. 
+
+# Function Requirements
+Login - Pair programming
+Logout - Pair programming
+Create User - Pair programming
+Delete User - Pair programming
+User Profile - Richard
+Seller Account - Ahn/Minh
+Upload Items - Ahn
+Item Display - Jeff
+Search Bar - Minh
+Checkout - Jeff
