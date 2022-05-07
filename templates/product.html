@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% import "includes/components.html" as components %}
+{% block content %}
+
+<div class="row mt-3">
+    <div class="col-4">
+        <img src="/static/images/products/{{ item.img }}" class="img-fluid d-block rounded mb-2" alt="{{ item.name }}">
+    </div>
+    <div class="col-8">
+        <h2 class="mt-2 mb-0">{{ item.name }}</h2>
+        <div class="mb-3">
+            <div class="mb-2">{{ components.price(item.price) }}</div>
+            <a class="btn bg-gradient shadow btn-primary me-1" role="button" href="/cart/add/{{ item.id }}"><i class="bi bi-plus-lg"></i> Add to Cart</a>
+            <div class="btn-group" role="group">
+                <button class="btn btn-outline-secondary" role="button">Add to List</a>
+                <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" role="button">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#">Wishlist</a></li>
+                </ul>
+            </div>
+        </div>
+        <p>{{ item.description }}</p>
+    </div>
+</div>
+
+{% endblock %}

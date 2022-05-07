@@ -119,6 +119,11 @@ def delete():
             db.session.commit()
         return redirect('/')
 
+@app.route('/product/<int:id>')
+def product(id):
+    item = Item.query.get_or_404(id)
+    return render_template('product.html', item=item)
+
 # for seller use to add item
 # still missing something like redirect to seller's product display or something after 
 @app.route('/product', methods=['GET', 'POST'])
