@@ -68,7 +68,7 @@ def update_img(form_img):
     img_name, img_ext = os.path.splitext(form_img.filename)
     image_filename = random_hex + img_ext
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    img_path = os.path.join(basedir, 'static/images', image_filename)
+    img_path = os.path.join(basedir, 'static/images/avatars', image_filename)
     
     resize = (200, 200)
     i = Image.open(form_img)
@@ -94,7 +94,7 @@ def account():
     elif request.method == 'GET':
         form.username.data = current_user.name
         form.email.data = current_user.email
-    img = url_for('static', filename='images/' + current_user.img)
+    img = url_for('static', filename='images/avatars/' + current_user.img)
     return render_template('account.html', user=current_user, edit=True, img=img, form=form)
 
 @app.route('/account/delete', methods=['GET', 'POST'])
