@@ -1,7 +1,5 @@
-from pydoc import describe
 from flask import request, render_template, redirect, flash
 from flask_login import current_user, login_user, logout_user
-from sqlalchemy import null
 from app import app, db
 from app.forms import LoginForm, RegisterForm, AddItemForm
 from app.models import User, Item
