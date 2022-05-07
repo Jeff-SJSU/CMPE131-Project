@@ -4,16 +4,18 @@
 2. [x] Logout - Anh
 3. [x] Create Account - Minh
 4. [x] Delete Account - Anh
-5. \*Add Item Pictures - Jeff
-6. Add User Ratings/Reviews - Jeff
+5. [x] User Profile
+   1. [x] User Pictures
+6. \*Add Item Pictures - Jeff
+7. Add User Ratings/Reviews - Jeff
    1. View User's Reviews
-7. Add to Cart - Minh
-8. Checkout - Jeff
-9.  \*Advanced Search w/ Filters - Jeff
-10. Add Items to Store (Seller Account) - Minh
-11. Save for Laters / Lists - Jeff
-12. Discount Period - Anh
-13. Related Items - Minh
+8. Add to Cart - Minh
+9.  Checkout - Jeff
+10. \*Advanced Search w/ Filters - Jeff
+11. [x] Add Items to Store (Seller Account)
+12. Save for Laters / Lists - Jeff
+13. Discount Period - Anh
+14. Related Items - Minh
 
 (Richard will be assigned to collaborate on or take over certain requirements at our next meeting.)
 
