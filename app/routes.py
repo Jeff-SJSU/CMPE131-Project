@@ -162,7 +162,7 @@ def selling():
         db.session.commit()
         return redirect(f'/product/{item.id}')
 
-    return render_template('add_product.html', form=form, item = item)
+    return render_template('add_product.html', form=form)
 
 @app.route('/cart')
 def cart():
