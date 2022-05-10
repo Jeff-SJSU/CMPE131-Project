@@ -70,9 +70,23 @@ def update_img(form_img):
     img_name, img_ext = os.path.splitext(form_img.filename)
     image_filename = random_hex + img_ext
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    img_path = os.path.join(basedir, 'static/images/avatars', image_filename)
+    img_path = os.path.join(basedir, 'static/images/', image_filename)
     
     resize = (200, 200)
+    i = Image.open(form_img)
+    i.thumbnail(resize)
+    i.save(img_path)
+
+    return image_filename
+
+def update_item_img(form_img):
+    random_hex = secrets.token_hex(8)
+    img_name, img_ext = os.path.splitext(form_img.filename)
+    image_filename = random_hex + img_ext
+    basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    img_path = os.path.join(basedir, 'static/images/products/', image_filename)
+    
+    resize = (400, 400)
     i = Image.open(form_img)
     i.thumbnail(resize)
     i.save(img_path)
@@ -135,18 +149,20 @@ def selling():
         return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
+        img = update_img(form.img.data)
         name = form.name.data
         price = form.price.data
         description = form.description.data
-        img = form.img.data
+        
+            
  ## Update more product's information such as image,barcode,etc later 
 
-        item = Item(name = name, price = price, description = description, img=img)
+        item = Item(name = name, price = price, img = img, description = description)
         db.session.add(item)
         db.session.commit()
         return redirect(f'/product/{item.id}')
 
-    return render_template('add_product.html', form=form)
+    return render_template('add_product.html', form=form, item = item)
 
 @app.route('/cart')
 def cart():

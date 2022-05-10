@@ -7,4 +7,4 @@ __pycache__/
 .vs
 
 # Avatars
-static/images/avatars/*.*
+#static/images/*.*

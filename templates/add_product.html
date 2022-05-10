@@ -5,7 +5,7 @@
  </div>
 <div class="row">
     <div class="col-4">
-    <form action="/product" method="POST">
+    <form action="/product" method="POST" enctype="multipart/form-data">
         <div class="form-container mb-2 ">
             {{ form.hidden_tag() }}
             {{ form.name.label(class_="form-label") }} 

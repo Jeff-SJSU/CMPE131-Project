@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\app",
+    "\\static",
+    "\\static\\images",
+    "\\templates"
   ],
-  "SelectedNode": "\\C:\\Users\\pie4l\\Source\\Repos\\CMPE131-Project",
+  "SelectedNode": "\\app\\routes.py",
   "PreviewInSolutionExplorer": false
 }

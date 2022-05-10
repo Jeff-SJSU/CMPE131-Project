@@ -18,7 +18,7 @@ class RegisterForm(FlaskForm):
 class AddItemForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     price = DecimalField('Price', validators=[DataRequired()])
-    img = FileField('Picture', validators=[FileAllowed(['jpg','png'])])
+    img = FileField('Item Picture', validators=[FileAllowed(['jpg','png'])])
     description = StringField('Description ', validators=[DataRequired()])
 
 class AccountForm(FlaskForm):
