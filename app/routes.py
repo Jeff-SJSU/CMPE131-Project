@@ -33,7 +33,8 @@ def register():
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
-        wishlist = List(name='Wishlist', user_id=user.id, wishlist=True)
+        wish = "Wishlist"
+        wishlist = List(name=wish, user_id=user.id, wishlist=True)
         db.session.add(wishlist)
         db.session.commit()
         print(f"Created user {name} with email {email}")
@@ -148,7 +149,10 @@ def selling():
         return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
-        img = update_img(form.img.data, 'products', size=600)
+        if form.img.data == None:
+            img = 'default.jpg'
+        else:
+            img = update_img(form.img.data, 'products', size=600)
         name = form.name.data
         price = form.price.data
         description = form.description.data

@@ -50,8 +50,7 @@ class Item(db.Model):
 
 class List(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(32), nullable=False, unique=True)
+    name = db.Column(db.String(32), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     items = db.relationship('Item', secondary=lists, lazy='subquery')
     wishlist = db.Column(db.Boolean(), default=False)
-
