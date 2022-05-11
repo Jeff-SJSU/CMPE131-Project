@@ -5,8 +5,8 @@ from flask import request, render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm
-from app.models import User, Item
+from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm, ListForm
+from app.models import User, Item, List
 
 
 @app.route('/')
@@ -86,7 +86,7 @@ def update_item_img(form_img):
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     img_path = os.path.join(basedir, 'static/images/products/', image_filename)
     
-    resize = (200, 200)
+    resize = (400, 400)
     i = Image.open(form_img)
     i.thumbnail(resize)
     i.save(img_path)
@@ -149,7 +149,7 @@ def selling():
         return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
-        img = update_item_img(form.img.data)
+        img = update_img(form.img.data)
         name = form.name.data
         price = form.price.data
         description = form.description.data
@@ -201,3 +201,25 @@ def checkout():
     current_user.cart = []
     db.session.commit()
     return redirect('/')
+
+@app.route('/lists', methods = ['POST', 'GET'])
+def lists():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    form = ListForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        list = List(name = name, user = current_user)
+        db.session.add(list)
+        db.session.commit()
+    lists = List.query.filter_by(user_id = current_user.id).all()
+    return render_template('lists.html', lists = lists, form = form)
+
+@app.route('/lists/delete/<int:id>', methods=['GET'])
+def delete_list(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    list = List.query.get_or_404(id)
+    db.session.delete(list)
+    db.session.commit()
+    return redirect('/lists')
