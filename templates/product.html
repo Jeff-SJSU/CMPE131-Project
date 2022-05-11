@@ -12,6 +12,9 @@
             <div class="mb-2">{{ components.price(item.price) }}</div>
             <a class="btn bg-gradient shadow btn-primary me-1" role="button" href="/cart/add/{{ item.id }}"><i class="bi bi-plus-lg"></i> Add to Cart</a>
             <a class="btn bg-gradient shadow btn-primary me-1" role="button" href="/wishlist/add/{{ item.id }}"><i class="bi bi-plus-lg"></i> Add to Wishlist</a>
+            {% if current_user.id == item.uploader%}
+                <a class="btn bg-gradient shadow btn-danger me-1" role="button" href="/product/{{ item.id }}/delete"> Delete Listing</a>
+            {% endif %}
 <!--
             <div class="btn-group" role="group">
                 <button class="btn btn-outline-secondary" role="button">Add to List</a>

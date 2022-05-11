@@ -1,3 +1,4 @@
+from operator import itemgetter
 import os
 import secrets
 from PIL import Image
@@ -86,7 +87,7 @@ def update_item_img(form_img):
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     img_path = os.path.join(basedir, 'static/images/products/', image_filename)
     
-    resize = (200, 200)
+    resize = (600, 600)
     i = Image.open(form_img)
     i.thumbnail(resize)
     i.save(img_path)
@@ -98,6 +99,7 @@ def account():
     if current_user.is_anonymous:
         return redirect('/login')
     form = AccountForm()
+    items = Item.query.filter_by(uploader = current_user.id).all()
     if form.validate_on_submit():
         if form.img.data:
             img_file = update_img(form.img.data)
@@ -120,7 +122,7 @@ def account():
         form.username.data = current_user.name
         form.email.data = current_user.email
         form.role.data = current_user.seller
-    return render_template('account.html', user=current_user, edit=True, form=form)
+    return render_template('account.html', user=current_user, edit=True, form=form, items = items)
 
 @app.route('/account/avatar/remove')
 def remove_avatar():
@@ -161,16 +163,26 @@ def selling():
         name = form.name.data
         price = form.price.data
         description = form.description.data
+        uploader = current_user.id
         
-            
  ## Update more product's information such as image,barcode,etc later 
 
-        item = Item(name = name, price = price, img = img, description = description)
+        item = Item(name = name, price = price, img = img, description = description, uploader = uploader)
         db.session.add(item)
         db.session.commit()
         return redirect(f'/product/{item.id}')
 
     return render_template('add_product.html', form=form)
+
+@app.route('/product/<int:id>/delete', methods=['GET', 'POST'])
+def delete_listing(id):
+    item = Item.query.get_or_404(id)
+    if request.method == 'GET':
+        return render_template('delete_product.html', item = item)
+    else:
+        db.session.delete(item)
+        db.session.commit()
+        return redirect('/')
 
 @app.route('/cart')
 def cart():
