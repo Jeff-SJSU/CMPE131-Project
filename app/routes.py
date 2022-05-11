@@ -86,7 +86,7 @@ def update_item_img(form_img):
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     img_path = os.path.join(basedir, 'static/images/products/', image_filename)
     
-    resize = (200, 200)
+    resize = (400, 400)
     i = Image.open(form_img)
     i.thumbnail(resize)
     i.save(img_path)
@@ -157,7 +157,7 @@ def selling():
         return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
-        img = update_item_img(form.img.data)
+        img = update_img(form.img.data)
         name = form.name.data
         price = form.price.data
         description = form.description.data
@@ -207,5 +207,35 @@ def checkout():
     if current_user.is_anonymous:
         return redirect('/login')
     current_user.cart = []
+    db.session.commit()
+    return redirect('/')
+
+@app.route('/wishlist')
+def wishlist():
+    return render_template('wishlist.html')
+
+@app.route('/wishlist/add/<int:id>')
+def add_to_wishlist(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    item = Item.query.get_or_404(id)
+    current_user.wishlist.append(item)
+    db.session.commit()
+    return redirect('/wishlist')
+
+@app.route('/wishlist/remove/<int:id>')
+def remove_from_wishlist(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    item = Item.query.get_or_404(id)
+    current_user.wishlist.remove(item)
+    db.session.commit()
+    return redirect('/wishlist')
+
+@app.route('/wishlist/remove/all')
+def clear_wishlist():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    current_user.wishlist = []
     db.session.commit()
     return redirect('/')
