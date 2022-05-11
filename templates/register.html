@@ -9,8 +9,8 @@
         <div class="form-container mb-2 ">
             {{ form.hidden_tag() }}
             {{ form.username.label(class_="form-label") }} 
-            {{ form.username(size=32, class_="form-control", placeholder="User Name") }}
-            <div class="form-group">
+            {{ form.username(size=32, class_="form-control mb-3", placeholder="User Name") }}
+            <div class="form-group mb-3">
             {{ form.email.label(class_="form-label") }}
             {{ form.email(size=32, class_="form-control", placeholder="Email Address") }}
             </div>
@@ -19,7 +19,7 @@
             {{ form.password(size=32, class_="form-control", placeholder="Password") }}
             </div>
         </div>
-        <button class="form-element-button btn btn-primary" type="submit">Register</button>
+        <button class="form-element-button btn btn-primary my-2" type="submit">Register</button>
         <br>
         <a class="small" href="/login">Already have an account? Login!</a>
     </form>

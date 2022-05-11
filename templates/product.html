@@ -19,8 +19,8 @@
                     {% endfor %}
                 </ul>
             </span>
-            {% if current_user.id == item.uploader%}
-                <a class="btn bg-gradient shadow btn-danger me-1" role="button" href="/product/{{ item.id }}/delete"> Delete Listing</a>
+            {% if current_user.id == item.uploader %}
+                <a class="btn btn-danger me-1" role="button" href="/product/{{ item.id }}/delete"> Delete Listing</a>
             {% endif %}
         </div>
         <p>{{ item.description }}</p>

@@ -6,13 +6,13 @@
             <form action="/login" method="POST">
                 {{ form.hidden_tag() }}
                 <div class="form-container col-4">
-                    <div class="form-group">
-                        {{ form.username.label(class_="form-label") }}: <br>
+                    <div class="form-group mb-3">
+                        {{ form.username.label(class_="form-label") }} <br>
                         {{ form.username(size=32, class_="form-control", placeholder="User Name") }} 
                     </div>
         
                     <div class="form-group">
-                        {{ form.password.label(class_="form-label") }}: <br>
+                        {{ form.password.label(class_="form-label") }} <br>
                         {{ form.password(size=32, class_="form-control", placeholder="Password") }}
                          <br>
                     </div>              
@@ -21,9 +21,7 @@
                         {{ form.remember_me.label(class_="form-check-label") }}
                     </div>       
                 </div>
-                <div class="form-element-button">
-                    <button class="btn btn-primary" type="submit">Login</button>
-                </div>
+                <button class="btn btn-primary mb-2" type="submit">Login</button>
                 <div>
                     <small class="font-weight-bold">Don't have an account? <a href="/register">Register</a></small>
                 </div>
