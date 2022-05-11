@@ -29,29 +29,36 @@
 
 ## Use Cases
 
-### 1. User Ratings + Profiles
-- **Pre-condition:** User has purchased an item.
+### 1. Leave a review for a purchased item
+- **Pre-condition:** User is logged in and has previously purchased an item.
 
-- **Trigger:** User leaves a rating out of 5 stars.
+- **Trigger:** User visits product page and clicks on a rating out of 5 stars.
 
 - **Primary Sequence:** 
   1. Product average rating is updated based on user's rating.
   2. Page shows how many ratings of each # of stars were given.
-  3. User's profile contains ratings they've left
+  3. User's profile now contains ratings they've left
 
 - **Primary Postconditions:** N/A
 
 - **Alternate Sequence:** 
-  1. User delete's their review
+  1. User clicks button to delete their review
   2. Product stats is updated to remove their review.
-
-- **Alternate Sequence <optional>:** 
-  1. User can upload profile image and change their name
   
-### 2. Seller Account, Item Pictures
-- **Pre-condition:** User has checked the box on their profile to label themsevlves as a seller.
+  
+### 2, Become a seller on the store.
 
-- **Trigger:** User clicks button to add item to store (probably in a similar place to where the YouTube Upload Button is)
+- **Pre-condition:** User is logged in.
+- **Trigger:** User clicks checkbox on their profile page to label themselves as a seller.
+- **Primary Sequence:**
+  1. User's profile is updated to show they are a seller
+  2. User can now add items to the store via a button on the navbar.
+  3. Seller's profile page will show seller rating that is an average of all their product ratings
+
+### 3. Add item to store.
+- **Pre-condition:** User is logged in and is a seller account.
+
+- **Trigger:** User (Seller) clicks button on the navbar to add item to store
 
 - **Primary Sequence:** (Add Item Form)
  
@@ -65,23 +72,20 @@
 - **Primary Postconditions:**
   1. Item now appears in store and search results
 
-- **Secondary Postconditions:**
-  1. Seller's profile page will show seller rating that is an average of all their product ratings
-
 - **Alternate Sequence:** 
-  1. Seller can edit or remove their existing listings
-  2. Seller is notified whne a purchase is made
-  3. System tracks how much money seller has made
+  1. Seller can edit or remove their existing listings from the product page
+  2. Seller is notified when a purchase is made
+  3. System tracks how much money seller has made from their account page
 
-### 3. Add to Cart + Checkout
+### 4. Add to Cart + Checkout
 
-- **Trigger:** User adds item to cart
+- **Primary Precondition**: User is logged in and viewing a product.
+- **Trigger:** User clicks button to add item to cart
 
 - **Primary Sequence:**
-  
   1. Item is added to cart
   3. User can click checkout (on the cart page) to enter the purchase flow
-  4. Website takes fake credit card info
+  4. Website takes fake credit card info, does not store
   5. Purchase is made
 
 - **Primary Postconditions:** 
@@ -93,26 +97,25 @@
   1. User can remove items from cart or edit quantity
   2. User can cancel an order up to an hour after purchase
 
-### 4. Discount Period
+### 5. Discount Period
 - **Pre-condition:** Seller has an item in their store.
 
 - **Trigger:** Seller sets a discount and (optionally) specifies an expiration time.
 
 - **Primary Sequence:**
-  
   1. Item page now displays discount and time remaining
   2. Price of item is temporarily updated
 
 - **Primary Postconditions:** Discount expires after certain period of time.
 
-### 5. Save for Later + Lists
-  
-- **Trigger:** User adds item to list (wishlist, save for later)
+### 6. Add item to list (Save for Later).
+- **Primary Precondition:** User is logged in and viewing a product page.
+- **Trigger:** User clicks button to add item to list (wishlist, save for later)
 
 - **Primary Sequence:**
-  
   1. Item is added to user's list on their profile
   2. User can browse/buy items from their list or buy an entire list
+  3. User is notified that item was added to list and can see that on the product page.
  
 - **Postconditions**:
   1. List shows items that are discounted
@@ -122,10 +125,11 @@
   1. User can create or delete lists
   2. User can save entire cart as a list
 
-### 6. Advanced Search w/ Filters
+### 6. Perform Advanced Search w/ Filters
 
+- **Precondition:** None.
 - **Trigger:**
-  1. User picks category in search bar
+  1. User (optionally) picks category in dropdown next to search bar
   2. User enters terms in the search bar.
   
 - **Primary Sequence:**
