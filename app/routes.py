@@ -222,9 +222,10 @@ def lists():
     form = ListForm()
     if form.validate_on_submit():
         name = form.name.data
-        list = List(name = name, user = current_user)
+        list = List(name = name, user_id = current_user.id)
         db.session.add(list)
         db.session.commit()
+        return redirect('/lists')
     lists = List.query.filter_by(user_id = current_user.id).all()
     return render_template('lists.html', lists = lists, form = form)
 

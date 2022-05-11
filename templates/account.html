@@ -47,7 +47,7 @@
                 {{ form.role.label(class_="form-check-label") }}
             </div>
             <div>
-                <button class="form-element-button btn btn-success mt-3" type="submit">Become a Seller</button>
+                <button class="form-element-button btn btn-success mt-3" type="submit">Update</button>
             </div>
         </div>
 
@@ -59,16 +59,16 @@
             </div>
         </div>
 
-        
-        <div class="form-container card card-body col col-4 me-3">
-            <h3>Seller Listing</h3>
-            {% for item in items%}
-                <div class="col-2">
-                {{ components.product_card(item) }}
-                 </div>
-            {% endfor %}
-        </div>
-        
+        {% if form.role.data %}
+            <div class="form-container card card-body col col-4 me-3">
+                <h3>Seller Listing</h3>
+                {% for item in items%}
+                    <div class="col-2">
+                    {{ components.product_card(item) }}
+                     </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
     </form>
 </div>
