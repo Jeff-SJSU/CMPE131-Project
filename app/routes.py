@@ -206,3 +206,28 @@ def checkout():
 def wishlist():
     return render_template('wishlist.html')
 
+@app.route('/wishlist/add/<int:id>')
+def add_to_wishlist(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    item = Item.query.get_or_404(id)
+    current_user.wishlist.append(item)
+    db.session.commit()
+    return redirect('/wishlist')
+
+@app.route('/wishlist/remove/<int:id>')
+def remove_from_wishlist(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    item = Item.query.get_or_404(id)
+    current_user.wishlist.remove(item)
+    db.session.commit()
+    return redirect('/wishlist')
+
+@app.route('/wishlist/remove/all')
+def clear_wishlist():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    current_user.wishlist = []
+    db.session.commit()
+    return redirect('/')
