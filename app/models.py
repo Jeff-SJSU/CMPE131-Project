@@ -34,9 +34,9 @@ class User(UserMixin, db.Model):
 
 class Item(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(32), nullable=False, unique=True)
+    name = db.Column(db.String(32), nullable=False)
     price = db.Column(db.Float(), nullable=False)
-    description = db.Column(db.String(128),  nullable= False, unique=True)
+    description = db.Column(db.String(128),  nullable= False)
     img = db.Column(db.String(30), nullable=False, default='default.jpg')
     
     def __repr__(self):
