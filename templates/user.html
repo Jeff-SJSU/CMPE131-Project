@@ -10,9 +10,16 @@
 {% if current_user.seller %}
 <div class="fs-2 mb-3">
     <i class="bi bi-shop"></i> Seller
-    <button type="button" class="btn btn-outline-primary">View store</button>
 </div>
 
+<div class="form-container card card-body">
+    <h3> Items for sale </h3>
+    {% for item in items%}
+        <div class="col-2">
+        {{ components.product_card(item) }}
+         </div>
+    {% endfor %}
+</div>
 {% endif %}
 
 
