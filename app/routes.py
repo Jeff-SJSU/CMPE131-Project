@@ -66,28 +66,14 @@ def user(username):
     user = User.query.filter_by(name=username).first_or_404()
     return render_template('user.html', user=user)
 
-def update_img(form_img):
+def update_img(form_img, dir='avatars', size=200):
     random_hex = secrets.token_hex(8)
     img_name, img_ext = os.path.splitext(form_img.filename)
     image_filename = random_hex + img_ext
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    img_path = os.path.join(basedir, 'static/images/', image_filename)
+    img_path = os.path.join(basedir, 'static/images/', dir, image_filename)
     
     resize = (200, 200)
-    i = Image.open(form_img)
-    i.thumbnail(resize)
-    i.save(img_path)
-
-    return image_filename
-
-def update_item_img(form_img):
-    random_hex = secrets.token_hex(8)
-    img_name, img_ext = os.path.splitext(form_img.filename)
-    image_filename = random_hex + img_ext
-    basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    img_path = os.path.join(basedir, 'static/images/products/', image_filename)
-    
-    resize = (600, 600)
     i = Image.open(form_img)
     i.thumbnail(resize)
     i.save(img_path)
@@ -102,7 +88,7 @@ def account():
     items = Item.query.filter_by(uploader = current_user.id).all()
     if form.validate_on_submit():
         if form.img.data:
-            img_file = update_img(form.img.data)
+            img_file = update_img(form.img.data, 'avatars')
             current_user.img = img_file
         valid_username = User.query.filter_by(name=form.username.data).first()
         valid_email = User.query.filter_by(email=form.email.data).first()
@@ -159,7 +145,7 @@ def selling():
         return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
-        img = update_img(form.img.data)
+        img = update_img(form.img.data, 'products', size=600)
         name = form.name.data
         price = form.price.data
         description = form.description.data

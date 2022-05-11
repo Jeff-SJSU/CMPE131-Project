@@ -9,4 +9,5 @@ __pycache__/
 # Avatars
 /static/images/avatars/*.*
 /static/images/products/*.*
+!/static/images/avatars/default.jpg
 !/static/images/products/default.jpg
