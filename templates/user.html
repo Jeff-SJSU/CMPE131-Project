@@ -7,6 +7,14 @@
 {{ components.avatar(user.img) }}
 <h1>{{ user.name }}</h1>
 
+{% if current_user.seller %}
+<div class="fs-2 mb-3">
+    <i class="bi bi-shop"></i> Seller
+    <button type="button" class="btn btn-outline-primary">View store</button>
+</div>
+
+{% endif %}
+
 
 {# TODO: Profile picture, user ratings, etc. #}
 
