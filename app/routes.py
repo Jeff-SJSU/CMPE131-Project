@@ -68,7 +68,8 @@ def logout():
 @app.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(name=username).first_or_404()
-    return render_template('user.html', user=user)
+    items = Item.query.filter_by(uploader=user.id).all()
+    return render_template('user.html', user=user, items=items)
 
 def update_img(form_img, dir='avatars', size=200):
     random_hex = secrets.token_hex(8)
