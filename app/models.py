@@ -7,8 +7,8 @@ carts = db.Table('carts',
     db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
 )
 
-wishlist = db.Table('wishlist',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+lists = db.Table('lists',
+    db.Column('list_id', db.Integer, db.ForeignKey('list.id'), primary_key=True),
     db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
 )
 
@@ -52,3 +52,6 @@ class List(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(32), nullable=False, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    items = db.relationship('Item', secondary=lists, lazy='subquery')
+    wishlist = db.Column(db.Boolean(), default=False)
+

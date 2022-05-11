@@ -30,9 +30,9 @@
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="/wishlist">
                         <span class="bi bi-heart"></span> Wishlist
-                        {% if current_user.wishlist|length %}
+                        {% if current_user.lists[0].items|length %}
                         <span class="badge rounded-pill bg-danger">
-                            {{ current_user.wishlist|length }}
+                            {{ current_user.lists[0].items|length }}
                         </span>
                         {% endif %}</a></li>
                     <li class="nav-item"><a class="nav-link" href="/cart">

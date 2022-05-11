@@ -11,21 +11,17 @@
         <div class="mb-3">
             <div class="mb-2">{{ components.price(item.price) }}</div>
             <a class="btn bg-gradient shadow btn-primary me-1" role="button" href="/cart/add/{{ item.id }}"><i class="bi bi-plus-lg"></i> Add to Cart</a>
-            <a class="btn bg-gradient shadow btn-primary me-1" role="button" href="/wishlist/add/{{ item.id }}"><i class="bi bi-plus-lg"></i> Add to Wishlist</a>
+            <span class="dropdown">
+                <a class="btn btn-outline-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown">Add to List</a>
+                <ul class="dropdown-menu">
+                    {% for list in current_user.lists %}
+                    <li><a class="dropdown-item" href="/lists/{{list.id}}/add/{{item.id}}">{{list.name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </span>
             {% if current_user.id == item.uploader%}
                 <a class="btn bg-gradient shadow btn-danger me-1" role="button" href="/product/{{ item.id }}/delete"> Delete Listing</a>
             {% endif %}
-<!--
-            <div class="btn-group" role="group">
-                <button class="btn btn-outline-secondary" role="button">Add to List</a>
-                <button class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" role="button">
-                    <span class="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">Wishlist</a></li>
-                </ul>
-            </div>
-            -->
         </div>
         <p>{{ item.description }}</p>
     </div>

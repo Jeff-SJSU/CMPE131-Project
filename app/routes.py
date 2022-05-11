@@ -33,6 +33,9 @@ def register():
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
+        wishlist = List(name='Wishlist', user_id=user.id, wishlist=True)
+        db.session.add(wishlist)
+        db.session.commit()
         print(f"Created user {name} with email {email}")
         login_user(user, remember=True)
         return redirect('/')
@@ -221,7 +224,15 @@ def lists():
     lists = List.query.filter_by(user_id = current_user.id).all()
     return render_template('lists.html', lists = lists, form = form)
 
-@app.route('/lists/delete/<int:id>', methods=['GET'])
+
+@app.route('/lists/<int:id>', methods=['GET'])
+def view_list(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    list = List.query.get_or_404(id)
+    return render_template('list.html', list=list)
+
+@app.route('/lists/<int:id>/delete', methods=['GET'])
 def delete_list(id):
     if current_user.is_anonymous:
         return redirect('/login')
@@ -230,29 +241,36 @@ def delete_list(id):
     db.session.commit()
     return redirect('/lists')
 
-
-@app.route('/wishlist/add/<int:id>')
-def add_to_wishlist(id):
+@app.route('/lists/<int:list_id>/add/<int:id>')
+def add_to_list(list_id, id):
     if current_user.is_anonymous:
         return redirect('/login')
+    list = List.query.get_or_404(list_id)
     item = Item.query.get_or_404(id)
-    current_user.wishlist.append(item)
+    list.items.append(item)
     db.session.commit()
-    return redirect('/wishlist')
+    return redirect(f'/lists/{list_id}')
 
-@app.route('/wishlist/remove/<int:id>')
-def remove_from_wishlist(id):
+@app.route('/lists/<int:list_id>/remove/<int:id>')
+def remove_from_list(list_id, id):
     if current_user.is_anonymous:
         return redirect('/login')
+    list = List.query.get_or_404(list_id)
     item = Item.query.get_or_404(id)
-    current_user.wishlist.remove(item)
+    list.items.remove(item)
     db.session.commit()
-    return redirect('/wishlist')
+    return redirect(f'/lists/{list_id}')
 
-@app.route('/wishlist/remove/all')
-def clear_wishlist():
+@app.route('/lists/<int:id>/remove/all')
+def clear_list(id):
     if current_user.is_anonymous:
         return redirect('/login')
-    current_user.wishlist = []
+    list = List.query.get_or_404(id)
+    list.items = []
     db.session.commit()
-    return redirect('/')
+    return redirect(f'/lists/{list_id}')
+
+@app.route('/wishlist')
+def wishlist():
+    return redirect(f'/lists/{current_user.lists[0].id}')
+

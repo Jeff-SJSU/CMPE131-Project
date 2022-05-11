@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% import "includes/components.html" as components %}
+{% block content %}
+<h1 class="fw-bold mb-0 text-black">{{list.name}}</h1>
+<h4 class="fw-normal mb-3 text-muted">Item List</h1>
+{% if list.items|length %}
+<div class="row">
+    <div class="col-xl row g-3 mb-4">
+        {% for item in list.items %}
+            <div class="col-1 col-xl-2">
+            {% call components.product_card(item) %}
+            <a class="btn btn-outline-danger btn-sm mt-2" href="/lists/{{list.id}}/remove/{{item.id}}"><i class="bi bi-cart-dash-fill"></i> Remove</a>
+            {% endcall %}
+            </div>
+        {% endfor %}
+        <div>
+            <a class="btn btn-outline-danger btn-sm mt-4" href="/lists/{{list.id}}/remove/all"><i class="bi bi-trash"></i> Clear List</a>
+        </div>
+    </div>
+</div>
+{% else %}
+<p>Your list is empty!</p>
+{% endif %}
+{% endblock %}
