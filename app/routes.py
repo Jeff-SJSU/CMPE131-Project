@@ -101,7 +101,7 @@ def account():
     if form.validate_on_submit():
         if form.img.data:
             img_file = update_img(form.img.data)
-            current_user.img = img_filequer
+            current_user.img = img_file
         valid_username = User.query.filter_by(name=form.username.data).first()
         valid_email = User.query.filter_by(email=form.email.data).first()
         itself_name = current_user.name == form.username.data
