@@ -4,10 +4,8 @@
     "\\app",
     "\\static",
     "\\static\\images",
-    "\\static\\images\\products",
-    "\\templates",
-    "\\templates\\includes"
+    "\\templates"
   ],
-  "SelectedNode": "\\templates\\add_product.html",
+  "SelectedNode": "\\app\\routes.py",
   "PreviewInSolutionExplorer": false
 }

@@ -60,16 +60,15 @@
         </div>
 
         
-        {% if form.role.data %}
-            <div class="form-container card card-body col col-4 me-3">
-                <h3>Seller Listing</h3>
-                {% for item in items %}
-                    <div class="col-2">
-                    {{ components.product_card(item) }}
-                     </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+        <div class="form-container card card-body col col-4 me-3">
+            <h3>Seller Listing</h3>
+            {% for item in items%}
+                <div class="col-2">
+                {{ components.product_card(item) }}
+                 </div>
+            {% endfor %}
+        </div>
+        
 
     </form>
 </div>
