@@ -14,6 +14,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     img = db.Column(db.String(30), nullable=False, default='default.jpg')
     seller = db.Column(db.Boolean(), default=False)
+    cart = db.relationship('Item', secondary=carts,lazy='subquery')
+
 
     @staticmethod
     @login.user_loader
