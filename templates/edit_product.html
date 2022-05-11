@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="p-5">
+        <h2 class="text-dark mb-4">Edit your item</h2>
+ </div>
+<div class="row">
+    <div class="col-4">
+    <form action="/product" method="POST" enctype="multipart/form-data">
+        <div class="form-container mb-2 ">
+            {{ form.hidden_tag() }}
+            {{ form.name.label(class_="form-label") }} 
+            {{ form.name(size=32, class_="form-control mb-3", placeholder="{{item.name}}") }}
+            {{ form.price.label(class_="form-label") }}
+            <div class="input-group mb-3">
+                <span class="input-group-text">$</span>
+                {{ form.price(size=32, class_="form-control", placeholder="{{item.price}}") }}
+            </div>
+            <div class="mb-3">
+                {{ form.img.label() }}
+                {{ form.img(class="form-control") }}
+                {% if form.img.errors %}
+                    {% for error in form.img.errors %}
+                        <span class="class-danger">{{ error }}</span><br>
+                    {% endfor %}
+                {% endif%}
+            </div>
+            <div class="mb-2">
+            {{ form.description.label(class_="form-label") }} 
+            {{ form.description(size=32, class_="form-control", placeholder="{{item.description}}") }}
+            </div>
+        </div>
+        <button class="form-element-button btn btn-primary" type="submit">EDIT</button>
+    </form>
+</div>
+</div>
+{% endblock %}

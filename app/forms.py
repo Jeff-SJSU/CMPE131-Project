@@ -21,6 +21,13 @@ class AddItemForm(FlaskForm):
     img = FileField('Item Picture', validators=[FileAllowed(['jpg','png'])])
     description = StringField('Description ', validators=[DataRequired()])
 
+
+class EditItemForm(FlaskForm):
+    name = StringField('New Name', validators=[DataRequired()])
+    price = DecimalField('New Price', validators=[DataRequired()])
+    img = FileField('New Item Picture', validators=[FileAllowed(['jpg','png'])])
+    description = StringField('New Description ', validators=[DataRequired()])
+
 class AccountForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
