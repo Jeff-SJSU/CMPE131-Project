@@ -15,6 +15,19 @@
                 <span class="input-group-text">$</span>
                 {{ form.price(size=32, class_="form-control", placeholder="{{item.price}}") }}
             </div>
+
+
+            
+            <div class="mb-3">
+                {{ form.start_sale.label(class_="form-label") }} 
+                {{ form.start_sale(size=32, class_="form-control") }}
+                {{ form.end_sale.label(class_="form-label") }} 
+                {{ form.end_sale(size=32, class_="form-control") }}
+              </div>
+       
+
+
+
             <div class="mb-3">
                 {{ form.img.label() }}
                 {{ form.img(class="form-control") }}
@@ -29,7 +42,7 @@
             {{ form.description(size=32, class_="form-control", placeholder="{{item.description}}") }}
             </div>
         </div>
-        <button class="form-element-button btn btn-primary" type="submit">EDIT</button>
+        <button class="form-element-button btn btn-primary" type="submit">UPDATE</button>
     </form>
 </div>
 </div>

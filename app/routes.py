@@ -180,8 +180,10 @@ def edit_item(id):
         item.price = form.price.data
         item.description = form.description.data
         item.uploader = current_user.id
-        
         db.session.commit()
+                
+        start_sale_date = form.start_sale.data
+        end_sale_date = form.end_sale.data
         return redirect(f'/product/{item.id}')
 
     return render_template('edit_product.html', form=form, item=item)
