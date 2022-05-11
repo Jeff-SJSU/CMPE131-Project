@@ -159,7 +159,10 @@ def selling():
         return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
-        img = update_item_img(form.img.data)
+        if form.img.data == None:
+            img = 'default.jpg'
+        else:
+            img = update_item_img(form.img.data)
         name = form.name.data
         price = form.price.data
         description = form.description.data
