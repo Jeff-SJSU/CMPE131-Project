@@ -6,7 +6,7 @@ from flask import request, render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm, ListForm
+from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm, ListForm, EditItemForm
 from app.models import User, Item, List
 
 
@@ -163,6 +163,28 @@ def selling():
         return redirect(f'/product/{item.id}')
 
     return render_template('add_product.html', form=form)
+
+# For seller to edit their item
+@app.route('/product/<int:id>/edit', methods=['GET', 'POST'])
+def edit_item(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    elif not current_user.seller:
+        return redirect('/account')
+
+    form = EditItemForm()
+    item = Item.query.get_or_404(id)
+    if form.validate_on_submit():
+        item.img = update_img(form.img.data, 'products', size=600)
+        item.name = form.name.data
+        item.price = form.price.data
+        item.description = form.description.data
+        item.uploader = current_user.id
+        
+        db.session.commit()
+        return redirect(f'/product/{item.id}')
+
+    return render_template('edit_product.html', form=form, item=item)
 
 @app.route('/product/<int:id>/delete', methods=['GET', 'POST'])
 def delete_listing(id):

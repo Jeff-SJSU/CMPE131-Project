@@ -44,6 +44,7 @@ class Item(db.Model):
     description = db.Column(db.String(128),  nullable= False)
     img = db.Column(db.String(30), nullable=False, default='default.jpg')
     uploader = db.Column(db.Integer())
+    discount_price = db.Column(db.Float(), nullable=True)
     
     def __repr__(self):
         return f'<Item {self.name}>'

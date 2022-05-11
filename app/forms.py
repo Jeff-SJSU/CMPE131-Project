@@ -24,7 +24,7 @@ class AddItemForm(FlaskForm):
 
 class EditItemForm(FlaskForm):
     name = StringField('New Name', validators=[DataRequired()])
-    price = DecimalField('New Price', validators=[DataRequired()])
+    price = DecimalField('New Discount Price', validators=[DataRequired()])
     img = FileField('New Item Picture', validators=[FileAllowed(['jpg','png'])])
     description = StringField('New Description ', validators=[DataRequired()])
 
