@@ -6,8 +6,8 @@ from flask import request, render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm
-from app.models import User, Item
+from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm, ListForm
+from app.models import User, Item, List
 
 
 @app.route('/')
@@ -32,6 +32,9 @@ def register():
         user = User(name = name, email = email)
         user.set_password(password)
         db.session.add(user)
+        db.session.commit()
+        wishlist = List(name='Wishlist', user_id=user.id, wishlist=True)
+        db.session.add(wishlist)
         db.session.commit()
         print(f"Created user {name} with email {email}")
         login_user(user, remember=True)
@@ -66,28 +69,14 @@ def user(username):
     user = User.query.filter_by(name=username).first_or_404()
     return render_template('user.html', user=user)
 
-def update_img(form_img):
+def update_img(form_img, dir='avatars', size=200):
     random_hex = secrets.token_hex(8)
     img_name, img_ext = os.path.splitext(form_img.filename)
     image_filename = random_hex + img_ext
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    img_path = os.path.join(basedir, 'static/images/', image_filename)
+    img_path = os.path.join(basedir, 'static/images/', dir, image_filename)
     
     resize = (200, 200)
-    i = Image.open(form_img)
-    i.thumbnail(resize)
-    i.save(img_path)
-
-    return image_filename
-
-def update_item_img(form_img):
-    random_hex = secrets.token_hex(8)
-    img_name, img_ext = os.path.splitext(form_img.filename)
-    image_filename = random_hex + img_ext
-    basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    img_path = os.path.join(basedir, 'static/images/products/', image_filename)
-    
-    resize = (600, 600)
     i = Image.open(form_img)
     i.thumbnail(resize)
     i.save(img_path)
@@ -102,7 +91,7 @@ def account():
     items = Item.query.filter_by(uploader = current_user.id).all()
     if form.validate_on_submit():
         if form.img.data:
-            img_file = update_img(form.img.data)
+            img_file = update_img(form.img.data, 'avatars')
             current_user.img = img_file
         valid_username = User.query.filter_by(name=form.username.data).first()
         valid_email = User.query.filter_by(email=form.email.data).first()
@@ -159,7 +148,7 @@ def selling():
         return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
-        img = update_item_img(form.img.data)
+        img = update_img(form.img.data, 'products', size=600)
         name = form.name.data
         price = form.price.data
         description = form.description.data
@@ -222,32 +211,68 @@ def checkout():
     db.session.commit()
     return redirect('/')
 
+@app.route('/lists', methods = ['POST', 'GET'])
+def lists():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    form = ListForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        list = List(name = name, user = current_user)
+        db.session.add(list)
+        db.session.commit()
+    lists = List.query.filter_by(user_id = current_user.id).all()
+    return render_template('lists.html', lists = lists, form = form)
+
+
+@app.route('/lists/<int:id>', methods=['GET'])
+def view_list(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    list = List.query.get_or_404(id)
+    return render_template('list.html', list=list)
+
+@app.route('/lists/<int:id>/delete', methods=['GET'])
+def delete_list(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    list = List.query.get_or_404(id)
+    db.session.delete(list)
+    db.session.commit()
+    return redirect('/lists')
+
+@app.route('/lists/<int:list_id>/add/<int:id>')
+def add_to_list(list_id, id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    list = List.query.get_or_404(list_id)
+    item = Item.query.get_or_404(id)
+    list.items.append(item)
+    db.session.commit()
+    return redirect(f'/lists/{list_id}')
+
+@app.route('/lists/<int:list_id>/remove/<int:id>')
+def remove_from_list(list_id, id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    list = List.query.get_or_404(list_id)
+    item = Item.query.get_or_404(id)
+    list.items.remove(item)
+    db.session.commit()
+    return redirect(f'/lists/{list_id}')
+
+@app.route('/lists/<int:id>/remove/all')
+def clear_list(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    list = List.query.get_or_404(id)
+    list.items = []
+    db.session.commit()
+    return redirect(f'/lists/{list_id}')
+
 @app.route('/wishlist')
 def wishlist():
-    return render_template('wishlist.html')
-
-@app.route('/wishlist/add/<int:id>')
-def add_to_wishlist(id):
     if current_user.is_anonymous:
         return redirect('/login')
-    item = Item.query.get_or_404(id)
-    current_user.wishlist.append(item)
-    db.session.commit()
-    return redirect('/wishlist')
+    return redirect(f'/lists/{current_user.lists[0].id}')
 
-@app.route('/wishlist/remove/<int:id>')
-def remove_from_wishlist(id):
-    if current_user.is_anonymous:
-        return redirect('/login')
-    item = Item.query.get_or_404(id)
-    current_user.wishlist.remove(item)
-    db.session.commit()
-    return redirect('/wishlist')
-
-@app.route('/wishlist/remove/all')
-def clear_wishlist():
-    if current_user.is_anonymous:
-        return redirect('/login')
-    current_user.wishlist = []
-    db.session.commit()
-    return redirect('/')

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% import "includes/components.html" as components %}
+{% block content %}
+<h1 class="fw-bold mb-0 text-black">My Lists</h1>
+
+{% if lists %}
+<div class="mt-3">
+{% for list in lists %}
+    <div class="card card-body mt-3">
+        <h5>{{ list.name }}</h5>
+        <div class="mb-3">
+            <a class="btn btn-sm btn-outline-secondary" href="/lists/{{list.id}}"><i class="bi bi-pencil"></i> Edit List</a>
+            {% if not list.wishlist %}<a href="/lists/{{list.id}}/delete" class="btn btn-sm btn-danger">Delete List</a>{% endif %}
+        </div>
+        {% if list.items|length %}
+        <div class="row">
+        {% for item in list.items %}
+            <div class="col-2">
+                {{ components.product_card(item) }}
+            </div>
+        {% endfor %}
+        </div>
+        {% else %}
+        <p>This list has no items!</p>
+        {% endif %}
+        
+    </div>
+{% endfor %}
+</div>
+{% endif %}
+
+<form action="/" method="POST" class="card d-block mt-4 col-4 p-4 shadow">
+    <h3>Add List</h3>
+    {{ form.hidden_tag() }}
+    {{ form.name.label }}
+    {{ form.name(size=32, class_="form-control") }}
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+</form>
+
+{% endblock %}
