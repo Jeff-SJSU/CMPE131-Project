@@ -1,10 +1,12 @@
-database.db
+/*.db
 /flask_session
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 .vscode/settings.json
-.vs
+.vs/
 
 # Avatars
-#static/images/*.*
+/static/images/avatars/*.*
+/static/images/products/*.*
+!/static/images/products/default.jpg
