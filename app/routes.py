@@ -272,5 +272,7 @@ def clear_list(id):
 
 @app.route('/wishlist')
 def wishlist():
+    if current_user.is_anonymous:
+        return redirect('/login')
     return redirect(f'/lists/{current_user.lists[0].id}')
 
