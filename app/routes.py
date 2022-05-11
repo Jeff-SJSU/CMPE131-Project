@@ -86,7 +86,7 @@ def update_item_img(form_img):
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     img_path = os.path.join(basedir, 'static/images/products/', image_filename)
     
-    resize = (200, 200)
+    resize = (400, 400)
     i = Image.open(form_img)
     i.thumbnail(resize)
     i.save(img_path)
@@ -149,7 +149,7 @@ def selling():
         return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
-        img = update_item_img(form.img.data)
+        img = update_img(form.img.data)
         name = form.name.data
         price = form.price.data
         description = form.description.data
@@ -201,3 +201,8 @@ def checkout():
     current_user.cart = []
     db.session.commit()
     return redirect('/')
+
+@app.route('/wishlist')
+def wishlist():
+    return render_template('wishlist.html')
+
