@@ -2,14 +2,16 @@
 {% import "includes/components.html" as components %}
 {% block content %}
 <h1 class="fw-bold mb-0 text-black">{{list.name}}</h1>
-<h4 class="fw-normal mb-3 text-muted">Item List</h1>
+<h4 class="fw-normal mb-0 text-muted">Item List</h1>
+<a class="btn btn-sm btn-outline-secondary btn-sm mt-2" href="/lists"><i class="bi bi-arrow-left"></i> View All Lists</a>
 {% if list.items|length %}
 <div class="row">
     <div class="col-xl row g-3 mb-4">
         {% for item in list.items %}
             <div class="col-1 col-xl-2">
             {% call components.product_card(item) %}
-            <a class="btn btn-outline-danger btn-sm mt-2" href="/lists/{{list.id}}/remove/{{item.id}}"><i class="bi bi-cart-dash-fill"></i> Remove</a>
+            <a class="btn btn-primary bg-gradient shadow mt-2" href="/cart/add/{{item.id}}"><i class="bi bi-cart-plus"></i> Add to Cart</a>
+            <a class="btn btn-outline-danger btn-sm mt-2" href="/lists/{{list.id}}/remove/{{item.id}}"><i class="bi bi-trash"></i> Remove from List</a>
             {% endcall %}
             </div>
         {% endfor %}
