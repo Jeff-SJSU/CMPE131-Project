@@ -101,12 +101,20 @@ def account():
     if form.validate_on_submit():
         if form.img.data:
             img_file = update_img(form.img.data)
-            current_user.img = img_file
-        current_user.name = form.username.data
-        current_user.email = form.email.data
+            current_user.img = img_filequer
+        valid_username = User.query.filter_by(name=form.username.data).first()
+        valid_email = User.query.filter_by(email=form.email.data).first()
+        itself_name = current_user.name == form.username.data
+        itself_email = current_user.email == form.email.data
+        if (valid_username is None or itself_name) and (valid_email is None or itself_email):
+            current_user.name = form.username.data
+            current_user.email = form.email.data
+            flash('Your account information has been updated.', 'success')
+        else:
+            flash('This user name or email is already taken!', 'error')
         current_user.seller = form.role.data
         db.session.commit()
-        flash('Your account information has been updated.', 'success')
+        
         return redirect('/account')
     elif request.method == 'GET':
         form.username.data = current_user.name
