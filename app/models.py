@@ -20,7 +20,7 @@ class User(UserMixin, db.Model):
     img = db.Column(db.String(30), nullable=False, default='default.jpg')
     seller = db.Column(db.Boolean(), default=False)
     cart = db.relationship('Item', secondary=carts,lazy='subquery')
-    wishlist = db.relationship('Item', secondary=carts,lazy='subquery')
+    lists = db.relationship('List', backref = 'user', lazy = True)
 
     @staticmethod
     @login.user_loader
@@ -48,3 +48,7 @@ class Item(db.Model):
     def __repr__(self):
         return f'<Item {self.name}>'
 
+class List(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(32), nullable=False, unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

@@ -6,8 +6,8 @@ from flask import request, render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm
-from app.models import User, Item
+from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm, ListForm
+from app.models import User, Item, List
 
 
 @app.route('/')
@@ -159,7 +159,7 @@ def selling():
         return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
-        img = update_item_img(form.img.data)
+        img = update_img(form.img.data)
         name = form.name.data
         price = form.price.data
         description = form.description.data
@@ -222,9 +222,28 @@ def checkout():
     db.session.commit()
     return redirect('/')
 
-@app.route('/wishlist')
-def wishlist():
-    return render_template('wishlist.html')
+@app.route('/lists', methods = ['POST', 'GET'])
+def lists():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    form = ListForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        list = List(name = name, user = current_user)
+        db.session.add(list)
+        db.session.commit()
+    lists = List.query.filter_by(user_id = current_user.id).all()
+    return render_template('lists.html', lists = lists, form = form)
+
+@app.route('/lists/delete/<int:id>', methods=['GET'])
+def delete_list(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    list = List.query.get_or_404(id)
+    db.session.delete(list)
+    db.session.commit()
+    return redirect('/lists')
+
 
 @app.route('/wishlist/add/<int:id>')
 def add_to_wishlist(id):

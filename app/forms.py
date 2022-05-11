@@ -27,3 +27,7 @@ class AccountForm(FlaskForm):
     submit = SubmitField('Update')
     img = FileField('Profile Picture', validators=[FileAllowed(['jpg','png'])])
     role = BooleanField('Become a seller')
+
+class ListForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    
