@@ -156,6 +156,9 @@ def product(id):
         date2 = datetime.strptime(end, date_format)
         now = datetime.strptime(current, date_format)
         remaining = date2 - now
+        
+        if remaining.days < 0:
+            item.discount_price = item.price
     
     return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews,remaining=remaining)
 
