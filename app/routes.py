@@ -147,15 +147,15 @@ def product(id):
     reviews = Review.query.filter_by(item_id=id).all()
     item = Item.query.get_or_404(id)
     user = User.query.get_or_404(item.uploader)
-
+    remaining = None
+    if item.end_sale != None:
     # convert to string
-    date_format = "%m/%d/%Y"
-    end = item.end_sale.strftime('%m/%d/%Y')
-    current = date.today().strftime('%m/%d/%Y')
-
-    date2 = datetime.strptime(end, date_format)
-    now = datetime.strptime(current, date_format)
-    remaining = date2 - now
+        date_format = "%m/%d/%Y"
+        end = item.end_sale.strftime('%m/%d/%Y')
+        current = date.today().strftime('%m/%d/%Y')
+        date2 = datetime.strptime(end, date_format)
+        now = datetime.strptime(current, date_format)
+        remaining = date2 - now
     
     return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews,remaining=remaining)
 
