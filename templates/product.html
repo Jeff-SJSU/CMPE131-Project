@@ -20,7 +20,8 @@
                 </ul>
             </span>
             {% if current_user.id == item.uploader %}
-                <a class="btn btn-danger me-1" role="button" href="/product/{{ item.id }}/delete"> Delete Listing</a>
+                <a class="btn btn-danger me-1" role="button" href="/product/{{ item.id }}/delete"> Delete Item</a>
+                <a class="btn btn-outline-success" role="button" href="/product/{{ item.id }}/edit"> Edit Item</a>
             {% endif %}
         </div>
         <p>{{ item.description }}</p>

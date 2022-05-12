@@ -6,7 +6,7 @@ from flask import request, render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm, ListForm
+from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm, ListForm, EditItemForm
 from app.models import User, Item, List
 
 
@@ -168,6 +168,36 @@ def selling():
         return redirect(f'/product/{item.id}')
 
     return render_template('add_product.html', form=form)
+from datetime import datetime
+# For seller to edit their item
+@app.route('/product/<int:id>/edit', methods=['GET', 'POST'])
+def edit_item(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    elif not current_user.seller:
+        return redirect('/account')
+
+    form = EditItemForm()
+    item = Item.query.get_or_404(id)
+    print(f'{form.start_sale.data} {form.end_sale.data}')
+
+    if form.validate_on_submit():
+        item.img = update_img(form.img.data, 'products', size=600)
+        item.name = form.name.data
+        item.discount_price = form.price.data
+        item.description = form.description.data
+        item.uploader = current_user.id
+        item.start_sale = form.start_sale.data
+        item.end_sale = form.end_sale.data
+        db.session.commit()
+        
+    #     date1 = datetime.strptime('29/04/2016 02:02:02', "%d/%m/%Y %H:%M:%S")
+    # date2 = datetime.strptime('30/04/2016 04:03:05', "%d/%m/%Y %H:%M:%S")
+    # remaining = date2 - date1
+    # print(f'Sale until {remaining.days} days {remaining.seconds//3600} hours {(remaining.seconds//60)%60} seconds')
+   
+        return redirect(f'/product/{item.id}')
+    return render_template('edit_product.html', form=form, item=item)
 
 @app.route('/product/<int:id>/delete', methods=['GET', 'POST'])
 def delete_listing(id):
