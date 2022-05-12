@@ -47,9 +47,9 @@
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/account"><span class="bi bi-person"></span> Hello, {{current_user.name}}</a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/account"><span class="bi bi-gear"></span> Manage Account</a></li>
                             <li><a class="dropdown-item" href="/user/{{current_user.name}}"><span class="bi bi-person"></span> View Profile</a></li>
                             <li><a class="dropdown-item" href="/lists"><span class="bi bi-list"></span> My Lists</a></li>
-                            <li><a class="dropdown-item" href="/account"><span class="bi bi-gear"></span> Manage Account</a></li>
                             <li><a class="dropdown-item" href="/logout"><span class="bi bi-box-arrow-in-left"></span> Logout</a></li>
                         </ul>
                     </div>

@@ -12,10 +12,9 @@ The format of the site will follow a basic web store, where the user must log in
 own account in order to access the various functions of the site.
 
 # Instructions
-After downloading the package from github, use pip to install flask and flask_sqlalchemy with the follow commands in terminal:
- - pip install flask
- - pip install flask_sqlalchemy
-- Run the main.py file in the package
+After downloading the package from github, use pip to install dependencies with the follow commands in terminal:
+ - `pip install flask flask-sqlalchemy flask-login flask-wtf flask-session pillow`
+- Run `py main.py` in the root folder
 - Copy and paste the web address from the terminal to a web browser
 
 # Web Navigation

@@ -6,8 +6,8 @@ from flask import request, render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm, ListForm, EditItemForm
-from app.models import User, Item, List
+from app.forms import *
+from app.models import User, Item, List, Review
 
 
 @app.route('/')
@@ -21,6 +21,8 @@ def not_found(e):
 
 app.register_error_handler(404, not_found)
 
+########## ACCOUNTS ##########
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -33,8 +35,7 @@ def register():
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
-        wish = "Wishlist"
-        wishlist = List(name=wish, user_id=user.id, wishlist=True)
+        wishlist = List(name='Wishlist', user_id=user.id, wishlist=True)
         db.session.add(wishlist)
         db.session.commit()
         print(f"Created user {name} with email {email}")
@@ -136,10 +137,15 @@ def delete():
             db.session.commit()
         return redirect('/')
 
+########## PRODUCTS ##########
+
 @app.route('/product/<int:id>')
 def product(id):
+    form = ReviewForm()
+    reviews = Review.query.filter_by(item_id=id).all()
     item = Item.query.get_or_404(id)
-    return render_template('product.html', item=item)
+    user = User.query.get_or_404(item.uploader)
+    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews)
 
 # for seller use to add item
 # still missing something like redirect to seller's product display or something after 
@@ -168,7 +174,7 @@ def selling():
         return redirect(f'/product/{item.id}')
 
     return render_template('add_product.html', form=form)
-from datetime import datetime
+
 # For seller to edit their item
 @app.route('/product/<int:id>/edit', methods=['GET', 'POST'])
 def edit_item(id):
@@ -177,26 +183,23 @@ def edit_item(id):
     elif not current_user.seller:
         return redirect('/account')
 
-    form = EditItemForm()
     item = Item.query.get_or_404(id)
-    print(f'{form.start_sale.data} {form.end_sale.data}')
+    form = EditItemForm()
+
+    if not item.uploader == current_user.id:
+        return redirect(f'/product/{id}')
 
     if form.validate_on_submit():
-        item.img = update_img(form.img.data, 'products', size=600)
+        if form.img.data != None:
+            item.img = update_img(form.img.data, 'products', size=600)
         item.name = form.name.data
-        item.discount_price = form.price.data
+        item.price = form.price.data
         item.description = form.description.data
-        item.uploader = current_user.id
-        item.start_sale = form.start_sale.data
+        item.discount_price = form.discount_price.data
         item.end_sale = form.end_sale.data
         db.session.commit()
-        
-    #     date1 = datetime.strptime('29/04/2016 02:02:02', "%d/%m/%Y %H:%M:%S")
-    # date2 = datetime.strptime('30/04/2016 04:03:05', "%d/%m/%Y %H:%M:%S")
-    # remaining = date2 - date1
-    # print(f'Sale until {remaining.days} days {remaining.seconds//3600} hours {(remaining.seconds//60)%60} seconds')
-   
         return redirect(f'/product/{item.id}')
+
     return render_template('edit_product.html', form=form, item=item)
 
 @app.route('/product/<int:id>/delete', methods=['GET', 'POST'])
@@ -208,6 +211,35 @@ def delete_listing(id):
         db.session.delete(item)
         db.session.commit()
         return redirect('/')
+
+########## REVIEWS ##########
+
+@app.route('/product/<int:id>/review', methods=['POST'])
+def review_product(id):
+    print('test')
+    if current_user.is_anonymous:
+        return redirect('/login')
+    form = ReviewForm()
+    item = Item.query.get_or_404(id)
+    if form.validate_on_submit():
+        review = Review(content=form.review.data, rating=int(form.rating.data), item_id=item.id, user_id=current_user.id)
+        db.session.add(review)
+        db.session.commit()
+        return redirect(f'/product/{item.id}')
+    return redirect(f'/')
+
+@app.route('/review/<int:id>/delete', methods=['GET'])
+def delete_review(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    review = Review.query.get_or_404(id)
+    if current_user.id == review.user_id:
+        db.session.delete(review)
+        db.session.commit()
+    return redirect(f'/product/{review.item_id}')
+
+
+########## CARTS ##########
 
 @app.route('/cart')
 def cart():
@@ -246,6 +278,8 @@ def checkout():
     current_user.cart = []
     db.session.commit()
     return redirect('/')
+
+########## LISTS ##########
 
 @app.route('/lists', methods = ['POST', 'GET'])
 def lists():
@@ -305,7 +339,7 @@ def clear_list(id):
     list = List.query.get_or_404(id)
     list.items = []
     db.session.commit()
-    return redirect(f'/lists/{list_id}')
+    return redirect(f'/lists/{id}')
 
 @app.route('/wishlist')
 def wishlist():

@@ -2,20 +2,64 @@
     <img class="rounded-circle border account-img" src="/static/images/avatars/{{ src }}" width="{{ size }}" height="{{ size }}">
 {%- endmacro %}
 
-{% macro price(price) -%}
-    <span class="h5 fw-normal fw-normal align-top">$</span>
-    <span class="h2 lh-1">{{ price|int }}</span>
-    <span class="h5 fw-normal text-muted align-top">{{ ("%.2f"|format(price))[-2:] }}</span>
+{% macro price(price, discount_price=none) -%}
+    {% if discount_price != none and discount_price != price %}
+        <span class="badge bg-success mb-1">{{ (-100 * ((price - discount_price) / price))|int }}%</span>
+        <s class="h5 fw-normal text-muted fw-normal align-top">${{("%.2f"|format(price))}}</s><br>
+        <span class="h5 fw-bold text-success fw-normal align-top">$</span>
+        <span class="h2 text-success lh-1">{{ discount_price|int }}</span>
+        <span class="h5 fw-bold text-success align-top">{{ ("%.2f"|format(discount_price))[-2:] }}</span>
+    {% else %}
+        <span class="h5 fw-normal fw-normal align-top">$</span>
+        <span class="h2 lh-1">{{ price|int }}</span>
+        <span class="h5 fw-normal text-muted align-top">{{ ("%.2f"|format(price))[-2:] }}</span>
+    {% endif %}
+{%- endmacro %}
+
+{% macro rating(rating) -%}
+    <span style="color:orange">
+    {% for i in range(1, 6) %}
+        {% if i <= rating %}   
+            <i class="bi bi-star-fill"></i>
+        {% elif (i - rating <= 0.5) %}
+            <i class="bi bi-star-half"></i>
+        {% else %}
+            <i class="bi bi-star"></i>
+        {% endif %}
+    {% endfor %}
+    <span class="text-muted ms-1">{{rating}}</span>
+    </span>
 {%- endmacro %}
 
 {% macro product_card(item) -%}
     <div class="card card-body shadow d-block">
         <div class="position-relative">
             <img src="/static/images/products/{{ item.img }}" class="img-fluid d-block rounded mb-2" alt="{{ item.name }}">
-            {{ price(item.price) }}
+            {{ price(item.price, item.discount_price) }}
             <h5 class="mt-2 mb-0">{{ item.name }}</h5>
             <a class="stretched-link" href="/product/{{ item.id }}"><span class="visually-hidden">View Product Page</span></a>
         </div>
         {% if caller is defined -%} {{ caller() }} {%- endif %}
     </div>
+{%- endmacro %}
+
+{% macro review_card(review, current_user) -%}
+<div class="card card-body mb-3">
+    <div class="row mb-2 position-relative">
+        <div class="col-auto">{{ avatar(review.user.img, size=54) }}</div>
+        <div class="col">
+            <h5>{{review.user.name}}</h5>
+            {{rating(review.rating)}}
+        </div>
+        <a class="stretched-link" href="/user/{{review.user.name}}"><span class="visually-hidden">View User Page</span></a>
+    </div>
+    <p>{{review.content}}</p>
+    {% if review.user_id == current_user.id %}
+    <div>
+        <a class="btn btn-outline-danger btn-sm me-1" role="button" href="/review/{{review.id}}/delete">
+            <i class="bi bi-trash"></i> Delete Review
+        </a>
+    </div>
+    {% endif %}
+</div>
 {%- endmacro %}
