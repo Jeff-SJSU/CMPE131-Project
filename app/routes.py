@@ -33,8 +33,7 @@ def register():
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
-        wish = "Wishlist"
-        wishlist = List(name=wish, user_id=user.id, wishlist=True)
+        wishlist = List(name='Wishlist', user_id=user.id, wishlist=True)
         db.session.add(wishlist)
         db.session.commit()
         print(f"Created user {name} with email {email}")
@@ -139,7 +138,8 @@ def delete():
 @app.route('/product/<int:id>')
 def product(id):
     item = Item.query.get_or_404(id)
-    return render_template('product.html', item=item)
+    user = User.query.get_or_404(item.uploader)
+    return render_template('product.html', item=item, uploader=user)
 
 # for seller use to add item
 # still missing something like redirect to seller's product display or something after 
