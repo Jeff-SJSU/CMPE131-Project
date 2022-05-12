@@ -11,7 +11,7 @@
    1. [x] View User's Reviews
 8. [x] Add to Cart - Minh
 9. [x] Checkout - Jeff
-10. \*Advanced Search w/ Filters - Jeff
+10. [ ] \*Advanced Search w/ Filters - Jeff
 11. [x] Add Items to Store (Seller Account)
 12. [x] Save for Laters / Lists - Jeff
 13. [ ] Discount Period - Anh
