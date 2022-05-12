@@ -339,7 +339,7 @@ def clear_list(id):
     list = List.query.get_or_404(id)
     list.items = []
     db.session.commit()
-    return redirect(f'/lists/{list_id}')
+    return redirect(f'/lists/{id}')
 
 @app.route('/wishlist')
 def wishlist():
