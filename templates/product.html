@@ -38,7 +38,38 @@
         {% if item.discount_price != item.price and item.end_sale %}
         <p class="text-success">This sale will expire on {{item.end_sale.strftime('%m/%d/%Y')}}.</p>
         {% endif %}
-        <p>{{ item.description }}</p>
+        <p style="min-height: 200px">{{ item.description }}</p>
+        <div class="col-8">
+            {% if current_user.is_anonymous %}
+            <p><a href="/login">Login</a> to leave a review.</p>
+            {% else %}
+            <form action="/product/{{item.id}}/review" method="POST" class="card card-body shadow-sm mb-4">
+                <h5>Leave a Review</h5>
+                {{ form.hidden_tag() }}
+                <textarea class="form-control" name="review" rows="3" placeholder="Write your review here..." required></textarea>
+                <div class="row mt-3">
+                    <div class="col-auto">{{ components.avatar(current_user.img or 'default.jpg', size=54) }}</div>
+                    <div class="col">
+                        <h5>{{current_user.name}}</h5>
+                    </div>
+                    <div class="row col-auto mt-3">
+                        <div class="col-auto">
+                            <label for="rating" class="form-label mt-1" value="5">Rating</label>
+                        </div>
+                        <div class="col">
+                            <input type="number" min="0" max="5" name="rating" id="rating" class="form-control" value="5" required>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-outline-primary mt-3" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+            {% if reviews %}{% for review in reviews|reverse %}
+            {{ components.review_card(review, current_user) }}
+            {% endfor %}{% endif %}
+        </div>
     </div>
 </div>
 

@@ -21,8 +21,8 @@ class User(UserMixin, db.Model):
     img = db.Column(db.String(30), nullable=False, default='default.jpg')
     seller = db.Column(db.Boolean(), default=False)
     cart = db.relationship('Item', secondary=carts,lazy='subquery')
-    lists = db.relationship('List', backref = 'user', lazy = True)
-    #user rating too be added
+    lists = db.relationship('List', backref='user', lazy=True)
+    reviews = db.relationship('Review', backref='user', lazy=True)
     #rating = db.Column(db.Float(), default=0.0)
 
     @staticmethod
@@ -47,9 +47,9 @@ class Item(db.Model):
     description = db.Column(db.String(128),  nullable= False)
     img = db.Column(db.String(30), nullable=False, default='default.jpg')
     uploader = db.Column(db.Integer())
+    reviews = db.relationship('Review', backref='item', lazy=True)
     discount_price = db.Column(db.Float(), nullable=True)
     end_sale = db.Column(db.DateTime, default=None)
-
 
     def __repr__(self):
         return f'<Item {self.name}>'
@@ -60,3 +60,10 @@ class List(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     items = db.relationship('Item', secondary=lists, lazy='subquery')
     wishlist = db.Column(db.Boolean(), default=False)
+
+class Review(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+    rating = db.Column(db.Integer(), nullable=False)
+    content = db.Column(db.Text)

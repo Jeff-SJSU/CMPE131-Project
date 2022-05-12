@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DecimalField, DateField
-from wtforms.validators import DataRequired, Optional
+from wtforms.validators import DataRequired, Optional, NumberRange
 from flask_wtf.file import FileField, FileAllowed
 
 class LoginForm(FlaskForm):
@@ -39,4 +39,7 @@ class AccountForm(FlaskForm):
 
 class ListForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    
+
+class ReviewForm(FlaskForm):
+    rating = DecimalField('Rating', validators=[DataRequired(), NumberRange(min=0, max=5)])
+    review = StringField('Review', validators=[DataRequired()])

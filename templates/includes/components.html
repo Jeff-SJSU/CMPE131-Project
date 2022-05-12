@@ -42,3 +42,24 @@
         {% if caller is defined -%} {{ caller() }} {%- endif %}
     </div>
 {%- endmacro %}
+
+{% macro review_card(review, current_user) -%}
+<div class="card card-body mb-3">
+    <div class="row mb-2 position-relative">
+        <div class="col-auto">{{ avatar(review.user.img, size=54) }}</div>
+        <div class="col">
+            <h5>{{review.user.name}}</h5>
+            {{rating(review.rating)}}
+        </div>
+        <a class="stretched-link" href="/user/{{review.user.name}}"><span class="visually-hidden">View User Page</span></a>
+    </div>
+    <p>{{review.content}}</p>
+    {% if review.user_id == current_user.id %}
+    <div>
+        <a class="btn btn-outline-danger btn-sm me-1" role="button" href="/review/{{review.id}}/delete">
+            <i class="bi bi-trash"></i> Delete Review
+        </a>
+    </div>
+    {% endif %}
+</div>
+{%- endmacro %}

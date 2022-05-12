@@ -6,8 +6,8 @@ from flask import request, render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 from app import app, db
-from app.forms import LoginForm, RegisterForm, AccountForm, AddItemForm, ListForm, EditItemForm
-from app.models import User, Item, List
+from app.forms import *
+from app.models import User, Item, List, Review
 
 
 @app.route('/')
@@ -20,6 +20,8 @@ def not_found(e):
     return render_template('404.html'), 404
 
 app.register_error_handler(404, not_found)
+
+########## ACCOUNTS ##########
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -135,11 +137,15 @@ def delete():
             db.session.commit()
         return redirect('/')
 
+########## PRODUCTS ##########
+
 @app.route('/product/<int:id>')
 def product(id):
+    form = ReviewForm()
+    reviews = Review.query.filter_by(item_id=id).all()
     item = Item.query.get_or_404(id)
     user = User.query.get_or_404(item.uploader)
-    return render_template('product.html', item=item, uploader=user)
+    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews)
 
 # for seller use to add item
 # still missing something like redirect to seller's product display or something after 
@@ -206,6 +212,35 @@ def delete_listing(id):
         db.session.commit()
         return redirect('/')
 
+########## REVIEWS ##########
+
+@app.route('/product/<int:id>/review', methods=['POST'])
+def review_product(id):
+    print('test')
+    if current_user.is_anonymous:
+        return redirect('/login')
+    form = ReviewForm()
+    item = Item.query.get_or_404(id)
+    if form.validate_on_submit():
+        review = Review(content=form.review.data, rating=int(form.rating.data), item_id=item.id, user_id=current_user.id)
+        db.session.add(review)
+        db.session.commit()
+        return redirect(f'/product/{item.id}')
+    return redirect(f'/')
+
+@app.route('/review/<int:id>/delete', methods=['GET'])
+def delete_review(id):
+    if current_user.is_anonymous:
+        return redirect('/login')
+    review = Review.query.get_or_404(id)
+    if current_user.id == review.user_id:
+        db.session.delete(review)
+        db.session.commit()
+    return redirect(f'/product/{review.item_id}')
+
+
+########## CARTS ##########
+
 @app.route('/cart')
 def cart():
     return render_template('cart.html')
@@ -243,6 +278,8 @@ def checkout():
     current_user.cart = []
     db.session.commit()
     return redirect('/')
+
+########## LISTS ##########
 
 @app.route('/lists', methods = ['POST', 'GET'])
 def lists():
