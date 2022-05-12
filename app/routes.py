@@ -145,6 +145,14 @@ def delete():
 def product(id):
     form = ReviewForm()
     reviews = Review.query.filter_by(item_id=id).all()
+    sum_rating = 0
+    avg_rating = 0
+    for review in reviews:
+        sum_rating = sum_rating + review.rating
+    if len(reviews) > 0:
+        rating = sum_rating/len(reviews)
+    else:
+        rating = 0.0
     item = Item.query.get_or_404(id)
     user = User.query.get_or_404(item.uploader)
     remaining = None
@@ -160,7 +168,7 @@ def product(id):
         if remaining.days < 0:
             item.discount_price = item.price
     
-    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews,remaining=remaining)
+    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews,remaining=remaining, rating=rating)
 
 # for seller use to add item
 # still missing something like redirect to seller's product display or something after 
