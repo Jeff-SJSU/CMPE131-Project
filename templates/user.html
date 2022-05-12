@@ -6,6 +6,19 @@
 
 {{ components.avatar(user.img) }}
 <h1>{{ user.name }}</h1>
+<h2><p>User Ratings<h2>
+{% for i in range(1,6) %}
+    {% if i <= test_rating %}
+       <span class="bi bi-star-fill" style="color:orange"></span>
+    {% elif (i-test_rating <= 0.5) %}
+        <span class="bi bi-star-half" style="color:orange"></span>
+    {% else %}
+        <span class="bi bi-star" style="color:orange"></span>
+    {% endif %}
+    
+    
+
+{% endfor %}
 <div class="form-group">
     <h3>Seller Listing</h3>
     <div class="row">

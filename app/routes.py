@@ -69,7 +69,8 @@ def logout():
 def user(username):
     user = User.query.filter_by(name=username).first_or_404()
     items = Item.query.filter_by(uploader=user.id).all()
-    return render_template('user.html', user=user, items=items)
+    test_rating = 3.8
+    return render_template('user.html', user=user, items=items, test_rating = test_rating)
 
 def update_img(form_img, dir='avatars', size=200):
     random_hex = secrets.token_hex(8)

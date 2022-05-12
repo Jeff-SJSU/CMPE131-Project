@@ -21,6 +21,8 @@ class User(UserMixin, db.Model):
     seller = db.Column(db.Boolean(), default=False)
     cart = db.relationship('Item', secondary=carts,lazy='subquery')
     lists = db.relationship('List', backref = 'user', lazy = True)
+    #user rating too be added
+    #rating = db.Column(db.Float(), default=0.0)
 
     @staticmethod
     @login.user_loader
