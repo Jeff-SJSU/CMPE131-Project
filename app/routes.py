@@ -1,3 +1,5 @@
+
+from datetime import datetime, date
 from operator import itemgetter
 import os
 import secrets
@@ -145,7 +147,17 @@ def product(id):
     reviews = Review.query.filter_by(item_id=id).all()
     item = Item.query.get_or_404(id)
     user = User.query.get_or_404(item.uploader)
-    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews)
+
+    # convert to string
+    date_format = "%m/%d/%Y"
+    end = item.end_sale.strftime('%m/%d/%Y')
+    current = date.today().strftime('%m/%d/%Y')
+
+    date2 = datetime.strptime(end, date_format)
+    now = datetime.strptime(current, date_format)
+    remaining = date2 - now
+    
+    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews,remaining=remaining)
 
 # for seller use to add item
 # still missing something like redirect to seller's product display or something after 

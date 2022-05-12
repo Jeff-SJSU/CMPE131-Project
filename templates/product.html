@@ -36,7 +36,8 @@
             </span>
         </div>
         {% if item.discount_price != item.price and item.end_sale %}
-        <p class="text-success">This sale will expire on {{item.end_sale.strftime('%m/%d/%Y')}}.</p>
+        <p class="text-success">This sale will expire on {{ date2 }}.</p>
+        <p class="text-success"> Sale until {{remaining.days}} days {{remaining.seconds//3600}} hours {{(remaining.seconds//60)%60}} seconds </p>
         {% endif %}
         <p style="min-height: 200px">{{ item.description }}</p>
         <div class="col-8">
