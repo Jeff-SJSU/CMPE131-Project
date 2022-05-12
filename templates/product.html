@@ -24,7 +24,7 @@
     <div class="col-8">
         <h2 class="mt-2 mb-0">{{ item.name }}</h2>
         <div class="mb-3">
-            <div class="mb-2">{{ components.price(item.price) }}</div>
+            <div class="mb-2">{{ components.price(item.price, item.discount_price) }}</div>
             <a class="btn bg-gradient shadow btn-primary me-1" role="button" href="/cart/add/{{ item.id }}"><i class="bi bi-plus-lg"></i> Add to Cart</a>
             <span class="dropdown">
                 <a class="btn btn-outline-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown">Add to List</a>
@@ -35,6 +35,9 @@
                 </ul>
             </span>
         </div>
+        {% if item.discount_price != item.price and item.end_sale %}
+        <p class="text-success">This sale will expire on {{item.end_sale.strftime('%m/%d/%Y')}}.</p>
+        {% endif %}
         <p>{{ item.description }}</p>
     </div>
 </div>

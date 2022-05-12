@@ -48,8 +48,7 @@ class Item(db.Model):
     img = db.Column(db.String(30), nullable=False, default='default.jpg')
     uploader = db.Column(db.Integer())
     discount_price = db.Column(db.Float(), nullable=True)
-    start_sale = db.Column(db.DateTime, default=datetime.strptime("01-01-1900", "%m-%d-%Y"))
-    end_sale = db.Column(db.DateTime, default=datetime.strptime("01-01-1900", "%m-%d-%Y"))
+    end_sale = db.Column(db.DateTime, default=None)
 
 
     def __repr__(self):
