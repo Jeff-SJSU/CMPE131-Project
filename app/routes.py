@@ -245,7 +245,7 @@ def review_product(id):
     form = ReviewForm()
     item = Item.query.get_or_404(id)
     if form.validate_on_submit():
-        reviewed = Review.query.filter_by(user_id = current_user.id).first()
+        reviewed = Review.query.filter_by(user_id = current_user.id, item_id = item.id).first()
         if reviewed != None:
             flash('You already left a review for this product!', 'error')
             return redirect(f'/product/{item.id}')
@@ -254,7 +254,7 @@ def review_product(id):
             db.session.add(review)
             db.session.commit()
             return redirect(f'/product/{item.id}')
-    return redirect(f'/')
+    return redirect(f'/product/{item.id}')
 
 @app.route('/review/<int:id>/delete', methods=['GET'])
 def delete_review(id):
