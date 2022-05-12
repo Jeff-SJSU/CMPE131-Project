@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DecimalField, DateField
-from wtforms.validators import DataRequired, Optional, NumberRange
+from wtforms.validators import DataRequired, Optional, NumberRange, InputRequired
 from flask_wtf.file import FileField, FileAllowed
+
+# TODO: Change DataRequired -> InputRequired for all fields
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -41,5 +43,5 @@ class ListForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
 
 class ReviewForm(FlaskForm):
-    rating = DecimalField('Rating', validators=[DataRequired(), NumberRange(min=0, max=5)])
+    rating = DecimalField('Rating', validators=[InputRequired(), NumberRange(min=0, max=5)])
     review = StringField('Review', validators=[DataRequired()])
