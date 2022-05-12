@@ -7,11 +7,13 @@
 {{ components.avatar(user.img) }}
 <div class="mb-4">
     <h1 class="d-inline">{{ user.name }}</h1>
+    {% if current_user.seller %}
     <h4 class="d-inline">
         <span class="ms-2 badge rounded-pill bg-primary">
             <i class="bi bi-shop"></i> Seller
         </span>
     </h4>
+    {% endif %}
 </div>
 {% if current_user.seller %}
 
