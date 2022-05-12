@@ -7,8 +7,8 @@
         <span class="badge bg-success mb-1">{{ (-100 * ((price - discount_price) / price))|int }}%</span>
         <s class="h5 fw-normal text-muted fw-normal align-top">${{("%.2f"|format(price))}}</s><br>
         <span class="h5 fw-bold text-success fw-normal align-top">$</span>
-        <span class="h2 text-success lh-1">{{ price|int }}</span>
-        <span class="h5 fw-bold text-success align-top">{{ ("%.2f"|format(price))[-2:] }}</span>
+        <span class="h2 text-success lh-1">{{ discount_price|int }}</span>
+        <span class="h5 fw-bold text-success align-top">{{ ("%.2f"|format(discount_price))[-2:] }}</span>
     {% else %}
         <span class="h5 fw-normal fw-normal align-top">$</span>
         <span class="h2 lh-1">{{ price|int }}</span>
