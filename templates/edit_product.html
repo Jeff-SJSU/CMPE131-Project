@@ -9,11 +9,11 @@
         <div class="form-container mb-2 ">
             {{ form.hidden_tag() }}
             {{ form.name.label(class_="form-label") }} 
-            {{ form.name(size=32, class_="form-control mb-3", placeholder="{{item.name}}") }}
+            {{ form.name(size=32, class_="form-control mb-3", value= item.name) }}
             {{ form.price.label(class_="form-label") }}
             <div class="input-group mb-3">
                 <span class="input-group-text">$</span>
-                {{ form.price(size=32, class_="form-control", placeholder="{{item.price}}") }}
+                {{ form.price(size=32, class_="form-control", value= item.price ) }}
             </div>
 
 
@@ -23,8 +23,7 @@
                 {{ form.start_sale(size=32, class_="form-control") }}
                 {{ form.end_sale.label(class_="form-label") }} 
                 {{ form.end_sale(size=32, class_="form-control") }}
-              </div>
-       
+            </div>
 
 
 
@@ -39,7 +38,7 @@
             </div>
             <div class="mb-2">
             {{ form.description.label(class_="form-label") }} 
-            {{ form.description(size=32, class_="form-control", placeholder="{{item.description}}") }}
+            {{ form.description(size=32, class_="form-control", value= item.description ) }}
             </div>
         </div>
         <button class="form-element-button btn btn-primary" type="submit">UPDATE</button>

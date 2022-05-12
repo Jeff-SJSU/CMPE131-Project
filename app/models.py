@@ -1,5 +1,6 @@
 from app import db, login
 from flask_login import UserMixin
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 carts = db.Table('carts',
@@ -45,7 +46,10 @@ class Item(db.Model):
     img = db.Column(db.String(30), nullable=False, default='default.jpg')
     uploader = db.Column(db.Integer())
     discount_price = db.Column(db.Float(), nullable=True)
-    
+    start_sale = db.Column(db.DateTime, default=datetime.strptime("01-01-1900", "%m-%d-%Y"))
+    end_sale = db.Column(db.DateTime, default=datetime.strptime("01-01-1900", "%m-%d-%Y"))
+
+
     def __repr__(self):
         return f'<Item {self.name}>'
 

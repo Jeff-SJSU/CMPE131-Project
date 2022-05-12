@@ -25,6 +25,7 @@ class AddItemForm(FlaskForm):
 class EditItemForm(FlaskForm):
     name = StringField('New Name', validators=[DataRequired()])
     price = DecimalField('New Discount Price', validators=[DataRequired()])
+    discount_price = DecimalField('New Discount Price', validators=[DataRequired()])
     img = FileField('New Item Picture', validators=[FileAllowed(['jpg','png'])])
     description = StringField('New Description ', validators=[DataRequired()])
     start_sale= DateField('Sale starts on',format='%m-%d-%y')
