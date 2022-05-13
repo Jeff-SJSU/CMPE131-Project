@@ -27,7 +27,7 @@
             <i class="bi bi-star"></i>
         {% endif %}
     {% endfor %}
-    <span class="text-muted ms-1">{{rating}}</span>
+    <span class="text-muted ms-1">{{rating|round(2)}}</span>
     </span>
 {%- endmacro %}
 

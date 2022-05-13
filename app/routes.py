@@ -145,14 +145,6 @@ def delete():
 def product(id):
     form = ReviewForm()
     reviews = Review.query.filter_by(item_id=id).all()
-    sum_rating = 0
-    avg_rating = 0
-    for review in reviews:
-        sum_rating = sum_rating + review.rating
-    if len(reviews) > 0:
-        rating = sum_rating/len(reviews)
-    else:
-        rating = 0.0
     item = Item.query.get_or_404(id)
     user = User.query.get_or_404(item.uploader)
     remaining = None
@@ -168,7 +160,7 @@ def product(id):
         if remaining.days <= 0:
             item.discount_price = item.price
     
-    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews,remaining=remaining, rating=rating)
+    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews,remaining=remaining)
 
 # for seller use to add item
 # still missing something like redirect to seller's product display or something after 
@@ -250,7 +242,9 @@ def review_product(id):
             flash('You already left a review for this product!', 'error')
             return redirect(f'/product/{item.id}')
         else:
-            review = Review(content=form.review.data, rating=int(form.rating.data), item_id=item.id, user_id=current_user.id)
+            rating = float(form.rating.data)
+            review = Review(content=form.review.data, rating=int(rating), item_id=item.id, user_id=current_user.id)
+            item.rating += (rating - item.rating) / (len(item.reviews) + 1)
             db.session.add(review)
             db.session.commit()
             return redirect(f'/product/{item.id}')
@@ -262,6 +256,9 @@ def delete_review(id):
         return redirect('/login')
     review = Review.query.get_or_404(id)
     if current_user.id == review.user_id:
+        item = review.item
+        n = max(len(item.reviews) - 1, 1)
+        item.rating = ((item.rating * (n + 1)) - review.rating) / n
         db.session.delete(review)
         db.session.commit()
     return redirect(f'/product/{review.item_id}')

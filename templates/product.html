@@ -25,7 +25,7 @@
         <h2 class="mt-2 mb-0">{{ item.name }}</h2>
         <div class="mb-3">
             <div>{{ components.price(item.price, item.discount_price) }}</div>
-            <div class="mb-2">{{ components.rating(rating) }} {# product.rating #}</div>
+            <div class="mb-2">{{ components.rating(item.rating) }}</div>
             <a class="btn bg-gradient shadow btn-primary me-1" role="button" href="/cart/add/{{ item.id }}"><i class="bi bi-plus-lg"></i> Add to Cart</a>
             <span class="dropdown">
                 <a class="btn btn-outline-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown">Add to List</a>

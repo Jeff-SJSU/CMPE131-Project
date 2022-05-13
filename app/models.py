@@ -50,6 +50,7 @@ class Item(db.Model):
     reviews = db.relationship('Review', backref='item', lazy=True)
     discount_price = db.Column(db.Float(), nullable=True)
     end_sale = db.Column(db.DateTime, default=None)
+    rating = db.Column(db.Float(), default=0.0)
 
     def __repr__(self):
         return f'<Item {self.name}>'
