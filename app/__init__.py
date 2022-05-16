@@ -1,6 +1,7 @@
 from configparser import ConfigParser
+import configparser
 import os
-from flask import Flask
+from flask import Flask, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
@@ -27,3 +28,11 @@ logins = LoginManager(app)
 logins.login_view = '/login'
 logins.login_message = 'Please log in to do this.'
 logins.login_message_category = 'error'
+
+lang = ConfigParser(default_section = "en")
+lang.read('lang.ini',encoding = "utf-8")
+
+@app.template_filter()
+def loc(key):
+    return lang.get('vi', key, fallback = key)
+

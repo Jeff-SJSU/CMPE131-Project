@@ -1,4 +1,4 @@
-<html>
+<html charset="utf-8">
     <head>
         <title>Homework</title>
         <!-- Latest compiled and minified CSS -->
@@ -10,9 +10,9 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">Team One</a>
+                <a class="navbar-brand" href="/">{{"Team One"|loc}}</a>
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a href="/" class="nav-link active">Home</a></li>
+                    <li class="nav-item"><a href="/" class="nav-link active">{{"Home"|loc}}</a></li>
                 </ul>
                 <div class="d-flex">
                     <form class="input-group me-3 mb-0" action="/search">
@@ -22,14 +22,14 @@
                 </div>
                 <ul class="navbar-nav">
                     {% if current_user.is_anonymous %}
-                    <li class="nav-item"><a class="nav-link" href="/register"><span class="bi bi-person-plus"></span> Register</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/login"><span class="bi bi-box-arrow-in-right"></span> Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/register"><span class="bi bi-person-plus"></span> {{"Register"|loc}}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login"><span class="bi bi-box-arrow-in-right"></span> {{"Login"|loc}}</a></li>
                     {% else %}
                     {% if current_user.seller %}
-                    <a class="btn btn-outline-primary me-2" href="/product"><i class="bi bi-box-seam"></i> Sell Item</a>
+                    <a class="btn btn-outline-primary me-2" href="/product"><i class="bi bi-box-seam"></i> {{"Sell Item"|loc}}</a>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="/wishlist">
-                        <span class="bi bi-heart"></span> Wishlist
+                        <span class="bi bi-heart"></span> {{"Wishlist"|loc}}
                         {% if current_user.lists[0].items|length %}
                         <span class="badge rounded-pill bg-danger">
                             {{ current_user.lists[0].items|length }}
