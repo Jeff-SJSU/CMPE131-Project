@@ -3,7 +3,7 @@
     <body>
         <div class="container">   
         <h2 class="text-dark mb-4">Login to your account</h2>
-            <form action="/login" method="POST">
+            <form action={{request.full_path}} method="POST">
                 {{ form.hidden_tag() }}
                 <div class="form-container col-4">
                     <div class="form-group mb-3">

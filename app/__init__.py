@@ -22,4 +22,8 @@ app.config.from_mapping(
 )
 
 db = SQLAlchemy(app)
-login = LoginManager(app)
+
+logins = LoginManager(app)
+logins.login_view = '/login'
+logins.login_message = 'Please log in to access this page.'
+logins.login_message_category = 'error'

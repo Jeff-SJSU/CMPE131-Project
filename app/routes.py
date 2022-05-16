@@ -5,11 +5,12 @@ import os
 import secrets
 from PIL import Image
 from flask import request, render_template, redirect, flash, url_for
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from app import app, db, config
 from app.forms import *
 from app.models import User, Item, List, Review
+from app.util import seller_required
 
 
 @app.route('/')
@@ -58,7 +59,7 @@ def login():
             return redirect('/login')
         
         if login_user(user, remember=form.remember_me.data):
-            return redirect('/')
+            return redirect(request.args.get('next', default='/'))
         else:
             pass
     return render_template('login.html', form=form)
@@ -90,9 +91,8 @@ def update_img(form_img, dir='avatars', size=200):
     return image_filename
 
 @app.route('/account', methods=['GET', 'POST'])
+@login_required
 def account():
-    if current_user.is_anonymous:
-        return redirect('/login')
     form = AccountForm()
     items = Item.query.filter_by(uploader = current_user.id).all()
     if form.validate_on_submit():
@@ -120,17 +120,15 @@ def account():
     return render_template('account.html', user=current_user, edit=True, form=form, items = items)
 
 @app.route('/account/avatar/remove')
+@login_required
 def remove_avatar():
-    if current_user.is_anonymous:
-        return redirect('/login')
     current_user.img = 'default.jpg'
     db.session.commit()
     return redirect('/account')
 
 @app.route('/account/delete', methods=['GET', 'POST'])
+@login_required
 def delete():
-    if current_user.is_anonymous:
-        return redirect('/login')
     if request.method == 'GET':
         return render_template('account_delete.html')
     else:
@@ -165,11 +163,8 @@ def product(id):
 # for seller use to add item
 # still missing something like redirect to seller's product display or something after 
 @app.route('/product', methods=['GET', 'POST'])
+@seller_required
 def selling():
-    if current_user.is_anonymous:
-        return redirect('/login')
-    elif not current_user.seller:
-        return redirect('/account')
     form = AddItemForm()
     if form.validate_on_submit():
         if form.img.data == None:
@@ -192,12 +187,8 @@ def selling():
 
 # For seller to edit their item
 @app.route('/product/<int:id>/edit', methods=['GET', 'POST'])
+@seller_required
 def edit_item(id):
-    if current_user.is_anonymous:
-        return redirect('/login')
-    elif not current_user.seller:
-        return redirect('/account')
-
     item = Item.query.get_or_404(id)
     form = EditItemForm()
 
@@ -218,6 +209,7 @@ def edit_item(id):
     return render_template('edit_product.html', form=form, item=item)
 
 @app.route('/product/<int:id>/delete', methods=['GET', 'POST'])
+@seller_required
 def delete_listing(id):
     item = Item.query.get_or_404(id)
     if request.method == 'GET':
@@ -230,10 +222,8 @@ def delete_listing(id):
 ########## REVIEWS ##########
 
 @app.route('/product/<int:id>/review', methods=['POST'])
+@login_required
 def review_product(id):
-    print('test')
-    if current_user.is_anonymous:
-        return redirect('/login')
     form = ReviewForm()
     item = Item.query.get_or_404(id)
     if form.validate_on_submit():
@@ -253,9 +243,8 @@ def review_product(id):
     return redirect(f'/product/{item.id}')
 
 @app.route('/review/<int:id>/delete', methods=['GET'])
+@login_required
 def delete_review(id):
-    if current_user.is_anonymous:
-        return redirect('/login')
     review = Review.query.get_or_404(id)
     if current_user.id == review.user_id:
         item = review.item
@@ -273,35 +262,31 @@ def cart():
     return render_template('cart.html')
 
 @app.route('/cart/add/<int:id>')
+@login_required
 def add_to_cart(id):
-    if current_user.is_anonymous:
-        return redirect('/login')
     item = Item.query.get_or_404(id)
     current_user.cart.append(item)
     db.session.commit()
     return redirect('/cart')
 
 @app.route('/cart/remove/<int:id>')
+@login_required
 def remove_from_cart(id):
-    if current_user.is_anonymous:
-        return redirect('/login')
     item = Item.query.get_or_404(id)
     current_user.cart.remove(item)
     db.session.commit()
     return redirect('/cart')
 
 @app.route('/cart/remove/all')
+@login_required
 def clear_cart():
-    if current_user.is_anonymous:
-        return redirect('/login')
     current_user.cart = []
     db.session.commit()
     return redirect('/')
 
 @app.route('/cart/checkout', methods=['POST'])
+@login_required
 def checkout():
-    if current_user.is_anonymous:
-        return redirect('/login')
     current_user.cart = []
     db.session.commit()
     return redirect('/')
@@ -309,9 +294,8 @@ def checkout():
 ########## LISTS ##########
 
 @app.route('/lists', methods = ['POST', 'GET'])
+@login_required
 def lists():
-    if current_user.is_anonymous:
-        return redirect('/login')
     form = ListForm()
     if form.validate_on_submit():
         name = form.name.data
@@ -324,25 +308,22 @@ def lists():
 
 
 @app.route('/lists/<int:id>', methods=['GET'])
+@login_required
 def view_list(id):
-    if current_user.is_anonymous:
-        return redirect('/login')
     list = List.query.get_or_404(id)
     return render_template('list.html', list=list)
 
 @app.route('/lists/<int:id>/delete', methods=['GET'])
+@login_required
 def delete_list(id):
-    if current_user.is_anonymous:
-        return redirect('/login')
     list = List.query.get_or_404(id)
     db.session.delete(list)
     db.session.commit()
     return redirect('/lists')
 
 @app.route('/lists/<int:list_id>/add/<int:id>')
+@login_required
 def add_to_list(list_id, id):
-    if current_user.is_anonymous:
-        return redirect('/login')
     list = List.query.get_or_404(list_id)
     item = Item.query.get_or_404(id)
     list.items.append(item)
@@ -350,9 +331,8 @@ def add_to_list(list_id, id):
     return redirect(f'/lists/{list_id}')
 
 @app.route('/lists/<int:list_id>/remove/<int:id>')
+@login_required
 def remove_from_list(list_id, id):
-    if current_user.is_anonymous:
-        return redirect('/login')
     list = List.query.get_or_404(list_id)
     item = Item.query.get_or_404(id)
     list.items.remove(item)
@@ -360,17 +340,15 @@ def remove_from_list(list_id, id):
     return redirect(f'/lists/{list_id}')
 
 @app.route('/lists/<int:id>/remove/all')
+@login_required
 def clear_list(id):
-    if current_user.is_anonymous:
-        return redirect('/login')
     list = List.query.get_or_404(id)
     list.items = []
     db.session.commit()
     return redirect(f'/lists/{id}')
 
 @app.route('/wishlist')
+@login_required
 def wishlist():
-    if current_user.is_anonymous:
-        return redirect('/login')
     return redirect(f'/lists/{current_user.lists[0].id}')
 

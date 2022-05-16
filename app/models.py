@@ -1,4 +1,4 @@
-from app import db, login
+from app import db, logins
 from flask_login import UserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -26,7 +26,7 @@ class User(UserMixin, db.Model):
     #rating = db.Column(db.Float(), default=0.0)
 
     @staticmethod
-    @login.user_loader
+    @logins.user_loader
     def get_user(id):
         return User.query.get(id)
 
