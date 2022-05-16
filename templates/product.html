@@ -44,6 +44,14 @@
         </p>
         {% endif %}
         <p style="min-height: 200px">{{ item.description }}</p>
+        <h3>Related Items</h3>
+        <div class="p-2 row">
+            {% for item in related_item %}
+           <div class="col-2">
+               {{components.product_card(item)}}
+           </div> 
+            {% endfor %}
+        </div>
         <div class="col-8">
             {% if current_user.is_anonymous %}
             <p><a href="/login">Login</a> to leave a review.</p>

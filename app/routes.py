@@ -147,6 +147,7 @@ def product(id):
     reviews = Review.query.filter_by(item_id=id).all()
     item = Item.query.get_or_404(id)
     user = User.query.get_or_404(item.uploader)
+    related_item = Item.query.filter_by(uploader = user.id)
     remaining = None
     if item.end_sale != None:
         # Compute time remaining
@@ -157,7 +158,7 @@ def product(id):
         if item.end_sale < now:
             item.discount_price = item.price
     
-    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews, remaining=remaining)
+    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews, remaining=remaining, related_item = related_item)
 
 # for seller use to add item
 @app.route('/product', methods=['GET', 'POST'])
