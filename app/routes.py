@@ -147,21 +147,17 @@ def product(id):
     user = User.query.get_or_404(item.uploader)
     remaining = None
     if item.end_sale != None:
-    # convert to string, TODO: simplify this
-        date_format = "%m/%d/%Y"
-        end = item.end_sale.strftime('%m/%d/%Y')
-        current = date.today().strftime('%m/%d/%Y')
-        date2 = datetime.strptime(end, date_format)
-        now = datetime.strptime(current, date_format)
-        remaining = date2 - now
+        # Compute time remaining
+        now = datetime.today()
+        remaining = item.end_sale - datetime.today()
         
-        if remaining.days <= 0:
+        # If sale has ended, reset price
+        if item.end_sale < now:
             item.discount_price = item.price
     
-    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews,remaining=remaining)
+    return render_template('product.html', item=item, uploader=user, form=form, reviews=reviews, remaining=remaining)
 
 # for seller use to add item
-# still missing something like redirect to seller's product display or something after 
 @app.route('/product', methods=['GET', 'POST'])
 @seller_required
 def selling():
@@ -176,8 +172,6 @@ def selling():
         description = form.description.data
         uploader = current_user.id
         
- ## Update more product's information such as image,barcode,etc later 
-
         item = Item(name = name, price = price, img = img, description = description, uploader = uploader)
         db.session.add(item)
         db.session.commit()

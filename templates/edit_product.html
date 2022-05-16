@@ -41,7 +41,7 @@
                 </div>
                 <div class="mb-3">
                     {{ form.end_sale.label(class_="form-label") }} 
-                    {{ form.end_sale(size=32, class_="form-control", value=item.end_sale) }}
+                    {{ form.end_sale(size=32, class_="form-control", value=item.end_sale.strftime('%Y-%m-%d')) }}
                 </div>
             </div>
         </div>

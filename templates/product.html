@@ -38,7 +38,7 @@
         </div>
         {% if item.discount_price != item.price and item.end_sale %}
         <p class="text-success">
-        This sale will expire in {{remaining.days}} days {{remaining.seconds//3600}} hours {{(remaining.seconds//60)%60}} seconds. ({{item.end_sale.strftime('%m/%d/%Y')}})
+        This sale will expire in {{remaining.days}} days, {{remaining.seconds//3600}} hours, and {{((remaining.seconds//60)%60)+1}} minutes. ({{item.end_sale.strftime('%m/%d/%Y')}})
         </p>
         {% endif %}
         <p style="min-height: 200px">{{ item.description }}</p>
