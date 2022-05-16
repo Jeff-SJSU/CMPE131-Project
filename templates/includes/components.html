@@ -16,7 +16,7 @@
     {% endif %}
 {%- endmacro %}
 
-{% macro rating(rating) -%}
+{% macro rating(rating, count=none) -%}
     <span style="color:orange">
     {% for i in range(1, 6) %}
         {% if i <= rating %}   
@@ -29,6 +29,10 @@
     {% endfor %}
     <span class="text-muted ms-1">{{rating|round(2)}}</span>
     </span>
+    {% if count != none %}
+        <br>
+        <small class="text-muted">from {{count}} review{{'s' if count != 1}}</small>
+    {% endif %}
 {%- endmacro %}
 
 {% macro product_card(item) -%}

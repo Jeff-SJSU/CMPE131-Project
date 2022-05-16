@@ -23,7 +23,8 @@ class User(UserMixin, db.Model):
     cart = db.relationship('Item', secondary=carts,lazy='subquery')
     lists = db.relationship('List', backref='user', lazy=True)
     reviews = db.relationship('Review', backref='user', lazy=True)
-    #rating = db.Column(db.Float(), default=0.0)
+    num_ratings = db.Column(db.Integer, default=0)
+    rating = db.Column(db.Float, default=0.0)
 
     @staticmethod
     @logins.user_loader

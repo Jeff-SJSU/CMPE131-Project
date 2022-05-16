@@ -73,8 +73,7 @@ def logout():
 def user(username):
     user = User.query.filter_by(name=username).first_or_404()
     items = Item.query.filter_by(uploader=user.id).all()
-    test_rating = 3.8
-    return render_template('user.html', user=user, items=items, test_rating = test_rating)
+    return render_template('user.html', user=user, items=items)
 
 def update_img(form_img, dir='avatars', size=200):
     random_hex = secrets.token_hex(8)
@@ -206,9 +205,18 @@ def edit_item(id):
 @seller_required
 def delete_listing(id):
     item = Item.query.get_or_404(id)
+    user = User.query.get_or_404(item.uploader)
     if request.method == 'GET':
         return render_template('delete_product.html', item = item)
     else:
+        # Recompute user rating
+        products = Item.query.filter_by(uploader = user.id).all()
+        user.rating = 0
+        for product in products:
+            if product.id != item.id:
+                user.rating += product.rating
+        user.rating /= max(len(products) - 1, 1)
+
         Review.query.filter_by(item_id=id).delete()
         db.session.delete(item)
         db.session.commit()
@@ -221,6 +229,7 @@ def delete_listing(id):
 def review_product(id):
     form = ReviewForm()
     item = Item.query.get_or_404(id)
+    user = User.query.get_or_404(item.uploader)
     if form.validate_on_submit():
         # Check if user has already reviewed this item
         if not config.getboolean('multiple_reviews'):
@@ -231,7 +240,13 @@ def review_product(id):
         
         rating = float(form.rating.data)
         review = Review(content=form.review.data, rating=int(rating), item_id=item.id, user_id=current_user.id)
+
+        # Update item/user rating
+        # (see: https://math.stackexchange.com/questions/22348/how-to-add-and-subtract-values-from-an-average)
         item.rating += (rating - item.rating) / (len(item.reviews) + 1)
+        user.num_ratings += 1
+        user.rating += (rating - user.rating) / (user.num_ratings)
+
         db.session.add(review)
         db.session.commit()
         return redirect(f'/product/{item.id}')
@@ -241,10 +256,23 @@ def review_product(id):
 @login_required
 def delete_review(id):
     review = Review.query.get_or_404(id)
+    user = User.query.get_or_404(review.item.uploader)
     if current_user.id == review.user_id:
         item = review.item
-        n = max(len(item.reviews) - 1, 1)
-        item.rating = ((item.rating * (n + 1)) - review.rating) / n
+
+        # Update item/user rating
+        # (see: https://math.stackexchange.com/questions/22348/how-to-add-and-subtract-values-from-an-average)
+        n = len(item.reviews) - 1
+        if n > 0:
+            item.rating = ((item.rating * (n + 1)) - review.rating) / n
+        else:
+            item.rating = 0
+        user.num_ratings -= 1
+        if user.num_ratings > 0:
+            user.rating = ((user.rating * (user.num_ratings + 1)) - review.rating) / user.num_ratings
+        else:
+            user.rating = 0
+
         db.session.delete(review)
         db.session.commit()
     return redirect(f'/product/{review.item_id}')

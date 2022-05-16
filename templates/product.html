@@ -10,7 +10,7 @@
                 <div class="col-auto">{{ components.avatar(uploader.img, size=54) }}</div>
                 <div class="col">
                     <h5>{{uploader.name}}</h5>
-                    {{components.rating(3.8)}}
+                    {{components.rating(uploader.rating, uploader.num_ratings)}}
                 </div>
             </div>
             <a class="stretched-link" href="/user/{{uploader.name}}"><span class="visually-hidden">View Profile</span></a>
@@ -25,7 +25,9 @@
         <h2 class="mt-2 mb-0">{{ item.name }}</h2>
         <div class="mb-3">
             <div>{{ components.price(item.price, item.discount_price) }}</div>
-            <div class="mb-2">{{ components.rating(item.rating) }}</div>
+            <div class="mb-3">
+            {{ components.rating(item.rating, item.reviews|length) }}<br>
+            </div>
             <a class="btn bg-gradient shadow btn-primary me-1" role="button" href="/cart/add/{{ item.id }}"><i class="bi bi-plus-lg"></i> Add to Cart</a>
             <span class="dropdown">
                 <a class="btn btn-outline-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown">Add to List</a>

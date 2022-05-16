@@ -18,7 +18,7 @@
 {% if user.seller %}
 
 <h5>User Ratings</h5>
-{{ components.rating(test_rating) }}
+{{ components.rating(user.rating, user.num_ratings) }}<br>
 
 <div class="form-container card card-body mt-4">
     <h3>Items for Sale</h3>
