@@ -209,6 +209,7 @@ def delete_listing(id):
     if request.method == 'GET':
         return render_template('delete_product.html', item = item)
     else:
+        Review.query.filter_by(item_id=id).delete()
         db.session.delete(item)
         db.session.commit()
         return redirect('/')
