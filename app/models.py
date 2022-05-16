@@ -25,6 +25,7 @@ class User(UserMixin, db.Model):
     reviews = db.relationship('Review', backref='user', lazy=True)
     num_ratings = db.Column(db.Integer, default=0)
     rating = db.Column(db.Float, default=0.0)
+    lang = db.Column(db.String(5), default = "en")
 
     @staticmethod
     @logins.user_loader

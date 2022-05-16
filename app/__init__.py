@@ -3,7 +3,7 @@ import configparser
 import os
 from flask import Flask, g
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 
 config = ConfigParser()
 config.read('config.ini')
@@ -34,5 +34,8 @@ lang.read('lang.ini',encoding = "utf-8")
 
 @app.template_filter()
 def loc(key):
-    return lang.get('vi', key, fallback = key)
+    if current_user.is_anonymous:
+        return lang.get("en", key, fallback = key)
+    else:
+        return lang.get(current_user.lang, key, fallback = key)
 

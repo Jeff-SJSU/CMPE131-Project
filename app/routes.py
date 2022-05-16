@@ -102,6 +102,8 @@ def account():
         valid_email = User.query.filter_by(email=form.email.data).first()
         itself_name = current_user.name == form.username.data
         itself_email = current_user.email == form.email.data
+        current_user.lang = form.lang.data
+
         if (valid_username is None or itself_name) and (valid_email is None or itself_email):
             current_user.name = form.username.data
             current_user.email = form.email.data

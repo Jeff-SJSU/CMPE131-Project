@@ -38,10 +38,13 @@ class AccountForm(FlaskForm):
     submit = SubmitField('Update')
     img = FileField('Profile Picture', validators=[FileAllowed(['jpg','png'])])
     role = BooleanField('Become a seller')
+    lang = StringField('Language',validators=[DataRequired()])
 
 class ListForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
 
+
 class ReviewForm(FlaskForm):
     rating = DecimalField('Rating', validators=[InputRequired(), NumberRange(min=0, max=5)])
     review = StringField('Review', validators=[DataRequired()])
+
