@@ -7,25 +7,25 @@
 5. [x] User Profile
    1. [x] User Pictures
 6. [x] \*Add Item Pictures - Jeff
-7. [ ] Add User Ratings/Reviews - Jeff
+7. [x] Add User Ratings/Reviews - Jeff
    1. [x] View User's Reviews
 8. [x] Add to Cart - Minh
 9. [x] Checkout - Jeff
 10. [ ] \*Advanced Search w/ Filters - Jeff
 11. [x] Add Items to Store (Seller Account)
 12. [x] Save for Laters / Lists - Jeff
-13. [ ] Discount Period - Anh
+13. [x] Discount Period - Anh
 14. [ ] Related Items - Minh
 
 (Richard will be assigned to collaborate on or take over certain requirements at our next meeting.)
 
 ## Non-functional Requirements
 
-1. \*Dynamic Interface - Jeff
-2. Dark Mode - Anh
-3. Sale/Discount Display - Anh
-4. \*Multilingual - Minh + Anh + Jeff
-5. Image Zoom? - Minh
+1. [ ] \*Dynamic Interface - Jeff
+2. [ ] Dark Mode - Anh
+3. [x] Sale/Discount Display - Anh
+4. [ ] \*Multilingual - Minh + Anh + Jeff
+5. [ ] Image Zoom? - Minh
 
 ## Use Cases
 
