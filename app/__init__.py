@@ -1,3 +1,4 @@
+from jinja2 import pass_context
 from configparser import ConfigParser
 import configparser
 import os
@@ -33,7 +34,8 @@ lang = ConfigParser(default_section = "en")
 lang.read('lang.ini',encoding = "utf-8")
 
 @app.template_filter()
-def loc(key):
+@pass_context
+def loc(context,key):
     if current_user.is_anonymous:
         return lang.get("en", key, fallback = key)
     else:
