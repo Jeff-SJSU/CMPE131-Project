@@ -7,7 +7,7 @@ from PIL import Image
 from flask import request, render_template, redirect, flash, url_for
 from flask_login import current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
-from app import app, db
+from app import app, db, config
 from app.forms import *
 from app.models import User, Item, List, Review
 
@@ -149,7 +149,7 @@ def product(id):
     user = User.query.get_or_404(item.uploader)
     remaining = None
     if item.end_sale != None:
-    # convert to string
+    # convert to string, TODO: simplify this
         date_format = "%m/%d/%Y"
         end = item.end_sale.strftime('%m/%d/%Y')
         current = date.today().strftime('%m/%d/%Y')
@@ -237,17 +237,19 @@ def review_product(id):
     form = ReviewForm()
     item = Item.query.get_or_404(id)
     if form.validate_on_submit():
-        reviewed = Review.query.filter_by(user_id = current_user.id, item_id = item.id).first()
-        if reviewed != None:
-            flash('You already left a review for this product!', 'error')
-            return redirect(f'/product/{item.id}')
-        else:
-            rating = float(form.rating.data)
-            review = Review(content=form.review.data, rating=int(rating), item_id=item.id, user_id=current_user.id)
-            item.rating += (rating - item.rating) / (len(item.reviews) + 1)
-            db.session.add(review)
-            db.session.commit()
-            return redirect(f'/product/{item.id}')
+        # Check if user has already reviewed this item
+        if not config.getboolean('multiple_reviews'):
+            reviewed = Review.query.filter_by(user_id = current_user.id, item_id = item.id).first()
+            if reviewed != None:
+                flash('You already left a review for this product!', 'error')
+                return redirect(f'/product/{item.id}')
+        
+        rating = float(form.rating.data)
+        review = Review(content=form.review.data, rating=int(rating), item_id=item.id, user_id=current_user.id)
+        item.rating += (rating - item.rating) / (len(item.reviews) + 1)
+        db.session.add(review)
+        db.session.commit()
+        return redirect(f'/product/{item.id}')
     return redirect(f'/product/{item.id}')
 
 @app.route('/review/<int:id>/delete', methods=['GET'])
