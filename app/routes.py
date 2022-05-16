@@ -67,7 +67,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect('/')
+    return redirect(request.referrer or '/')
 
 @app.route('/user/<username>')
 def user(username):
