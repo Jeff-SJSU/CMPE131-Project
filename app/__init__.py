@@ -25,5 +25,5 @@ db = SQLAlchemy(app)
 
 logins = LoginManager(app)
 logins.login_view = '/login'
-logins.login_message = 'Please log in to access this page.'
+logins.login_message = 'Please log in to do this.'
 logins.login_message_category = 'error'

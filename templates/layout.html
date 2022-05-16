@@ -58,21 +58,36 @@
             </div>
         </nav>
         <div class="container pt-2">
+            <div class="toast-container position-relative py-3 ps-2">
+            {% macro toast(color, icon, message) -%}
+            <div class="toast show align-items-center text-bg-{{color}} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi bi-{{icon}}"></i> {{message}}
+                    </div>
+                    <button type="button" class="btn-close {{'btn-close-white' if color != 'warning' else ''}} me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+            {#<div class="alert alert-{{color}} my-2"><i class="bi bi-{{icon}}"></i> {{ message }}</div>#}
+            {%- endmacro %}
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for category, message in messages %}
                 {% if category == 'message' %}
-                <div class="alert alert-primary my-2"><i class="bi bi-info-circle"></i> {{ message }}</div>
+                    {{toast('primary', 'info-circle-fill', message)}}
                 {% elif category == 'error' %}
-                <div class="alert alert-danger my-2"><i class="bi bi-exclamation-triangle-fill"></i> {{ message }}</div>
+                    {{toast('danger', 'exclamation-triangle-fill', message)}}
+                {% elif category == 'success' %}
+                    {{toast('success', 'exclamation-triangle-fill', message)}}
                 {% elif category == 'warning' %}
-                <div class="alert alert-warning my-2"><i class="bi bi-exclamation-triangle-fill"></i> {{ message }}</div>
+                    {{toast('warning', 'exclamation-triangle-fill', message)}}
                 {% else %} {# success, info, etc... (Bootstrap colors) #}
-                <div class="alert alert-{{category}} my-2"><i class="bi bi-info-circle"></i> {{ message }}</div>
+                    {{toast(category, 'info-circle', message)}}
                 {% endif %}
             {% endfor %}
             {% endif %}
             {% endwith %}
+            </div>
             {% block content %}{% endblock %}
         </div>
         {% if message != None %}
