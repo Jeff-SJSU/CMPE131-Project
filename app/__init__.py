@@ -28,19 +28,10 @@ lang = ConfigParser(default_section = "en")
 lang.read('lang.ini',encoding = "utf-8")
 
 db = SQLAlchemy(app)
-def loc_func(key):
-    if current_user:
-        if current_user.is_anonymous:
-            return lang.get("en", key, fallback = key)
-        else:
-            return lang.get(current_user.lang, key, fallback = key)
-    else:        
-        return lang.get("en", key, fallback = key)    
-
             
 logins = LoginManager(app)
 logins.login_view = '/login'
-logins.login_message = loc_func('Required_login')
+logins.login_message = lang.get("en", 'Required_login')
 logins.login_message_category = 'error'
 
 
