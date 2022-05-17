@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <form action="/product/{{ item.id }}/delete" method="POST">
-    <h3>{{"Delete_Account_Confirm"}}</h3>
+    <h3>{{"Delete_Product_Confirm"|loc}}</h3>
     <button class="btn btn-danger" type="submit">{{"Delete Product"|loc}}</button>
     <a href="/product/{{ item.id }}" class="btn btn-secondary">{{"Cancel"|loc}}</a>
 </form>

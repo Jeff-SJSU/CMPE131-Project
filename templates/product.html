@@ -16,7 +16,7 @@
             <a class="stretched-link" href="/user/{{uploader.name}}"><span class="visually-hidden">{{"View Profile"|loc}}</span></a>
         </div>
         {% if current_user.id == item.uploader %}
-            <h5 class="mt-4">{{"This_is_product"|loc}}</h5>
+            <h5 class="mt-4">{{"Your_Product"|loc}}</h5>
             <a class="btn btn-outline-secondary btn-sm me-1" role="button" href="/product/{{ item.id }}/edit"><i class="bi bi-pencil"></i> {{"Edit Product"|loc}}</a>
             <a class="btn btn-outline-danger btn-sm me-1" role="button" href="/product/{{ item.id }}/delete"><i class="bi bi-trash"></i> {{"Delete Product"|loc}}</a>
         {% endif %}
