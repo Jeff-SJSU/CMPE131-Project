@@ -143,6 +143,13 @@ def delete():
             db.session.commit()
         return redirect('/')
 
+@app.route('/lang/<lang>')
+@login_required
+def change_lang(lang):
+    current_user.lang = lang
+    db.session.commit()
+    return redirect(request.referrer or '/')
+    
 ########## PRODUCTS ##########
 
 @app.route('/product/<int:id>')
