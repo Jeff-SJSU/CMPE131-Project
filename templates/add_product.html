@@ -8,9 +8,9 @@
     <form action="/product" method="POST" enctype="multipart/form-data">
         <div class="form-container mb-2 ">
             {{ form.hidden_tag() }}
-            {{ form.name.label(class_="form-label") }} 
-            {{ form.name(size=32, class_="form-control mb-3", placeholder="Product Name") }}
-            {{ form.price.label(class_="form-label") }}
+            {{ form.name.label(class_="form-label") | loc }} 
+            {{ form.name(size=32, class_="form-control mb-3", placeholder="Product_name" | loc) }}
+            {{ form.price.label(class_="form-label") | loc }}
             <div class="input-group mb-3">
                 <span class="input-group-text">$</span>
                 {{ form.price(size=32, class_="form-control", placeholder="Product Price") }}

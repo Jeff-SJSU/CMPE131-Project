@@ -381,3 +381,15 @@ def clear_list(id):
 def wishlist():
     return redirect(f'/lists/{current_user.lists[0].id}')
 
+@app.route('/search', methods=['GET'])
+def search():
+    terms = request.args.get('terms')
+    # e.g terms = corn milk
+    terms = terms.split(" ")    # terms => ["corn", "milk"]
+    items = Item.query
+    for term in terms:        
+        items = items.filter(Item.name.contains(term))
+    items = items.all()
+    return render_template('search.html', items=items)
+
+
