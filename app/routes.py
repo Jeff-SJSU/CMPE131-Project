@@ -4,10 +4,10 @@ from operator import itemgetter
 import os
 import secrets
 from PIL import Image
-from flask import request, render_template, redirect, flash, url_for
+from flask import request, render_template, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
-from app import app, db, config
+from app import app, db, config, flash
 from app.forms import *
 from app.models import User, Item, List, Review
 from app.util import seller_required
@@ -56,7 +56,7 @@ def login():
 
         user = User.query.filter_by(name=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password.', 'error')
+            flash('Flash_Invalid_Login', 'error')
             return redirect('/login')
         
         if login_user(user, remember=form.remember_me.data):
@@ -108,9 +108,9 @@ def account():
         if (valid_username is None or itself_name) and (valid_email is None or itself_email):
             current_user.name = form.username.data
             current_user.email = form.email.data
-            flash('Your account information has been updated.', 'success')
+            flash('Flash_Account_Updated', 'success')
         else:
-            flash('This user name or email is already taken!', 'error')
+            flash('Flash_Account_Taken', 'error')
         current_user.seller = form.role.data
         db.session.commit()
         
@@ -244,7 +244,7 @@ def review_product(id):
         if not config.getboolean('multiple_reviews'):
             reviewed = Review.query.filter_by(user_id = current_user.id, item_id = item.id).first()
             if reviewed != None:
-                flash('You already left a review for this product!', 'error')
+                flash('Flash_One_Review', 'error')
                 return redirect(f'/product/{item.id}')
         
         rating = float(form.rating.data)
