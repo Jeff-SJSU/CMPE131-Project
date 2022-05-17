@@ -36,8 +36,15 @@ Logout - Pair programming
 Create User - Pair programming
 Delete User - Pair programming
 User Profile - Richard
-Seller Account - Anh + Minh
+Seller Account - Anh/Minh
 Upload Items - Anh
 Item Display - Jeff
 Search Bar - Minh
 Checkout - Jeff
+User Review - Jeff
+User Ratings - Jeff/Richard
+Wishlists - Anh/Jeff/Richard
+Discount - Anh/Jeff
+Editing Items - Anh/Jeff
+Language Change - Minh
+Search Bar/Function -Anh/Jeff
