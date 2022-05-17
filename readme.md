@@ -28,20 +28,20 @@ Users can leave reviews for products. Products and sellers will show an average 
 Users can mark their account as a seller account and then upload items to the store. They can edit the items to add a temporary discount or change details about the items.
 
 # Function Requirements
-Login - Pair programming
-Logout - Pair programming
-Create User - Pair programming
-Delete User - Pair programming
-User Profile - Richard
-Seller Account - Anh/Minh
-Upload Items - Anh
-Item Display - Jeff
-Search Bar - Minh
-Checkout - Jeff
-User Review - Jeff
-User Ratings - Jeff/Richard
-Wishlists - Anh/Jeff/Richard
-Discount - Anh/Jeff
-Editing Items - Anh/Jeff
-Language Change - Minh/Jeff
-Search Bar/Function - Anh/Jeff
+- Login - Pair programming
+- Logout - Pair programming
+- Create User - Pair programming
+- Delete User - Pair programming
+- User Profile - Richard
+- Seller Account - Anh/Minh
+- Upload Items - Anh
+- Item Display - Jeff
+- Search Bar - Minh
+- Checkout - Jeff
+- User Review - Jeff
+- User Ratings - Jeff/Richard
+- Wishlists - Anh/Jeff/Richard
+- Discount - Anh/Jeff
+- Editing Items - Anh/Jeff
+- Language Change - Minh/Jeff
+- Search Bar/Function - Anh/Jeff
