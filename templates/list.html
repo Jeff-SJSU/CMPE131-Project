@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% import "includes/components.html" as components %}
 {% block content %}
-<h1 class="fw-bold mb-0 text-black">{{list.name}}</h1>
+<h1 class="fw-bold mb-0">{{list.name}}</h1>
 <h4 class="fw-normal mb-0 text-muted">Item List</h1>
 <a class="btn btn-sm btn-outline-secondary btn-sm mt-2" href="/lists"><i class="bi bi-arrow-left"></i> {{"View All Lists"|loc}}</a>
 {% if list.items|length %}

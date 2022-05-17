@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% import "includes/components.html" as components %}
 {% block content %}
-<h1 class="fw-bold mb-3 text-black">{{"Shopping Cart"|loc}}</h1>
+<h1 class="fw-bold mb-3">{{"Shopping Cart"|loc}}</h1>
 {% if current_user.cart|length %}
 <div class="row">
     <div class="col-xl row g-3 mb-4">
