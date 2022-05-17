@@ -11,11 +11,12 @@
    1. [x] View User's Reviews
 8. [x] Add to Cart - Minh
 9. [x] Checkout - Jeff
-10. [ ] \*Advanced Search w/ Filters - Jeff
-11. [x] Add Items to Store (Seller Account)
-12. [x] Save for Laters / Lists - Jeff
-13. [x] Discount Period - Anh
-14. [ ] Related Items - Minh
+10. [ ] Search for Items
+11. [ ] \*Advanced Search w/ Filters - Jeff
+12. [x] Add Items to Store (Seller Account)
+13. [x] Save for Laters / Lists - Jeff
+14. [x] Discount Period - Anh
+15. [ ] Related Items - Minh
 
 (Richard will be assigned to collaborate on or take over certain requirements at our next meeting.)
 

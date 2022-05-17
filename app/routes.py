@@ -11,6 +11,7 @@ from app import app, db, config
 from app.forms import *
 from app.models import User, Item, List, Review
 from app.util import seller_required
+from sqlalchemy import or_
 
 
 @app.route('/')
@@ -381,15 +382,28 @@ def clear_list(id):
 def wishlist():
     return redirect(f'/lists/{current_user.lists[0].id}')
 
-@app.route('/search', methods=['GET'])
+########## SEARCH ##########
+
+@app.route('/search')
 def search():
-    terms = request.args.get('terms')
-    # e.g terms = corn milk
-    terms = terms.split(" ")    # terms => ["corn", "milk"]
-    items = Item.query
-    for term in terms:        
-        items = items.filter(Item.name.contains(term))
-    items = items.all()
-    return render_template('search.html', items=items)
+    query = request.args['q'] if 'q' in request.args else ''
+    items = []
+    if query:
+        # '%' means word boundary
+        expressions = [f'%{q}%' for q in query.strip().split()]
 
+        # SELECT * FROM items WHERE name ILIKE ANY ...
+        q1 = Item.query.filter(
+            or_(*[Item.name.ilike(e) for e in expressions]),
+        ).all()
 
+        # SELECT * FROM items WHERE description ILIKE ANY ...
+        q2 = Item.query.filter(
+            or_(*[Item.description.ilike(e) for e in expressions]),
+        ).all()
+
+        # Append all unique items
+        items = []
+        [items.append(x) for x in [*q1, *q2] if x not in items]
+
+    return render_template('search.html', query=query, items=items)
