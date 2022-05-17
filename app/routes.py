@@ -390,7 +390,22 @@ def wishlist():
 @app.route('/search')
 def search():
     query = request.args['q'] if 'q' in request.args else ''
+    max_price = request.args['mxp'] if 'mxp' in request.args else None
+    min_rating = request.args['mnr'] if 'mnr' in request.args else None
+    if max_price and max_price != '':
+        max_price = float(max_price)
+    if max_price and min_rating != '':
+        min_rating = float(min_rating)
     items = []
+    def matches(item):
+        if type(max_price) is float:
+            if item.price > max_price:
+                return False
+        if type(min_rating) is float:
+            if item.rating < min_rating:
+                return False
+        return True
+    
     if query:
         # '%' means word boundary
         expressions = [f'%{q}%' for q in query.strip().split()]
@@ -407,6 +422,8 @@ def search():
 
         # Append all unique items
         items = []
-        [items.append(x) for x in [*q1, *q2] if x not in items]
+        [items.append(x) for x in [*q1, *q2] if x not in items and matches(x)]
 
-    return render_template('search.html', query=query, items=items)
+    return render_template('search.html', query=query, items=items,
+        max_price=max_price, min_rating=min_rating
+    )
