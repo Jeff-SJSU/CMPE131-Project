@@ -19,6 +19,7 @@ purchased = db.Table('purchased',
     db.Column('item_id', db.Integer, db.ForeignKey('item.id'))
 )
 
+#User Model
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
@@ -48,7 +49,7 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'<User {self.name}>'
 
-
+#Item Model
 class Item(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(32), nullable=False)
@@ -63,14 +64,14 @@ class Item(db.Model):
 
     def __repr__(self):
         return f'<Item {self.name}>'
-
+#List Model
 class List(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(32), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     items = db.relationship('Item', secondary=lists, lazy='subquery')
     wishlist = db.Column(db.Boolean(), default=False)
-
+#Review Model
 class Review(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
