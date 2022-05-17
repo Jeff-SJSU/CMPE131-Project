@@ -2,7 +2,7 @@
 {% block content %}
     <body>
         <div class="container">   
-        <h2 class="text-dark mb-4">Login to your account</h2>
+        <h2 class="text-dark mb-4">{{"LOGIN_log"|loc}}</h2>
             <form action={{request.full_path}} method="POST">
                 {{ form.hidden_tag() }}
                 <div class="form-container col-4">
@@ -21,9 +21,9 @@
                         {{ form.remember_me.label(class_="form-check-label") }}
                     </div>       
                 </div>
-                <button class="btn btn-primary mb-2" type="submit">Login</button>
+                <button class="btn btn-primary mb-2" type="submit">{{"Login"|loc}}</button>
                 <div>
-                    <small class="font-weight-bold">Don't have an account? <a href="/register">Register</a></small>
+                    <small class="font-weight-bold">{{"No_account"|loc}} <a href="/register">{{"Register"|loc}}</a></small>
                 </div>
             </form>
     </body>

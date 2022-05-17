@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="p-5">
-        <h2 class="text-dark mb-4">Start your business!</h2>
+        <h2 class="text-dark mb-4">{{"Start Your Business"|loc}}</h2>
  </div>
 <div class="row">
     <div class="col-4">
@@ -29,7 +29,7 @@
             {{ form.description(size=32, class_="form-control", placeholder="Product Description") }}
             </div>
         </div>
-        <button class="form-element-button btn btn-primary" type="submit">SELL</button>
+        <button class="form-element-button btn btn-primary" type="submit">{{"SELL"|loc}}</button>
     </form>
 </div>
 </div>

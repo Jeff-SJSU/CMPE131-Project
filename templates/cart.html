@@ -1,38 +1,38 @@
 {% extends "layout.html" %}
 {% import "includes/components.html" as components %}
 {% block content %}
-<h1 class="fw-bold mb-3 text-black">Shopping Cart</h1>
+<h1 class="fw-bold mb-3 text-black">{{"Shopping Cart"|loc}}</h1>
 {% if current_user.cart|length %}
 <div class="row">
     <div class="col-xl row g-3 mb-4">
         {% for item in current_user.cart %}
             <div class="col-3 col-xl-4">
             {% call components.product_card(item) %}
-            <a class="btn btn-outline-danger btn-sm mt-2" href="/cart/remove/{{item.id}}"><i class="bi bi-cart-dash-fill"></i> Remove</a>
+            <a class="btn btn-outline-danger btn-sm mt-2" href="/cart/remove/{{item.id}}"><i class="bi bi-cart-dash-fill"></i> {{"Remove"|loc}}</a>
             {% endcall %}
             </div>
         {% endfor %}
         <div>
-            <a class="btn btn-outline-danger btn-sm mt-4" href="/cart/remove/all"><i class="bi bi-trash"></i> Clear Cart</a>
+            <a class="btn btn-outline-danger btn-sm mt-4" href="/cart/remove/all"><i class="bi bi-trash"></i> {{"Clear Cart"|loc}}</a>
         </div>
     </div>
     <div class="col-xl ms-xl-3 p-0 card shadow-sm">
         <div class="card-body d-block p-4 pb-2">
             <h3 class="card-title">Checkout</h3>
-            Total:<br>
+            {{"Total"|loc}}:<br>
             {{components.price(current_user.cart|sum(attribute='price'))}}
         </div>
         <hr>
         <div class="card-body d-block p-4 py-2">
             <form action="/cart/checkout" method="post" class="col-6" disabled>
-                <label>Card Number</label>
+                <label>{{"Card Number"|loc}}</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text bi bi-credit-card"></span>
                     <input class="form-control" placeholder="0000 0000 0000 0000" name="card_number" type="text" required>
                 </div>
                 <div class="row">
                     <div class="col-8">
-                        <label>Expiration Date</label>
+                        <label>{{"Expiration Date"|loc}}</label>
                         <input class="form-control col-8" name="expiration_date" type="month" required>
                     </div>
                     <div class="col-4">
@@ -40,12 +40,12 @@
                         <input class="form-control col-8" placeholder="000" name="cvv" type="password" required>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-lg shadow-lg mt-4" type="submit">Checkout <i class="bi bi-chevron-double-right"></i></button>
+                <button class="btn btn-primary btn-lg shadow-lg mt-4" type="submit">{{"Checkout"|loc}} <i class="bi bi-chevron-double-right"></i></button>
             </form>
         </div>
     </div>
 </div>
 {% else %}
-<p>Your cart is empty!</p>
+<p>{{"Empty_Cart"|loc}}</p>
 {% endif %}
 {% endblock %}
