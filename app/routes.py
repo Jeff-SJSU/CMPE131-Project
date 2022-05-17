@@ -443,3 +443,10 @@ def search():
     return render_template('search.html', query=query, items=items,
         max_price=max_price, min_rating=min_rating
     )
+
+@app.route("/theme/switch")
+@login_required
+def theme_switch():
+    current_user.dark_theme = not current_user.dark_theme
+    db.session.commit()
+    return redirect(request.referrer or '/')

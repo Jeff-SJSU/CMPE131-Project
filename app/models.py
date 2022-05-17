@@ -34,6 +34,7 @@ class User(UserMixin, db.Model):
     rating = db.Column(db.Float, default=0.0)
     lang = db.Column(db.String(5), default = "en")
     purchase = db.relationship('Item', secondary=purchased, lazy='subquery')
+    dark_theme = db.Column(db.Boolean(), default=False)
 
     @staticmethod
     @logins.user_loader
