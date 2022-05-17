@@ -13,7 +13,7 @@ from app.models import User, Item, List, Review
 from app.util import seller_required
 from sqlalchemy import or_
 
-
+#Home Page
 @app.route('/')
 def home():
     items = Item.query.all()
@@ -26,7 +26,7 @@ def not_found(e):
 app.register_error_handler(404, not_found)
 
 ########## ACCOUNTS ##########
-
+#Register Page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -48,7 +48,7 @@ def register():
 
     return render_template('register.html', form=form)
 
-
+#Login page
 @app.route('/login', strict_slashes=False, methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -64,18 +64,18 @@ def login():
         else:
             pass
     return render_template('login.html', form=form)
-
+#Logout page
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(request.referrer or '/')
-
+#User Page
 @app.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(name=username).first_or_404()
     items = Item.query.filter_by(uploader=user.id).all()
     return render_template('user.html', user=user, items=items)
-
+#Update image function
 def update_img(form_img, dir='avatars', size=200):
     random_hex = secrets.token_hex(8)
     img_name, img_ext = os.path.splitext(form_img.filename)
@@ -89,7 +89,7 @@ def update_img(form_img, dir='avatars', size=200):
     i.save(img_path)
 
     return image_filename
-
+#Account page
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
@@ -120,14 +120,14 @@ def account():
         form.email.data = current_user.email
         form.role.data = current_user.seller
     return render_template('account.html', user=current_user, edit=True, form=form, items = items)
-
+#Remove avatar function
 @app.route('/account/avatar/remove')
 @login_required
 def remove_avatar():
     current_user.img = 'default.jpg'
     db.session.commit()
     return redirect('/account')
-
+#Delete account fuction
 @app.route('/account/delete', methods=['GET', 'POST'])
 @login_required
 def delete():
@@ -209,6 +209,7 @@ def edit_item(id):
 
     return render_template('edit_product.html', form=form, item=item)
 
+#Delete Listing function
 @app.route('/product/<int:id>/delete', methods=['GET', 'POST'])
 @seller_required
 def delete_listing(id):
@@ -260,6 +261,7 @@ def review_product(id):
         return redirect(f'/product/{item.id}')
     return redirect(f'/product/{item.id}')
 
+#Delete review function
 @app.route('/review/<int:id>/delete', methods=['GET'])
 @login_required
 def delete_review(id):
@@ -287,11 +289,11 @@ def delete_review(id):
 
 
 ########## CARTS ##########
-
+#cart page
 @app.route('/cart')
 def cart():
     return render_template('cart.html')
-
+#Add to cart function
 @app.route('/cart/add/<int:id>')
 @login_required
 def add_to_cart(id):
@@ -299,7 +301,7 @@ def add_to_cart(id):
     current_user.cart.append(item)
     db.session.commit()
     return redirect('/cart')
-
+#Remove cart function
 @app.route('/cart/remove/<int:id>')
 @login_required
 def remove_from_cart(id):
@@ -308,6 +310,7 @@ def remove_from_cart(id):
     db.session.commit()
     return redirect('/cart')
 
+#Remove all cart function
 @app.route('/cart/remove/all')
 @login_required
 def clear_cart():
@@ -315,6 +318,7 @@ def clear_cart():
     db.session.commit()
     return redirect('/')
 
+#Check out function
 @app.route('/cart/checkout', methods=['POST'])
 @login_required
 def checkout():
@@ -325,7 +329,7 @@ def checkout():
     return redirect('/')
 
 ########## LISTS ##########
-
+#list page
 @app.route('/lists', methods = ['POST', 'GET'])
 @login_required
 def lists():
@@ -339,13 +343,14 @@ def lists():
     lists = List.query.filter_by(user_id = current_user.id).all()
     return render_template('lists.html', lists = lists, form = form)
 
-
+#View list function 
 @app.route('/lists/<int:id>', methods=['GET'])
 @login_required
 def view_list(id):
     list = List.query.get_or_404(id)
     return render_template('list.html', list=list)
 
+#Delete list function
 @app.route('/lists/<int:id>/delete', methods=['GET'])
 @login_required
 def delete_list(id):
@@ -354,6 +359,7 @@ def delete_list(id):
     db.session.commit()
     return redirect('/lists')
 
+#Add to list function
 @app.route('/lists/<int:list_id>/add/<int:id>')
 @login_required
 def add_to_list(list_id, id):
@@ -363,6 +369,7 @@ def add_to_list(list_id, id):
     db.session.commit()
     return redirect(f'/lists/{list_id}')
 
+#Remove item from list function
 @app.route('/lists/<int:list_id>/remove/<int:id>')
 @login_required
 def remove_from_list(list_id, id):
@@ -372,6 +379,7 @@ def remove_from_list(list_id, id):
     db.session.commit()
     return redirect(f'/lists/{list_id}')
 
+#Clear list function
 @app.route('/lists/<int:id>/remove/all')
 @login_required
 def clear_list(id):
@@ -380,6 +388,7 @@ def clear_list(id):
     db.session.commit()
     return redirect(f'/lists/{id}')
 
+#Wishlist page
 @app.route('/wishlist')
 @login_required
 def wishlist():
