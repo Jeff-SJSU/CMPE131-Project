@@ -10,7 +10,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">{{"Team One"|loc}}</a>
+                <a class="navbar-brand" href="/">{{"Title"|loc}}</a>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a href="/" class="nav-link active">{{"Home"|loc}}</a></li>
                 </ul>
@@ -45,12 +45,12 @@
                     </a>
                     </li>
                     <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/account"><span class="bi bi-person"></span> Hello, {{current_user.name}}</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/account"><span class="bi bi-person"></span> {{"Hello"|loc}}, {{current_user.name}}</a>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-                            <li><a class="dropdown-item" href="/account"><span class="bi bi-gear"></span> Manage Account</a></li>
-                            <li><a class="dropdown-item" href="/user/{{current_user.name}}"><span class="bi bi-person"></span> View Profile</a></li>
-                            <li><a class="dropdown-item" href="/lists"><span class="bi bi-list"></span> My Lists</a></li>
-                            <li><a class="dropdown-item" href="/logout"><span class="bi bi-box-arrow-in-left"></span> Logout</a></li>
+                            <li><a class="dropdown-item" href="/account"><span class="bi bi-gear"></span> {{"Manage Account"|loc}}</a></li>
+                            <li><a class="dropdown-item" href="/user/{{current_user.name}}"><span class="bi bi-person"></span> {{"View Profile"|loc}}</a></li>
+                            <li><a class="dropdown-item" href="/lists"><span class="bi bi-list"></span> {{"My Lists"|loc}}</a></li>
+                            <li><a class="dropdown-item" href="/logout"><span class="bi bi-box-arrow-in-left"></span> {{"Logout"|loc}}</a></li>
                         </ul>
                     </div>
                     {% endif %}

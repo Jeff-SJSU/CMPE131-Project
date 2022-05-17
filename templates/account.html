@@ -9,13 +9,13 @@
     <form action="/account" method="POST" enctype="multipart/form-data" class="row col-xl-8 gy-3 row align-items-stretch">
         <br>
         <div class="form-container card card-body col col-4 me-3">
-            <h3>Profile Picture</h3>
+            <h3>{{"Profile_Picture"|loc}}</h3>
             {{ components.avatar(src=current_user.img) }}
             {{ form.img.label() }}
             {{ form.img(class="form-control mb-2") }}
             <div>
-                <button class="btn btn-outline-primary mb-2">Update</button><br>
-                <a class="btn btn-outline-secondary btn-sm" href="/account/avatar/remove">Remove Profile Picture</a>
+                <button class="btn btn-outline-primary mb-2">{{"Update"|loc}}</button><br>
+                <a class="btn btn-outline-secondary btn-sm" href="/account/avatar/remove">{{"Remove Profile Picture"|loc}}</a>
             </div>
             {% if form.img.errors %}
                 {% for error in form.img.errors %}
@@ -25,7 +25,7 @@
         </div>
         <br>
         <div class="form-container card card-body col col-4 me-3">
-            <h3>Account Information</h3>
+            <h3>{{"Account_Information"|loc}}</h3>
             {{ form.hidden_tag() }}
             {{ form.username.label(class_="form-label") }}
             {{ form.username(size=32, class_="form-control", placeholder="User Name") }}
@@ -42,34 +42,34 @@
                 <script>lang.value = "{{current_user.lang}}"</script>
             </div>
             <div>
-                <button class="form-element-button btn btn-primary mt-3" type="submit">Update</button>
-                <a class="btn btn-secondary mt-3" href="/user/{{current_user.name}}">View Profile</a><br>
+                <button class="form-element-button btn btn-primary mt-3" type="submit">{{"Update"|loc}}</button>
+                <a class="btn btn-secondary mt-3" href="/user/{{current_user.name}}">{{"View Profile"|loc}}</a><br>
             </div>
         </div>
 
         <div class="form-container card card-body col col-4 me-3">
-            <h3>Seller Account</h3>
-            <p>Check the box below to sign up to sell products!</p>
+            <h3>{{"Seller Account"|loc}}</h3>
+            <p>{{"Check_box_sign_up"|loc}}</p>
             <div class="form-check mt-4">
                 {{ form.role(class_="form-check-input") }}
                 {{ form.role.label(class_="form-check-label") }}
             </div>
             <div>
-                <button class="form-element-button btn btn-success mt-3" type="submit">Update</button>
+                <button class="form-element-button btn btn-success mt-3" type="submit">{{"Update"|loc}}</button>
             </div>
         </div>
 
         <div class="card card-body col col-4 me-3">
-            <h3>Delete Account</h3>
+            <h3>{{"Delete Account"|loc}}</h3>
             <div class="mt-3 mb-5">
-                <p>Click this button to delete your account.</p>
-                <a class="btn btn-danger btn-sm mt-2" href="/account/delete">Delete Account</a>
+                <p>{{"Delete_Account_Click"|loc}}</p>
+                <a class="btn btn-danger btn-sm mt-2" href="/account/delete">{{"Delete Account"|loc}}</a>
             </div>
         </div>
 
         {% if form.role.data %}
             <div class="form-container card card-body me-3">
-                <h3>Seller Listing</h3>
+                <h3>{{"Seller Listing"|loc}}</h3>
                 <div class="row">
                 {% for item in items%}
                     <div class="col-3">
@@ -78,7 +78,7 @@
                 {% endfor %}
                 </div>
                 <div>
-                    <a class="btn btn-sm mt-3 btn-outline-primary" href="/product"><i class="bi bi-box-seam"></i> Sell Item</a>
+                    <a class="btn btn-sm mt-3 btn-outline-primary" href="/product"><i class="bi bi-box-seam"></i> {{"Sell Item"|loc}}</a>
                 </div>
             </div>
         {% endif %}

@@ -41,7 +41,7 @@
             <img src="/static/images/products/{{ item.img }}" class="img-fluid d-block rounded mb-2" alt="{{ item.name }}">
             {{ price(item.price, item.discount_price) }}
             <h5 class="mt-2 mb-0">{{ item.name }}</h5>
-            <a class="stretched-link" href="/product/{{ item.id }}"><span class="visually-hidden">View Product Page</span></a>
+            <a class="stretched-link" href="/product/{{ item.id }}"><span class="visually-hidden">{{"View Product Page"|loc}}</span></a>
         </div>
         {% if caller is defined -%} {{ caller() }} {%- endif %}
     </div>
@@ -55,13 +55,13 @@
             <h5>{{review.user.name}}</h5>
             {{rating(review.rating)}}
         </div>
-        <a class="stretched-link" href="/user/{{review.user.name}}"><span class="visually-hidden">View User Page</span></a>
+        <a class="stretched-link" href="/user/{{review.user.name}}"><span class="visually-hidden">{{"View User Page"|loc}}</span></a>
     </div>
     <p>{{review.content}}</p>
     {% if review.user_id == current_user.id %}
     <div>
         <a class="btn btn-outline-danger btn-sm me-1" role="button" href="/review/{{review.id}}/delete">
-            <i class="bi bi-trash"></i> Delete Review
+            <i class="bi bi-trash"></i> {{"Delete Review"|loc}}
         </a>
     </div>
     {% endif %}

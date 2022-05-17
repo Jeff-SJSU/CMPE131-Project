@@ -17,11 +17,11 @@
 </div>
 {% if user.seller %}
 
-<h5>User Ratings</h5>
+<h5>{{"User Ratings"|loc}}</h5>
 {{ components.rating(user.rating, user.num_ratings) }}<br>
 
 <div class="form-container card card-body mt-4">
-    <h3>Items for Sale</h3>
+    <h3>{{"Items for Sale"|loc}}</h3>
     <div class="row">
     {% if items|length %}
         {% for item in items%}
@@ -37,7 +37,7 @@
 {% endif %}
 
 {% if user.reviews %}
-<h5 class="mt-4">User's Product Reviews</h5>
+<h5 class="mt-4">{{"User Product Reviews"|loc}}</h5>
 {% for review in user.reviews %}
     <div class="row mb-3">
         <div class="col-2">
