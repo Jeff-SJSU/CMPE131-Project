@@ -135,6 +135,7 @@ def delete():
         return render_template('account_delete.html')
     else:
         if current_user.is_authenticated:
+            # TODO: Update review scores, or don't delete reviews...
             Review.query.filter_by(user_id=current_user.id).delete()
             Item.query.filter_by(uploader=current_user.id).delete()
             List.query.filter_by(user_id=current_user.id).delete()

@@ -11,21 +11,21 @@
    1. [x] View User's Reviews
 8. [x] Add to Cart - Minh
 9. [x] Checkout - Jeff
-10. [ ] Search for Items
+10. [x] Search for Items
 11. [ ] \*Advanced Search w/ Filters - Jeff
 12. [x] Add Items to Store (Seller Account)
 13. [x] Save for Laters / Lists - Jeff
 14. [x] Discount Period - Anh
-15. [ ] Related Items - Minh
+15. [x] Related Items - Minh
 
 (Richard will be assigned to collaborate on or take over certain requirements at our next meeting.)
 
 ## Non-functional Requirements
 
-1. [ ] \*Dynamic Interface - Jeff
+1. [x] \*Dynamic Interface - Jeff
 2. [ ] Dark Mode - Anh
 3. [x] Sale/Discount Display - Anh
-4. [ ] \*Multilingual - Minh + Anh + Jeff
+4. [x] \*Multilingual - Minh + Anh + Jeff
 5. [ ] Image Zoom? - Minh
 
 ## Use Cases
