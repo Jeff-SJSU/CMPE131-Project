@@ -8,9 +8,15 @@ carts = db.Table('carts',
     db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
 )
 
+
 lists = db.Table('lists',
     db.Column('list_id', db.Integer, db.ForeignKey('list.id'), primary_key=True),
     db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
+)
+
+purchased = db.Table('purchased',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('item_id', db.Integer, db.ForeignKey('item.id'))
 )
 
 class User(UserMixin, db.Model):
@@ -26,6 +32,7 @@ class User(UserMixin, db.Model):
     num_ratings = db.Column(db.Integer, default=0)
     rating = db.Column(db.Float, default=0.0)
     lang = db.Column(db.String(5), default = "en")
+    purchase = db.relationship('Item', secondary=purchased, lazy='subquery')
 
     @staticmethod
     @logins.user_loader

@@ -50,5 +50,22 @@
 {% endfor %}
 </div>
 {% endif %}
+{% if current_user.id == user.id %}
+    <div class="form-container card card-body mt-4">
+        <h3>Recently Purchased Items</h3>
+        <div class="row">
+        {% if current_user.purchase|length %}
+            {% for items in current_user.purchase%}
+                <div class="col-2">
+                {{ components.product_card(items) }}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>This user has no purchases yet!</p>
+        {% endif %}
+        </div>
+    </div>
+{% endif %}
+
 
 {% endblock %}

@@ -317,6 +317,8 @@ def clear_cart():
 @app.route('/cart/checkout', methods=['POST'])
 @login_required
 def checkout():
+    for item in current_user.cart:
+        current_user.purchase.append(item)
     current_user.cart = []
     db.session.commit()
     return redirect('/')
