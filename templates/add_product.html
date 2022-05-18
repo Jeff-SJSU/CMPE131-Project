@@ -8,15 +8,15 @@
     <form action="/product" method="POST" enctype="multipart/form-data">
         <div class="form-container mb-2 ">
             {{ form.hidden_tag() }}
-            {{ form.name.label(class_="form-label") | loc }} 
-            {{ form.name(size=32, class_="form-control mb-3", placeholder="Product_name" | loc) }}
-            {{ form.price.label(class_="form-label") | loc }}
+            <label class="form-label" for="name">{{"Name"|loc}}</label>
+            {{ form.name(size=32, class_="form-control mb-3", placeholder="Product Name" | loc) }}
+            <label class="form-label" for="price">{{"Price"|loc}}</label>
             <div class="input-group mb-3">
                 <span class="input-group-text">$</span>
-                {{ form.price(size=32, class_="form-control", placeholder="Product Price") }}
+                {{ form.price(size=32, class_="form-control", placeholder="Product Price"|loc) }}
             </div>
             <div class="mb-3">
-                {{ form.img.label() }}
+                <label class="form-label" for="img">{{"Item Picture"|loc}}</label>
                 {{ form.img(class="form-control") }}
                 {% if form.img.errors %}
                     {% for error in form.img.errors %}
@@ -25,8 +25,8 @@
                 {% endif%}
             </div>
             <div class="mb-2">
-            {{ form.description.label(class_="form-label") }} 
-            {{ form.description(size=32, class_="form-control", placeholder="Product Description") }}
+            <label class="form-label" for="description">{{"Description"|loc}}</label>
+            {{ form.description(size=32, class_="form-control", placeholder="Product Description"|loc) }}
             </div>
         </div>
         <button class="form-element-button btn btn-primary" type="submit">{{"SELL"|loc}}</button>

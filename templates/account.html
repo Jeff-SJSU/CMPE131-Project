@@ -11,7 +11,7 @@
         <div class="form-container card card-body col col-4 me-3">
             <h3>{{"Profile_Picture"|loc}}</h3>
             {{ components.avatar(src=current_user.img) }}
-            {{ form.img.label() }}
+            <label class="form-label" for="img">{{"Profile_Picture"|loc}}</label>
             {{ form.img(class="form-control mb-2") }}
             <div>
                 <button class="btn btn-outline-primary mb-2">{{"Update"|loc}}</button><br>

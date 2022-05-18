@@ -31,7 +31,7 @@
     </span>
     {% if count != none %}
         <br>
-        <small class="text-muted">from {{count}} review{{'s' if count != 1}}</small>
+        <small class="text-muted">{{("From_X_Reviews" if count != 1 else "From_X_Review")|loc|format(count)}}</small>
     {% endif %}
 {%- endmacro %}
 
