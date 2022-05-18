@@ -13,7 +13,7 @@ from app.models import User, Item, List, Review
 from app.util import seller_required
 from sqlalchemy import or_
 
-#Home Page
+# Home Page
 @app.route('/')
 def home():
     items = Item.query.all()
@@ -26,6 +26,7 @@ def not_found(e):
 app.register_error_handler(404, not_found)
 
 ########## ACCOUNTS ##########
+
 #Register Page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -39,6 +40,8 @@ def register():
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
+
+        # User has one default list: their Wishlist
         wishlist = List(name='Wishlist', user_id=user.id, wishlist=True)
         db.session.add(wishlist)
         db.session.commit()
@@ -64,18 +67,21 @@ def login():
         else:
             pass
     return render_template('login.html', form=form)
+
 #Logout page
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(request.referrer or '/')
-#User Page
+
+# User Page
 @app.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(name=username).first_or_404()
     items = Item.query.filter_by(uploader=user.id).all()
     return render_template('user.html', user=user, items=items)
-#Update image function
+
+# Update image function - creates thumbnail
 def update_img(form_img, dir='avatars', size=200):
     random_hex = secrets.token_hex(8)
     img_name, img_ext = os.path.splitext(form_img.filename)
@@ -89,6 +95,7 @@ def update_img(form_img, dir='avatars', size=200):
     i.save(img_path)
 
     return image_filename
+
 #Account page
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
@@ -104,7 +111,8 @@ def account():
         itself_name = current_user.name == form.username.data
         itself_email = current_user.email == form.email.data
         current_user.lang = form.lang.data
-
+        
+        # Check if username or email is already taken
         if (valid_username is None or itself_name) and (valid_email is None or itself_email):
             current_user.name = form.username.data
             current_user.email = form.email.data
@@ -120,6 +128,7 @@ def account():
         form.email.data = current_user.email
         form.role.data = current_user.seller
     return render_template('account.html', user=current_user, edit=True, form=form, items = items)
+
 #Remove avatar function
 @app.route('/account/avatar/remove')
 @login_required
@@ -127,6 +136,7 @@ def remove_avatar():
     current_user.img = 'default.jpg'
     db.session.commit()
     return redirect('/account')
+
 #Delete account fuction
 @app.route('/account/delete', methods=['GET', 'POST'])
 @login_required
@@ -268,7 +278,7 @@ def review_product(id):
         return redirect(f'/product/{item.id}')
     return redirect(f'/product/{item.id}')
 
-#Delete review function
+# Delete review function
 @app.route('/review/<int:id>/delete', methods=['GET'])
 @login_required
 def delete_review(id):
@@ -296,10 +306,12 @@ def delete_review(id):
 
 
 ########## CARTS ##########
-#cart page
+
+# Shopping cart page
 @app.route('/cart')
 def cart():
     return render_template('cart.html')
+
 #Add to cart function
 @app.route('/cart/add/<int:id>')
 @login_required
@@ -308,7 +320,8 @@ def add_to_cart(id):
     current_user.cart.append(item)
     db.session.commit()
     return redirect('/cart')
-#Remove cart function
+
+# Remove from cart function
 @app.route('/cart/remove/<int:id>')
 @login_required
 def remove_from_cart(id):
@@ -317,7 +330,7 @@ def remove_from_cart(id):
     db.session.commit()
     return redirect('/cart')
 
-#Remove all cart function
+# Remove all from cart function
 @app.route('/cart/remove/all')
 @login_required
 def clear_cart():
@@ -325,7 +338,7 @@ def clear_cart():
     db.session.commit()
     return redirect('/')
 
-#Check out function
+# Checkout function
 @app.route('/cart/checkout', methods=['POST'])
 @login_required
 def checkout():
@@ -336,7 +349,8 @@ def checkout():
     return redirect('/')
 
 ########## LISTS ##########
-#list page
+
+# List page
 @app.route('/lists', methods = ['POST', 'GET'])
 @login_required
 def lists():
@@ -350,14 +364,14 @@ def lists():
     lists = List.query.filter_by(user_id = current_user.id).all()
     return render_template('lists.html', lists = lists, form = form)
 
-#View list function 
+# View list function 
 @app.route('/lists/<int:id>', methods=['GET'])
 @login_required
 def view_list(id):
     list = List.query.get_or_404(id)
     return render_template('list.html', list=list)
 
-#Delete list function
+# Delete list function
 @app.route('/lists/<int:id>/delete', methods=['GET'])
 @login_required
 def delete_list(id):
@@ -366,7 +380,7 @@ def delete_list(id):
     db.session.commit()
     return redirect('/lists')
 
-#Add to list function
+# Add to list function
 @app.route('/lists/<int:list_id>/add/<int:id>')
 @login_required
 def add_to_list(list_id, id):
@@ -376,7 +390,7 @@ def add_to_list(list_id, id):
     db.session.commit()
     return redirect(f'/lists/{list_id}')
 
-#Remove item from list function
+# Remove item from list function
 @app.route('/lists/<int:list_id>/remove/<int:id>')
 @login_required
 def remove_from_list(list_id, id):
@@ -386,7 +400,7 @@ def remove_from_list(list_id, id):
     db.session.commit()
     return redirect(f'/lists/{list_id}')
 
-#Clear list function
+# Clear list function
 @app.route('/lists/<int:id>/remove/all')
 @login_required
 def clear_list(id):
@@ -395,16 +409,19 @@ def clear_list(id):
     db.session.commit()
     return redirect(f'/lists/{id}')
 
-#Wishlist page
+# Wishlist page
 @app.route('/wishlist')
 @login_required
 def wishlist():
+    # list 0 is the wishlist
     return redirect(f'/lists/{current_user.lists[0].id}')
 
 ########## SEARCH ##########
 
+# Search results page
 @app.route('/search')
 def search():
+    # Get query and filters
     query = request.args['q'] if 'q' in request.args else ''
     max_price = request.args['mxp'] if 'mxp' in request.args else None
     min_rating = request.args['mnr'] if 'mnr' in request.args else None
@@ -412,6 +429,7 @@ def search():
         max_price = float(max_price)
     if max_price and min_rating != '':
         min_rating = float(min_rating)
+    
     items = []
     def matches(item):
         if type(max_price) is float:
@@ -436,7 +454,7 @@ def search():
             or_(*[Item.description.ilike(e) for e in expressions]),
         ).all()
 
-        # Append all unique items
+        # Append all unique items that match filters
         items = []
         [items.append(x) for x in [*q1, *q2] if x not in items and matches(x)]
 
@@ -444,6 +462,7 @@ def search():
         max_price=max_price, min_rating=min_rating
     )
 
+# Switch light/dark theme
 @app.route("/theme/switch")
 @login_required
 def theme_switch():
@@ -451,6 +470,7 @@ def theme_switch():
     db.session.commit()
     return redirect(request.referrer or '/')
 
+# Show recent products to buy again
 @app.route("/buy-again")
 @login_required
 def buy_again():

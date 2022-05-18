@@ -3,23 +3,25 @@ from flask_login import UserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# User's shopping cart
 carts = db.Table('carts',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
     db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
 )
 
-
+# LIsts of items
 lists = db.Table('lists',
     db.Column('list_id', db.Integer, db.ForeignKey('list.id'), primary_key=True),
     db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
 )
 
+# User's purchased items
 purchased = db.Table('purchased',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
     db.Column('item_id', db.Integer, db.ForeignKey('item.id'))
 )
 
-#User Model
+# User Model
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
@@ -50,7 +52,7 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'<User {self.name}>'
 
-#Item Model
+# Item Model
 class Item(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(32), nullable=False)
@@ -65,14 +67,16 @@ class Item(db.Model):
 
     def __repr__(self):
         return f'<Item {self.name}>'
-#List Model
+
+# List Model
 class List(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(32), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     items = db.relationship('Item', secondary=lists, lazy='subquery')
     wishlist = db.Column(db.Boolean(), default=False)
-#Review Model
+
+# Review Model
 class Review(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
