@@ -10,7 +10,7 @@
     {% if user.seller %}
     <h4 class="d-inline">
         <span class="ms-2 badge rounded-pill bg-primary">
-            <i class="bi bi-shop"></i> Seller
+            <i class="bi bi-shop"></i> {{"Seller"|loc}}
         </span>
     </h4>
     {% endif %}
@@ -30,7 +30,7 @@
             </div>
         {% endfor %}
     {% else %}
-        <p>This seller has no products yet!</p>
+        <p>{{"Seller_No_Product"|loc}}</p>
     {% endif %}
     </div>
 </div>
@@ -52,7 +52,7 @@
 {% endif %}
 {% if current_user.id == user.id %}
     <div class="form-container card card-body mt-4">
-        <h3>Recently Purchased Items</h3>
+        <h3>{{"Recently_Purchase"|loc}}</h3>
         <div class="row">
         {% if current_user.purchase|length %}
             {% for items in current_user.purchase%}
@@ -61,7 +61,7 @@
                 </div>
             {% endfor %}
         {% else %}
-            <p>This user has no purchases yet!</p>
+            <p>{{"Seller_No_Product"|loc}}!</p>
         {% endif %}
         </div>
     </div>

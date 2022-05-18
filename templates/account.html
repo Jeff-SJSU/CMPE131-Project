@@ -27,14 +27,14 @@
         <div class="form-container card card-body col col-4 me-3">
             <h3>{{"Account_Information"|loc}}</h3>
             {{ form.hidden_tag() }}
-            {{ form.username.label(class_="form-label") }}
+            <label class="form-label" for="email">{{"UserName"|loc}}</label>
             {{ form.username(size=32, class_="form-control", placeholder="User Name") }}
             <div class="form-group mt-3">
-                {{ form.email.label(class_="form-label") }}
+                <label class="form-label" for="email">{{"Email"|loc}}</label>
                 {{ form.email(size=32, class_="form-control", placeholder="Email Address") }}
             </div>
             <div class="form-group mt-3">
-                {{ form.lang.label(class_="form-label") }}
+                <label class="form-label" for="email">{{"Lang"|loc}}</label>
                 <select class="form-select" name="lang" id="lang">       
                     <option value="en">English</option>
                     <option value="vi">Tiếng Việt</option>
