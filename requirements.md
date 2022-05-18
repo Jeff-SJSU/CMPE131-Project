@@ -17,6 +17,7 @@
 13. [x] Save for Laters / Lists - Jeff
 14. [x] Discount Period - Anh
 15. [x] Related Items - Minh
+16. [x] Buy Again - Minh
 
 (Richard will be assigned to collaborate on or take over certain requirements at our next meeting.)
 

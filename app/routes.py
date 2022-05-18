@@ -450,3 +450,8 @@ def theme_switch():
     current_user.dark_theme = not current_user.dark_theme
     db.session.commit()
     return redirect(request.referrer or '/')
+
+@app.route("/buy-again")
+@login_required
+def buy_again():
+    return render_template("buy_again.html")
